@@ -1,0 +1,2 @@
+AT001|General Check-up|Routine vital signs and consultation|50.00
+AT002|Blood Test|Basic laboratory blood screening|80.00
