@@ -2,7 +2,6 @@ package common;
 
 import administrative_staff.AdministrativeStaff;
 import common.model.User;
-import common.model.UserRole;
 import doctors.Doctor;
 import medical_manager.MedicalManager;
 import patients.Patient;

@@ -2,7 +2,6 @@ package common;
 
 import common.model.User;
 import common.model.UserRole;
-import java.util.List;
 
 public class AuthService {
     private static volatile AuthService instance;
