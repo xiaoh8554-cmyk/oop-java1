@@ -2,7 +2,6 @@ package common;
 
 import administrative_staff.AdministrativeStaff;
 import common.model.User;
-import common.model.UserRole;
 import doctors.Doctor;
 import medical_manager.MedicalManager;
 import patients.Patient;
@@ -65,10 +64,10 @@ public class DataManager {
         try {
             Path usersPath = getDataDir().resolve(USERS_FILE);
             if (Files.size(usersPath) == 0) {
-                AdministrativeStaff admin = new AdministrativeStaff("A001", "admin@gmail.com", "admin123", "System Administrator", "+60120000001", "SUPER_ADMIN");
+                AdministrativeStaff admin = new AdministrativeStaff("A001", "Defaultadmin@gmail.com", "admin123", "Default Admin", "+60120000001", "SUPER_ADMIN");
                 MedicalManager manager = new MedicalManager("M001", "manager@gmail.com", "manager123", "Medical Manager", "+60120000002", "Operations", "OF-302");
-                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Dr. Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105");
-                Patient patient = new Patient("P001", "patient@gmail.com", "patient123", "Demo Patient", "+60120000004", "1995-06-15", "Male", "O+", "+60198888888", "No known allergies");
+                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105");
+                Patient patient = new Patient("P001", "patient@gmail.com", "patient123", "Demo Patient", "+60120000004", "1995-06-15", "Male", "O+", "+60198888888", "parents", "No known allergies");
 
                 users.addAll(Arrays.asList(admin, manager, doctor, patient));
                 saveUsers();
@@ -89,11 +88,16 @@ public class DataManager {
             }
         }
 
-        // 2. Read and join Patients (ID|dateOfBirth|gender|bloodGroup|emergencyContact|medicalHistorySummary)
+        // 2. Read and join Patients (ID|dateOfBirth|gender|bloodGroup|emergencyContact|emergencyRelationship|medicalHistorySummary)
         for (String[] row : readRows(PATIENTS_FILE)) {
             if (row.length >= 6 && parentMap.containsKey(row[0])) {
                 String[] p = parentMap.get(row[0]);
-                users.add(new Patient(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3], row[4], row[5]));
+                if (row.length >= 7) {
+                    users.add(new Patient(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3], row[4], row[5], row[6]));
+                } else {
+                    // Backward compatible with 6-part patient record
+                    users.add(new Patient(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3], row[4], "parents", row[5]));
+                }
                 parentMap.remove(row[0]);
             }
         }
@@ -135,7 +139,7 @@ public class DataManager {
             } else if ("DOCTOR".equalsIgnoreCase(roleStr)) {
                 users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], "General", "MBBS", "101"));
             } else {
-                users.add(new Patient(p[1], p[2], p[3], p[4], p[5], "2000-01-01", "Other", "O+", "-", "None"));
+                users.add(new Patient(p[1], p[2], p[3], p[4], p[5], "2000-01-01", "Other", "O+", "-", "parents", "None"));
             }
         }
     }

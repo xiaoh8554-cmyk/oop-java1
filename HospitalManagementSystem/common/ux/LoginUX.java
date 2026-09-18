@@ -31,7 +31,6 @@ public class LoginUX extends JFrame {
         gbc.gridx = 0; gbc.gridy = 0;
         form.add(new JLabel("Gmail / Email:"), gbc);
         gbc.gridx = 1;
-        emailField.setToolTipText("Enter your Gmail address (or 'admin' for administrator)");
         form.add(emailField, gbc);
 
         gbc.gridx = 0; gbc.gridy = 1;

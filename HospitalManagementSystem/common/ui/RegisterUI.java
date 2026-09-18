@@ -23,12 +23,30 @@ public class RegisterUI extends RegisterUX {
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
         String fullName = fullNameField.getText().trim();
-        String phone = phoneField.getText().trim();
+        String phoneCode = (String) phoneCountryCodeBox.getSelectedItem();
+        String phoneDigits = phoneField.getText().trim();
+        String phone = phoneDigits.isEmpty() ? "" : (phoneCode + phoneDigits);
+
         String dob = dobPicker.getDateString();
         String gender = (String) genderBox.getSelectedItem();
         String bloodGroup = (String) bloodGroupBox.getSelectedItem();
-        String emergencyContact = emergencyContactField.getText().trim();
+
+        String emergencyCode = (String) emergencyCountryCodeBox.getSelectedItem();
+        String emergencyDigits = emergencyContactField.getText().trim();
+        String emergencyContact = emergencyDigits.isEmpty() ? "" : (emergencyCode + emergencyDigits);
+
+        String emergencyRelationship = (String) relationshipBox.getSelectedItem();
         String history = medicalHistoryArea.getText().trim();
+
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
+            fullName.isEmpty() || phoneDigits.isEmpty() || dob.isEmpty() ||
+            gender == null || gender.trim().isEmpty() ||
+            bloodGroup == null || bloodGroup.trim().isEmpty() ||
+            emergencyDigits.isEmpty() ||
+            emergencyRelationship == null || emergencyRelationship.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required except Medical History / Allergies.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         RegistrationResult result = RegistrationService.getInstance().registerPatient(
                 email,
@@ -40,6 +58,7 @@ public class RegisterUI extends RegisterUX {
                 gender,
                 bloodGroup,
                 emergencyContact,
+                emergencyRelationship,
                 history
         );
 

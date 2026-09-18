@@ -3,6 +3,10 @@ package common.model;
 import java.util.Objects;
 
 public abstract class User {
+    public static final String[] COUNTRY_CODES = new String[]{
+        "+60", "+65", "+62", "+66", "+63", "+84", "+86", "+852", "+886", "+81", "+82", "+91", "+1", "+44", "+61", "+64", "+971"
+    };
+
     private String id;
     private String email;
     private String password;
