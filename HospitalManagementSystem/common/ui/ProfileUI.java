@@ -80,6 +80,14 @@ public class ProfileUI extends ProfileUX {
             extra4Field.setText(p.getEmergencyContact());
             addExtraRow(g, r++, extra4Label, extra4Field);
 
+            extra5Label.setText("Emergency Relationship:");
+            if (p.getEmergencyRelationship() != null && !p.getEmergencyRelationship().trim().isEmpty()) {
+                emergencyRelationshipBox.setSelectedItem(p.getEmergencyRelationship().trim());
+            } else {
+                emergencyRelationshipBox.setSelectedIndex(0);
+            }
+            addExtraRow(g, r++, extra5Label, emergencyRelationshipBox);
+
             g.gridx = 0; g.gridy = r; g.weightx = 0.35; g.anchor = GridBagConstraints.NORTHWEST;
             extraPanel.add(extraAreaLabel, g);
             g.gridx = 1; g.weightx = 0.65;
@@ -148,7 +156,8 @@ public class ProfileUI extends ProfileUX {
         }
 
         // Delimiter protection
-        String[] checks = {newEmail, newFullName, newPhone, newPassword, extra1Field.getText(), extra2Field.getText(), extra3Field.getText(), extra4Field.getText(), extraArea.getText()};
+        String relChoice = (String) emergencyRelationshipBox.getSelectedItem();
+        String[] checks = {newEmail, newFullName, newPhone, newPassword, extra1Field.getText(), extra2Field.getText(), extra3Field.getText(), extra4Field.getText(), relChoice, extraArea.getText()};
         for (String c : checks) {
             if (c != null && c.contains("|")) {
                 JOptionPane.showMessageDialog(this, "Pipe character '|' is not allowed in any field.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -176,6 +185,7 @@ public class ProfileUI extends ProfileUX {
             p.setGender(extra2Field.getText().trim());
             p.setBloodGroup(extra3Field.getText().trim());
             p.setEmergencyContact(extra4Field.getText().trim());
+            p.setEmergencyRelationship(relChoice != null ? relChoice.trim() : "parents");
             p.setMedicalHistorySummary(extraArea.getText().trim());
         } else if (currentUser instanceof Doctor) {
             Doctor d = (Doctor) currentUser;

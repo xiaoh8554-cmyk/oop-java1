@@ -57,7 +57,7 @@ public class UserManagementUI extends UserManagementUX {
             newUser = new Doctor(id, email, password, fullName, phone, "General", "MBBS", "Room 101");
         } else {
             String id = DataManager.getInstance().generateNextPatientId();
-            newUser = new Patient(id, email, password, fullName, phone, "2000-01-01", "Other", "O+", "-", "None");
+            newUser = new Patient(id, email, password, fullName, phone, "2000-01-01", "Other", "O+", "-", "parents", "None");
         }
 
         DataManager.getInstance().addUser(newUser);

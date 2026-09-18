@@ -14,16 +14,22 @@ public class ProfileUX extends JFrame {
     protected final JCheckBox showPasswordCheck = new JCheckBox("Show Password");
 
     // Dynamic Extra Fields
+    public static final String[] RELATIONSHIP_OPTIONS = new String[]{
+        "parents", "mate", "son/daughter", "guardian", "siblings", "relatives", "friends"
+    };
+
     protected final JTextField extra1Field = new JTextField(16);
     protected final JTextField extra2Field = new JTextField(16);
     protected final JTextField extra3Field = new JTextField(16);
     protected final JTextField extra4Field = new JTextField(16);
+    protected final JComboBox<String> emergencyRelationshipBox = new JComboBox<>(RELATIONSHIP_OPTIONS);
     protected final JTextArea extraArea = new JTextArea(3, 16);
 
     protected final JLabel extra1Label = new JLabel("Extra 1:");
     protected final JLabel extra2Label = new JLabel("Extra 2:");
     protected final JLabel extra3Label = new JLabel("Extra 3:");
     protected final JLabel extra4Label = new JLabel("Extra 4:");
+    protected final JLabel extra5Label = new JLabel("Emergency Relationship:");
     protected final JLabel extraAreaLabel = new JLabel("Notes / History:");
 
     protected final JPanel extraPanel = new JPanel(new GridBagLayout());

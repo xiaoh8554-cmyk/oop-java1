@@ -56,12 +56,14 @@ public class RegistrationService {
             String gender,
             String bloodGroup,
             String emergencyContact,
+            String emergencyRelationship,
             String medicalHistorySummary) {
 
         // 1. Check Required Fields
         if (isEmpty(email) || isEmpty(password) || isEmpty(confirmPassword) ||
             isEmpty(fullName) || isEmpty(phoneNumber) || isEmpty(dateOfBirth) ||
-            isEmpty(gender) || isEmpty(bloodGroup) || isEmpty(emergencyContact)) {
+            isEmpty(gender) || isEmpty(bloodGroup) || isEmpty(emergencyContact) ||
+            isEmpty(emergencyRelationship)) {
             return new RegistrationResult(false, "All required fields must be filled.", null);
         }
 
@@ -73,9 +75,10 @@ public class RegistrationService {
         gender = gender.trim();
         bloodGroup = bloodGroup.trim();
         emergencyContact = emergencyContact.trim();
+        emergencyRelationship = emergencyRelationship.trim();
 
         // 2. Delimiter Protection (No pipe '|' allowed in inputs)
-        String[] allInputs = {email, password, fullName, phoneNumber, dateOfBirth, gender, bloodGroup, emergencyContact, medicalHistorySummary};
+        String[] allInputs = {email, password, fullName, phoneNumber, dateOfBirth, gender, bloodGroup, emergencyContact, emergencyRelationship, medicalHistorySummary};
         for (String input : allInputs) {
             if (input != null && input.contains("|")) {
                 return new RegistrationResult(false, "The pipe character '|' is not permitted in any input field.", null);
@@ -126,11 +129,26 @@ public class RegistrationService {
                 gender,
                 bloodGroup,
                 emergencyContact,
+                emergencyRelationship,
                 safeHistory
         );
 
         dataManager.addUser(newPatient);
         return new RegistrationResult(true, "Patient registered successfully with ID " + nextId, newPatient);
+    }
+
+    public synchronized RegistrationResult registerPatient(
+            String email,
+            String password,
+            String confirmPassword,
+            String fullName,
+            String phoneNumber,
+            String dateOfBirth,
+            String gender,
+            String bloodGroup,
+            String emergencyContact,
+            String medicalHistorySummary) {
+        return registerPatient(email, password, confirmPassword, fullName, phoneNumber, dateOfBirth, gender, bloodGroup, emergencyContact, "parents", medicalHistorySummary);
     }
 
     private boolean isEmpty(String str) {
