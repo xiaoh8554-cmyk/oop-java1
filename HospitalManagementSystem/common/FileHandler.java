@@ -15,6 +15,11 @@ public class FileHandler {
     public static final String PRESCRIPTIONS = "prescriptions.txt";
     public static final String FEEDBACK = "feedback.txt";
     public static final String APPOINTMENTS = "appointments.txt";
+    public static final String ASSETS = "assets.txt";
+    public static final String INSURANCE = "insurance.txt";
+    public static final String RATES = "rates.txt";
+    public static final String ROSTERS = "rosters.txt";
+    public static final String REQUESTS = "requests.txt";
 
     public static Path getDataDir() {
         Path sub = Paths.get("HospitalManagementSystem", "data");
@@ -28,7 +33,7 @@ public class FileHandler {
         try {
             Path dataDir = getDataDir();
             Files.createDirectories(dataDir);
-            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS};
+            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS};
             for (String name : names) {
                 Path p = dataDir.resolve(name);
                 if (!Files.exists(p)) Files.createFile(p);
@@ -51,6 +56,27 @@ public class FileHandler {
         if (Files.size(dataDir.resolve(ASSESSMENT_TYPES)) == 0) {
             append(ASSESSMENT_TYPES, new String[]{"AT001","General Check-up","Routine vital signs and consultation","50.00"});
             append(ASSESSMENT_TYPES, new String[]{"AT002","Blood Test","Basic laboratory blood screening","80.00"});
+        }
+        if (Files.size(dataDir.resolve(ASSETS)) == 0) {
+            append(ASSETS, new String[]{"AST001","Consultation Room 101","CONSULTATION_ROOM","Level 1, Block A","1","ALLOCATED","D001"});
+            append(ASSETS, new String[]{"AST002","Consultation Room 102","CONSULTATION_ROOM","Level 1, Block A","1","AVAILABLE","None"});
+            append(ASSETS, new String[]{"AST003","General Inpatient Ward 1","INPATIENT_WARD","Level 2, Block B","20","AVAILABLE","None"});
+            append(ASSETS, new String[]{"AST004","Central Pathology Lab","LAB","Level 1, Block C","10","AVAILABLE","None"});
+            append(ASSETS, new String[]{"AST005","Digital X-Ray Suite","IMAGING_ROOM","Ground Floor, Radiography","5","AVAILABLE","None"});
+            append(ASSETS, new String[]{"AST006","MRI & CT Imaging Room","IMAGING_ROOM","Ground Floor, Radiography","2","AVAILABLE","None"});
+        }
+        if (Files.size(dataDir.resolve(RATES)) == 0) {
+            append(RATES, new String[]{"R001","General Practice","50.00","80.00"});
+            append(RATES, new String[]{"R002","Cardiology","120.00","180.00"});
+            append(RATES, new String[]{"R003","Dermatology","90.00","140.00"});
+            append(RATES, new String[]{"R004","Pediatrics","70.00","100.00"});
+            append(RATES, new String[]{"R005","Orthopedics","110.00","160.00"});
+        }
+        if (Files.size(dataDir.resolve(INSURANCE)) == 0) {
+            append(INSURANCE, new String[]{"INS001","Great Eastern Medical","Comprehensive Gold","80","1-300-88-1234"});
+            append(INSURANCE, new String[]{"INS002","AIA Health Shield","Platinum Care Plus","90","1-300-88-5678"});
+            append(INSURANCE, new String[]{"INS003","Prudential Assurance","PruValue Med","85","1-300-88-9012"});
+            append(INSURANCE, new String[]{"INS004","Allianz General","Care Complete","75","1-300-88-3456"});
         }
     }
 

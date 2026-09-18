@@ -1,0 +1,182 @@
+================================================================================
+APU MEDICAL CENTRE - HOSPITAL MANAGEMENT SYSTEM (HMS)
+REQUIREMENTS IMPLEMENTATION STATUS REPORT
+Updated: 2026-09-19
+================================================================================
+
+SUMMARY OVERVIEW
+--------------------------------------------------------------------------------
+Total Requirements: 16
+- [DONE] Fully Implemented: 10
+- [HALF IMPLEMENTED] Partially Implemented: 2
+- [NOT IMPLEMENTED] Remaining to Implement: 4
+
+================================================================================
+1. ADMINISTRATIVE STAFF (100% COMPLETE)
+================================================================================
+
+1.1 Create/Read/Update/Delete end users
+    Status: [DONE]
+    Details:
+    - Create: Admins can create Admins, Medical Managers, Doctors, and Patients with ID generation.
+    - Read: Admins can view all registered users in a live JTable.
+    - Update: Admins can select any user, populate the form, modify credentials/details, and update records.
+    - Delete: Admins can safely delete users (with self-deletion protection).
+    - Related Files:
+      * administrative_staff/ui/UserManagementUI.java
+      * administrative_staff/ux/UserManagementUX.java
+      * common/DataManager.java
+
+1.2 Assign doctors to their respective Medical Managers
+    Status: [DONE]
+    Details:
+    - Full support for viewing all doctors, selecting a supervising Medical Manager, assigning, and unassigning doctors.
+    - Persistence in data/doctors.txt via Doctor.assignedManagerId.
+    - Related Files:
+      * administrative_staff/ui/DoctorManagerAssignUI.java
+      * administrative_staff/ux/DoctorManagerAssignUX.java
+      * doctors/Doctor.java
+      * common/DataManager.java
+      * data/doctors.txt
+
+1.3 Manage and allocate physical hospital assets such as consultation rooms, inpatient wards, labs and X-rays or imaging rooms
+    Status: [DONE]
+    Details:
+    - Asset categories: CONSULTATION_ROOM, INPATIENT_WARD, LAB, IMAGING_ROOM.
+    - Status management: AVAILABLE, ALLOCATED, MAINTENANCE.
+    - Allocation functionality: Allocate assets to doctors, patients, or departments, release assets back to available, and track capacities.
+    - Related Files:
+      * administrative_staff/ui/AssetManagementUI.java
+      * administrative_staff/ux/AssetManagementUX.java
+      * common/FileHandler.java
+      * data/assets.txt
+
+1.4 Configure base consultation rates and accepted insurance networks
+    Status: [DONE]
+    Details:
+    - Consultation Rates: Configure base consultation fees and emergency fees per specialty (Add/Update/Delete/List).
+    - Insurance Networks: Manage accepted insurance providers, plan types, coverage percentages (%), and contact hotlines (Add/Update/Delete/List).
+    - Related Files:
+      * administrative_staff/ui/RatesInsuranceUI.java
+      * administrative_staff/ux/RatesInsuranceUX.java
+      * common/FileHandler.java
+      * data/rates.txt
+      * data/insurance.txt
+
+================================================================================
+2. MEDICAL MANAGERS
+================================================================================
+
+2.1 Edit personal / individual profile
+    Status: [DONE]
+    Details:
+    - Full support for updating email, password, full name, phone number, department, and office number.
+    - Related Files:
+      * common/ui/ProfileUI.java
+      * medical_manager/MedicalManager.java
+
+2.2 Create or update specialized clinical departments (e.g., Cardiology)
+    Status: [HALF IMPLEMENTED]
+    Details:
+    - Done: Create and Delete departments exist with name, specialty, and head of department.
+    - To Do in Phase 3: Add Update feature and enable direct access from Medical Manager Dashboard.
+    - Related Files:
+      * administrative_staff/ui/DepartmentUI.java
+      * medical_manager/ui/ManagerDashboardUI.java
+      * data/departments.txt
+
+2.3 Design and modify operational shift rosters for doctors
+    Status: [NOT IMPLEMENTED]
+    Details:
+    - To Do in Phase 3: Add doctor shift roster designer and viewer for Medical Managers.
+    - Related Files:
+      * medical_manager/ui/ManagerDashboardUI.java
+      * common/FileHandler.java
+      * data/rosters.txt
+
+2.4 View reports on hospital metrics and revenue summaries
+    Status: [DONE]
+    Details:
+    - ReportsUI provides comprehensive analytics: total user counts, facility counts, clinical activities, billing revenue, and medical grade distribution.
+    - Related Files:
+      * medical_manager/ui/ReportsUI.java
+      * medical_manager/ux/ReportsUX.java
+
+================================================================================
+3. DOCTORS
+================================================================================
+
+3.1 Edit personal / individual profile
+    Status: [DONE]
+    Details:
+    - Full support for updating email, password, full name, phone number, specialty, qualification, and consultation room.
+    - Related Files:
+      * common/ui/ProfileUI.java
+      * doctors/Doctor.java
+
+3.2 Log patient vital signs and write consultation notes
+    Status: [HALF IMPLEMENTED]
+    Details:
+    - Done: Assessment and lab results entry.
+    - To Do in Phase 4: Add dedicated vital signs fields (BP, Heart Rate, SpO2, Temp) and structured consultation notes.
+    - Related Files:
+      * doctors/ui/AssessmentResultUI.java
+      * data/assessments.txt
+
+3.3 Issue digital medication prescriptions to patient’s record
+    Status: [DONE]
+    Details:
+    - PrescriptionUI allows doctors to issue digital prescriptions linked directly to the patient record.
+    - Related Files:
+      * doctors/ui/PrescriptionUI.java
+      * doctors/ux/PrescriptionUX.java
+      * data/prescriptions.txt
+
+3.4 Issue requests to admin for lab test, X-rays or specialized imaging
+    Status: [NOT IMPLEMENTED]
+    Details:
+    - To Do in Phase 4: Add diagnostic requisition UI for doctors to order lab tests, X-rays, and imaging.
+    - Related Files:
+      * doctors/ui/DoctorDashboardUI.java
+      * common/FileHandler.java
+      * data/requests.txt
+
+================================================================================
+4. PATIENTS
+================================================================================
+
+4.1 Edit personal / individual profile
+    Status: [DONE]
+    Details:
+    - Full support for updating personal profile, DOB, gender, blood group, emergency contact & relationship.
+    - Related Files:
+      * common/ui/ProfileUI.java
+      * patients/Patient.java
+
+4.2 Browse available slots of doctors’ consultations and book/reschedule/cancel booking
+    Status: [NOT IMPLEMENTED]
+    Details:
+    - To Do in Phase 5: Add consultation appointment booking, slot browsing, rescheduling, and cancellation UI.
+    - Related Files:
+      * patients/ui/PatientDashboardUI.java
+      * common/FileHandler.java
+      * data/appointments.txt
+
+4.3 View personal medical history and prescriptions
+    Status: [DONE]
+    Details:
+    - Patients can view assessment records, lab results, medication prescriptions, and medical history.
+    - Related Files:
+      * patients/ui/MedicalRecordUI.java
+      * patients/ui/PatientPrescriptionFeedbackUI.java
+      * common/ui/ProfileUI.java
+
+4.4 Submit ratings and comments to doctors and clinic visits
+    Status: [HALF IMPLEMENTED]
+    Details:
+    - Done: Text comments for doctors.
+    - To Do in Phase 5: Add 1-5 star ratings and clinic visit linking.
+    - Related Files:
+      * patients/ui/PatientPrescriptionFeedbackUI.java
+      * data/feedback.txt
+================================================================================
