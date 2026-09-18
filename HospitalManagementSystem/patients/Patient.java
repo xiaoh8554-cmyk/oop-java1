@@ -4,6 +4,8 @@ import common.model.User;
 import common.model.UserRole;
 
 public class Patient extends User {
+    public static final String[] GENDER_OPTIONS = new String[]{"Male", "Female"};
+    public static final String[] BLOOD_GROUP_OPTIONS = new String[]{"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"};
     public static final String[] RELATIONSHIP_OPTIONS = new String[]{
         "parents", "mate", "son/daughter", "guardian", "siblings", "relatives", "friends"
     };

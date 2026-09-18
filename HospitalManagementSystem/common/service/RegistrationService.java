@@ -64,7 +64,7 @@ public class RegistrationService {
             isEmpty(fullName) || isEmpty(phoneNumber) || isEmpty(dateOfBirth) ||
             isEmpty(gender) || isEmpty(bloodGroup) || isEmpty(emergencyContact) ||
             isEmpty(emergencyRelationship)) {
-            return new RegistrationResult(false, "All required fields must be filled.", null);
+            return new RegistrationResult(false, "All fields are required except Medical History / Allergies.", null);
         }
 
         email = email.trim();

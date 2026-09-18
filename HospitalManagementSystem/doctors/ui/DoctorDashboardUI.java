@@ -18,7 +18,7 @@ public class DoctorDashboardUI extends DoctorDashboardUX {
 
     public void refreshWelcome() {
         if (Session.getCurrentUser() != null) {
-            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName() + " - Doctor");
+            welcomeLabel.setText("Welcome, Doctor " + Session.getCurrentUser().getFullName());
         }
     }
 }

@@ -1,1 +1,2 @@
 D001|Cardiology|MBBS, MD|CR-105
+D002|General|MBBS|Room 101

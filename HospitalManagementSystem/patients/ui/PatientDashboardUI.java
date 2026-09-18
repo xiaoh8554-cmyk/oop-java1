@@ -18,7 +18,7 @@ public class PatientDashboardUI extends PatientDashboardUX {
 
     public void refreshWelcome() {
         if (Session.getCurrentUser() != null) {
-            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName() + " - Patient");
+            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName());
         }
     }
 }

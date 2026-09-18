@@ -19,7 +19,7 @@ public class AdminDashboardUI extends AdminDashboardUX {
 
     public void refreshWelcome() {
         if (Session.getCurrentUser() != null) {
-            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName() + " - Administrative Staff");
+            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName());
         }
     }
 }

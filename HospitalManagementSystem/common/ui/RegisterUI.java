@@ -38,6 +38,16 @@ public class RegisterUI extends RegisterUX {
         String emergencyRelationship = (String) relationshipBox.getSelectedItem();
         String history = medicalHistoryArea.getText().trim();
 
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
+            fullName.isEmpty() || phoneDigits.isEmpty() || dob.isEmpty() ||
+            gender == null || gender.trim().isEmpty() ||
+            bloodGroup == null || bloodGroup.trim().isEmpty() ||
+            emergencyDigits.isEmpty() ||
+            emergencyRelationship == null || emergencyRelationship.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required except Medical History / Allergies.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         RegistrationResult result = RegistrationService.getInstance().registerPatient(
                 email,
                 password,

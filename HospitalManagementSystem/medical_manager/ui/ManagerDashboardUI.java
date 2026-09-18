@@ -18,7 +18,7 @@ public class ManagerDashboardUI extends ManagerDashboardUX {
 
     public void refreshWelcome() {
         if (Session.getCurrentUser() != null) {
-            welcomeLabel.setText("Welcome, " + Session.getCurrentUser().getFullName() + " - Medical Manager");
+            welcomeLabel.setText("Welcome, Medical Manager " + Session.getCurrentUser().getFullName());
         }
     }
 }

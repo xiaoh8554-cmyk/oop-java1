@@ -1,5 +1,6 @@
 package common.ux;
 
+import common.model.User;
 import common.ui.DatePicker;
 import patients.Patient;
 import javax.swing.*;
@@ -10,23 +11,19 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 
 public class RegisterUX extends JFrame {
-    public static final String[] COUNTRY_CODES = new String[]{
-        "+60", "+65", "+62", "+66", "+63", "+84", "+86", "+852", "+886", "+81", "+82", "+91", "+1", "+44", "+61", "+64", "+971"
-    };
-
     protected final JTextField emailField = new JTextField(18);
     protected final JPasswordField passwordField = new JPasswordField(18);
     protected final JPasswordField confirmPasswordField = new JPasswordField(18);
     protected final JTextField fullNameField = new JTextField(18);
 
-    protected final JComboBox<String> phoneCountryCodeBox = new JComboBox<>(COUNTRY_CODES);
+    protected final JComboBox<String> phoneCountryCodeBox = new JComboBox<>(User.COUNTRY_CODES);
     protected final JTextField phoneField = new JTextField(12);
 
     protected final DatePicker dobPicker = new DatePicker();
-    protected final JComboBox<String> genderBox = new JComboBox<>(new String[]{"Male", "Female"});
-    protected final JComboBox<String> bloodGroupBox = new JComboBox<>(new String[]{"O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"});
+    protected final JComboBox<String> genderBox = new JComboBox<>(Patient.GENDER_OPTIONS);
+    protected final JComboBox<String> bloodGroupBox = new JComboBox<>(Patient.BLOOD_GROUP_OPTIONS);
 
-    protected final JComboBox<String> emergencyCountryCodeBox = new JComboBox<>(COUNTRY_CODES);
+    protected final JComboBox<String> emergencyCountryCodeBox = new JComboBox<>(User.COUNTRY_CODES);
     protected final JTextField emergencyContactField = new JTextField(12);
     protected final JComboBox<String> relationshipBox = new JComboBox<>(Patient.RELATIONSHIP_OPTIONS);
 

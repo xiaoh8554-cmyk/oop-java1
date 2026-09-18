@@ -64,9 +64,9 @@ public class DataManager {
         try {
             Path usersPath = getDataDir().resolve(USERS_FILE);
             if (Files.size(usersPath) == 0) {
-                AdministrativeStaff admin = new AdministrativeStaff("A001", "admin@gmail.com", "admin123", "System Administrator", "+60120000001", "SUPER_ADMIN");
+                AdministrativeStaff admin = new AdministrativeStaff("A001", "Defaultadmin@gmail.com", "admin123", "Default Admin", "+60120000001", "SUPER_ADMIN");
                 MedicalManager manager = new MedicalManager("M001", "manager@gmail.com", "manager123", "Medical Manager", "+60120000002", "Operations", "OF-302");
-                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Dr. Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105");
+                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105");
                 Patient patient = new Patient("P001", "patient@gmail.com", "patient123", "Demo Patient", "+60120000004", "1995-06-15", "Male", "O+", "+60198888888", "parents", "No known allergies");
 
                 users.addAll(Arrays.asList(admin, manager, doctor, patient));
