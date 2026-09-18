@@ -1,12 +1,11 @@
 package common.ux;
 
+import patients.Patient;
 import javax.swing.*;
 import java.awt.*;
 
 public class ProfileUX extends JFrame {
     protected final JLabel titleLabel = new JLabel("My Profile", SwingConstants.CENTER);
-    protected final JTextField userIdField = new JTextField(16);
-    protected final JTextField roleField = new JTextField(16);
     protected final JTextField emailField = new JTextField(16);
     protected final JTextField fullNameField = new JTextField(16);
     protected final JTextField phoneField = new JTextField(16);
@@ -14,15 +13,11 @@ public class ProfileUX extends JFrame {
     protected final JCheckBox showPasswordCheck = new JCheckBox("Show Password");
 
     // Dynamic Extra Fields
-    public static final String[] RELATIONSHIP_OPTIONS = new String[]{
-        "parents", "mate", "son/daughter", "guardian", "siblings", "relatives", "friends"
-    };
-
     protected final JTextField extra1Field = new JTextField(16);
     protected final JTextField extra2Field = new JTextField(16);
     protected final JTextField extra3Field = new JTextField(16);
     protected final JTextField extra4Field = new JTextField(16);
-    protected final JComboBox<String> emergencyRelationshipBox = new JComboBox<>(RELATIONSHIP_OPTIONS);
+    protected final JComboBox<String> emergencyRelationshipBox = new JComboBox<>(Patient.RELATIONSHIP_OPTIONS);
     protected final JTextArea extraArea = new JTextArea(3, 16);
 
     protected final JLabel extra1Label = new JLabel("Extra 1:");
@@ -49,19 +44,12 @@ public class ProfileUX extends JFrame {
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
         root.add(titleLabel, BorderLayout.NORTH);
 
-        userIdField.setEditable(false);
-        userIdField.setBackground(new Color(240, 240, 240));
-        roleField.setEditable(false);
-        roleField.setBackground(new Color(240, 240, 240));
-
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         int row = 0;
-        addFormRow(formPanel, gbc, row++, "User ID:", userIdField);
-        addFormRow(formPanel, gbc, row++, "Role:", roleField);
         addFormRow(formPanel, gbc, row++, "Gmail / Email Address:", emailField);
         addFormRow(formPanel, gbc, row++, "Full Name:", fullNameField);
         addFormRow(formPanel, gbc, row++, "Phone Number:", phoneField);

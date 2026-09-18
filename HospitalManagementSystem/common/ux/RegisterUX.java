@@ -1,6 +1,7 @@
 package common.ux;
 
 import common.ui.DatePicker;
+import patients.Patient;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -11,10 +12,6 @@ import java.awt.*;
 public class RegisterUX extends JFrame {
     public static final String[] COUNTRY_CODES = new String[]{
         "+60", "+65", "+62", "+66", "+63", "+84", "+86", "+852", "+886", "+81", "+82", "+91", "+1", "+44", "+61", "+64", "+971"
-    };
-
-    public static final String[] RELATIONSHIP_OPTIONS = new String[]{
-        "parents", "mate", "son/daughter", "guardian", "siblings", "relatives", "friends"
     };
 
     protected final JTextField emailField = new JTextField(18);
@@ -31,7 +28,7 @@ public class RegisterUX extends JFrame {
 
     protected final JComboBox<String> emergencyCountryCodeBox = new JComboBox<>(COUNTRY_CODES);
     protected final JTextField emergencyContactField = new JTextField(12);
-    protected final JComboBox<String> relationshipBox = new JComboBox<>(RELATIONSHIP_OPTIONS);
+    protected final JComboBox<String> relationshipBox = new JComboBox<>(Patient.RELATIONSHIP_OPTIONS);
 
     protected final JTextArea medicalHistoryArea = new JTextArea(3, 18);
 

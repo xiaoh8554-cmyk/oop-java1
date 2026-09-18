@@ -49,8 +49,6 @@ public class ProfileUI extends ProfileUX {
             return;
         }
 
-        userIdField.setText(user.getId());
-        roleField.setText(user.getRole().name());
         emailField.setText(user.getEmail());
         fullNameField.setText(user.getFullName());
         phoneField.setText(user.getPhoneNumber());
