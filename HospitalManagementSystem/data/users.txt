@@ -1,5 +1,5 @@
 PATIENT|P001|patient@gmail.com|patient123|Demo Patient|+60120000004
-PATIENT|P002|l@gmail.com|lloong|loong|+60122222222
+PATIENT|P002|3|3|loong|+60122222222
 DOCTOR|D001|doctor@gmail.com|doctor123|Aisha|+60120000003
 DOCTOR|D002|2|2|2|22
 MEDICAL_MANAGER|M001|lrs@gmail.com|manager123|Medical Manager|+60120000002

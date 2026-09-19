@@ -10,8 +10,11 @@ public class AdminDashboardUI extends AdminDashboardUX {
         super();
         refreshWelcome();
         usersButton.addActionListener(e -> new UserManagementUI().setVisible(true));
+        doctorManagerButton.addActionListener(e -> new DoctorManagerAssignUI().setVisible(true));
+        assetsButton.addActionListener(e -> new AssetManagementUI().setVisible(true));
         wardsButton.addActionListener(e -> new WardClinicUI().setVisible(true));
         departmentsButton.addActionListener(e -> new DepartmentUI().setVisible(true));
+        ratesInsuranceButton.addActionListener(e -> new RatesInsuranceUI().setVisible(true));
         billingButton.addActionListener(e -> new BillingUI().setVisible(true));
         profileButton.addActionListener(e -> new ProfileUI(this::refreshWelcome).setVisible(true));
         logoutButton.addActionListener(e -> Navigation.logout(this));
@@ -23,3 +26,4 @@ public class AdminDashboardUI extends AdminDashboardUX {
         }
     }
 }
+
