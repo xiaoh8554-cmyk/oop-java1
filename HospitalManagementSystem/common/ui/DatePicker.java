@@ -17,6 +17,8 @@ public class DatePicker extends JPanel {
         "07 - Jul", "08 - Aug", "09 - Sep", "10 - Oct", "11 - Nov", "12 - Dec"
     };
 
+    private Runnable onDateChanged;
+
     public DatePicker() {
         this(LocalDate.now().minusYears(20)); // Default to 20 years ago for typical birthday
     }
@@ -25,10 +27,10 @@ public class DatePicker extends JPanel {
         setLayout(new FlowLayout(FlowLayout.LEFT, 4, 0));
         setOpaque(false);
 
-        int currentYear = LocalDate.now().getYear();
-        Integer[] years = new Integer[currentYear - 1920 + 1];
+        int maxYear = LocalDate.now().getYear() + 5;
+        Integer[] years = new Integer[maxYear - 1920 + 1];
         for (int i = 0; i < years.length; i++) {
-            years[i] = currentYear - i; // Latest year first
+            years[i] = maxYear - i; // Latest year first
         }
 
         yearBox = new JComboBox<>(years);
@@ -41,8 +43,15 @@ public class DatePicker extends JPanel {
             setDate(initialDate);
         }
 
-        yearBox.addActionListener(e -> updateDays());
-        monthBox.addActionListener(e -> updateDays());
+        yearBox.addActionListener(e -> {
+            updateDays();
+            notifyDateChanged();
+        });
+        monthBox.addActionListener(e -> {
+            updateDays();
+            notifyDateChanged();
+        });
+        dayBox.addActionListener(e -> notifyDateChanged());
 
         calendarButton.setToolTipText("Open Calendar Picker");
         calendarButton.setMargin(new Insets(2, 6, 2, 6));
@@ -55,6 +64,16 @@ public class DatePicker extends JPanel {
         add(new JLabel("D:"));
         add(dayBox);
         add(calendarButton);
+    }
+
+    public void setOnDateChanged(Runnable onDateChanged) {
+        this.onDateChanged = onDateChanged;
+    }
+
+    private void notifyDateChanged() {
+        if (onDateChanged != null) {
+            onDateChanged.run();
+        }
     }
 
     private void updateDays() {
@@ -177,6 +196,7 @@ public class DatePicker extends JPanel {
                 dayBtn.addActionListener(ev -> {
                     LocalDate picked = LocalDate.of(viewYear[0], viewMonth[0], selectedDay);
                     setDate(picked);
+                    notifyDateChanged();
                     dialog.dispose();
                 });
                 daysPanel.add(dayBtn);

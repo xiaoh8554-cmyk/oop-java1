@@ -1,0 +1,9 @@
+202609100001|P001|D001|Aisha|Cardiology|2026-09-10|10:00 - 10:30|CR-105|COMPLETED|Initial Heart Palpitation Consultation
+202609200001|P001|D001|Aisha|Cardiology|2026-09-20|14:00 - 14:30|CR-105|BOOKED|Follow-up ECG and Consultation
+202609050001|P001|D002|Lee|General Medicine|2026-09-05|10:00 - 10:30|Room 101|COMPLETED|Routine Annual Health Screening
+202609210001|P002|D001|Aisha|Cardiology|2026-09-20|10:00 - 10:30|CR-105|CANCELLED|Blood Pressure Checkup
+202609200002|P002|D002|Lee|General Medicine|2026-09-20|10:00 - 10:30|Room 101|CANCELLED|General Medical Consultation
+202609200003|P002|D001|Aisha|Cardiology|2026-09-20|10:00 - 10:30|CR-105|CANCELLED|General Medical Consultation
+202609200004|P002|D001|Aisha|Cardiology|2026-09-20|10:00 - 10:30|CR-105|CANCELLED|General Medical Consultation
+202609200005|P002|D001|Aisha|Cardiology|2026-09-20|11:30 - 12:00|CR-105|CANCELLED|General Medical Consultation
+202609200006|P002|D001|Aisha|Cardiology|2026-09-20|10:00 - 10:30|CR-105|CANCELLED|Blood Pressure Checkup

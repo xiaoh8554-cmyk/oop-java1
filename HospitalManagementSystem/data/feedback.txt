@@ -1,0 +1,2 @@
+F001|P001|D001|2026-09-11|PATIENT_FEEDBACK|5 Stars - Excellent|202609100001|Dr. Aisha was very thorough and attentive during the consultation.
+F002|P001|D002|2026-09-06|PATIENT_FEEDBACK|4 Stars - Good|202609050001|Clear explanation and friendly staff.

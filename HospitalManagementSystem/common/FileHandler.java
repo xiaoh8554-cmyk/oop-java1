@@ -135,6 +135,32 @@ public class FileHandler {
         return prefix + String.format("%0" + width + "d", max + 1);
     }
 
+    public static synchronized String nextAppointmentId(String dateStr) {
+        String datePrefix;
+        if (dateStr != null && !dateStr.trim().isEmpty()) {
+            datePrefix = dateStr.replace("-", "").replace("/", "").trim();
+        } else {
+            datePrefix = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
+
+        int maxCase = 0;
+        for (String[] row : read(APPOINTMENTS)) {
+            if (row.length > 0 && row[0] != null) {
+                String id = row[0].trim();
+                if (id.startsWith(datePrefix)) {
+                    try {
+                        String suffix = id.substring(datePrefix.length());
+                        int num = Integer.parseInt(suffix);
+                        if (num > maxCase) {
+                            maxCase = num;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
+        return datePrefix + String.format("%04d", maxCase + 1);
+    }
+
     public static String clean(String value) {
         if (value == null) return "";
         return value.replace('|', '/').replace('\n', ' ').replace('\r', ' ').trim();

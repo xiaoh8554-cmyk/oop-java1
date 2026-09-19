@@ -1,0 +1,2 @@
+AS001|P001|D001|AT001|2026-09-10|MILD_ATTENTION|Patient presents with mild palpitations and blood pressure of 135/85 mmHg.|ECG shows normal sinus rhythm.|50.00|COMPLETED
+AS002|P001|D002|AT002|2026-09-05|HEALTHY|Patient is in good overall health.|Blood Glucose: 4.8 mmol/L, Total Cholesterol: 4.2 mmol/L (Normal).|80.00|COMPLETED

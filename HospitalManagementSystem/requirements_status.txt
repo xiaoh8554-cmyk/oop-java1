@@ -7,9 +7,9 @@ Updated: 2026-09-19
 SUMMARY OVERVIEW
 --------------------------------------------------------------------------------
 Total Requirements: 16
-- [DONE] Fully Implemented: 10
-- [HALF IMPLEMENTED] Partially Implemented: 2
-- [NOT IMPLEMENTED] Remaining to Implement: 4
+- [DONE] Fully Implemented: 12
+- [HALF IMPLEMENTED] Partially Implemented: 1
+- [NOT IMPLEMENTED] Remaining to Implement: 3
 
 ================================================================================
 1. ADMINISTRATIVE STAFF (100% COMPLETE)
@@ -79,7 +79,7 @@ Total Requirements: 16
     Status: [HALF IMPLEMENTED]
     Details:
     - Done: Create and Delete departments exist with name, specialty, and head of department.
-    - To Do in Phase 3: Add Update feature and enable direct access from Medical Manager Dashboard.
+    - To Do: Add Update feature and enable direct access from Medical Manager Dashboard.
     - Related Files:
       * administrative_staff/ui/DepartmentUI.java
       * medical_manager/ui/ManagerDashboardUI.java
@@ -88,7 +88,7 @@ Total Requirements: 16
 2.3 Design and modify operational shift rosters for doctors
     Status: [NOT IMPLEMENTED]
     Details:
-    - To Do in Phase 3: Add doctor shift roster designer and viewer for Medical Managers.
+    - To Do: Add doctor shift roster designer and viewer for Medical Managers.
     - Related Files:
       * medical_manager/ui/ManagerDashboardUI.java
       * common/FileHandler.java
@@ -118,7 +118,7 @@ Total Requirements: 16
     Status: [HALF IMPLEMENTED]
     Details:
     - Done: Assessment and lab results entry.
-    - To Do in Phase 4: Add dedicated vital signs fields (BP, Heart Rate, SpO2, Temp) and structured consultation notes.
+    - To Do: Add dedicated vital signs fields (BP, Heart Rate, SpO2, Temp) and structured consultation notes.
     - Related Files:
       * doctors/ui/AssessmentResultUI.java
       * data/assessments.txt
@@ -135,14 +135,14 @@ Total Requirements: 16
 3.4 Issue requests to admin for lab test, X-rays or specialized imaging
     Status: [NOT IMPLEMENTED]
     Details:
-    - To Do in Phase 4: Add diagnostic requisition UI for doctors to order lab tests, X-rays, and imaging.
+    - To Do: Add diagnostic requisition UI for doctors to order lab tests, X-rays, and imaging.
     - Related Files:
       * doctors/ui/DoctorDashboardUI.java
       * common/FileHandler.java
       * data/requests.txt
 
 ================================================================================
-4. PATIENTS
+4. PATIENTS (100% COMPLETE)
 ================================================================================
 
 4.1 Edit personal / individual profile
@@ -154,29 +154,37 @@ Total Requirements: 16
       * patients/Patient.java
 
 4.2 Browse available slots of doctors’ consultations and book/reschedule/cancel booking
-    Status: [NOT IMPLEMENTED]
+    Status: [DONE]
     Details:
-    - To Do in Phase 5: Add consultation appointment booking, slot browsing, rescheduling, and cancellation UI.
+    - Browse available consultation slots with specialty filtering (Cardiology, General Medicine, etc.).
+    - Book an appointment with reasons/symptoms.
+    - Reschedule appointments to a new date and time slot.
+    - Cancel appointments with status tracking.
+    - Persistence in data/appointments.txt and synchronization with data/rosters.txt.
     - Related Files:
-      * patients/ui/PatientDashboardUI.java
+      * patients/ui/AppointmentBookingUI.java
+      * patients/ux/AppointmentBookingUX.java
       * common/FileHandler.java
       * data/appointments.txt
+      * data/rosters.txt
 
 4.3 View personal medical history and prescriptions
     Status: [DONE]
     Details:
-    - Patients can view assessment records, lab results, medication prescriptions, and medical history.
+    - Patients can view assessment records, lab results, digital medication prescriptions, appointment history, and medical history.
     - Related Files:
       * patients/ui/MedicalRecordUI.java
       * patients/ui/PatientPrescriptionFeedbackUI.java
+      * patients/ui/AppointmentBookingUI.java
       * common/ui/ProfileUI.java
 
 4.4 Submit ratings and comments to doctors and clinic visits
-    Status: [HALF IMPLEMENTED]
+    Status: [DONE]
     Details:
-    - Done: Text comments for doctors.
-    - To Do in Phase 5: Add 1-5 star ratings and clinic visit linking.
+    - Patients can submit 1 to 5 Star ratings, clinic visit references, and comments/feedback for doctors.
+    - View their rating and feedback history.
     - Related Files:
       * patients/ui/PatientPrescriptionFeedbackUI.java
+      * patients/ux/PatientPrescriptionFeedbackUX.java
       * data/feedback.txt
 ================================================================================
