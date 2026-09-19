@@ -1,0 +1,4 @@
+INS001|Great Eastern Medical|Comprehensive Gold|80|1-300-88-1234
+INS002|AIA Health Shield|Platinum Care Plus|90|1-300-88-5678
+INS003|Prudential Assurance|PruValue Med|85|1-300-88-9012
+INS004|Allianz General|Care Complete|75|1-300-88-3456

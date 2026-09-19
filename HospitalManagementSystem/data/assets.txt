@@ -1,0 +1,6 @@
+AST001|Consultation Room 101|CONSULTATION_ROOM|Level 1, Block A|1|ALLOCATED|D001
+AST002|Consultation Room 102|CONSULTATION_ROOM|Level 1, Block A|1|AVAILABLE|None
+AST003|General Inpatient Ward 1|INPATIENT_WARD|Level 2, Block B|20|AVAILABLE|None
+AST004|Central Pathology Lab|LAB|Level 1, Block C|10|AVAILABLE|None
+AST005|Digital X-Ray Suite|IMAGING_ROOM|Ground Floor, Radiography|5|AVAILABLE|None
+AST006|MRI & CT Imaging Room|IMAGING_ROOM|Ground Floor, Radiography|2|AVAILABLE|None

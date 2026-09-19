@@ -1,0 +1,5 @@
+R001|General Practice|50.00|80.00
+R002|Cardiology|120.00|180.00
+R003|Dermatology|90.00|140.00
+R004|Pediatrics|70.00|100.00
+R005|Orthopedics|110.00|160.00

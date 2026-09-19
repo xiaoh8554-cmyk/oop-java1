@@ -66,7 +66,7 @@ public class DataManager {
             if (Files.size(usersPath) == 0) {
                 AdministrativeStaff admin = new AdministrativeStaff("A001", "Defaultadmin@gmail.com", "admin123", "Default Admin", "+60120000001", "SUPER_ADMIN");
                 MedicalManager manager = new MedicalManager("M001", "manager@gmail.com", "manager123", "Medical Manager", "+60120000002", "Operations", "OF-302");
-                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105");
+                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105", "M001");
                 Patient patient = new Patient("P001", "patient@gmail.com", "patient123", "Demo Patient", "+60120000004", "1995-06-15", "Male", "O+", "+60198888888", "parents", "No known allergies");
 
                 users.addAll(Arrays.asList(admin, manager, doctor, patient));
@@ -102,11 +102,12 @@ public class DataManager {
             }
         }
 
-        // 3. Read and join Doctors (ID|specialty|qualification|roomNumber)
+        // 3. Read and join Doctors (ID|specialty|qualification|roomNumber|assignedManagerId)
         for (String[] row : readRows(DOCTORS_FILE)) {
             if (row.length >= 4 && parentMap.containsKey(row[0])) {
                 String[] p = parentMap.get(row[0]);
-                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3]));
+                String mgr = (row.length >= 5 && !row[4].trim().isEmpty()) ? row[4].trim() : "None";
+                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3], mgr));
                 parentMap.remove(row[0]);
             }
         }
