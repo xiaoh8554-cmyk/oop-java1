@@ -19,6 +19,7 @@ public class AppointmentBookingUX extends JFrame {
     protected final JTable doctorsTable = new JTable(doctorsModel);
 
     protected final JLabel selectedDoctorInfoLabel = new JLabel("Please select a specialty, date, and doctor from the table.");
+    protected final JButton viewFeedbackButton = new JButton("View Feedback");
     protected final JButton detailButton = new JButton("Detail \u2192");
     protected final JButton refreshDoctorsButton = new JButton("Refresh");
     protected final JLabel liveClockLabel = new JLabel("Current Time: --:--:--");
@@ -29,7 +30,7 @@ public class AppointmentBookingUX extends JFrame {
 
     public AppointmentBookingUX() {
         setTitle("Doctor Consultation Booking & Schedule");
-        setSize(1080, 650);
+        setSize(1100, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -67,9 +68,16 @@ public class AppointmentBookingUX extends JFrame {
         bottomPanel.add(selectedDoctorInfoLabel, BorderLayout.CENTER);
 
         JPanel rightActionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+
+        viewFeedbackButton.setFont(new Font("SansSerif", Font.BOLD, 13));
+        viewFeedbackButton.setPreferredSize(new Dimension(145, 34));
+        viewFeedbackButton.setEnabled(false); // Initially unclickable
+
         detailButton.setFont(new Font("SansSerif", Font.BOLD, 13));
-        detailButton.setPreferredSize(new Dimension(130, 32));
+        detailButton.setPreferredSize(new Dimension(130, 34));
         detailButton.setEnabled(false); // Initially unclickable
+
+        rightActionPanel.add(viewFeedbackButton);
         rightActionPanel.add(detailButton);
         rightActionPanel.add(viewHistoryButton);
         bottomPanel.add(rightActionPanel, BorderLayout.EAST);

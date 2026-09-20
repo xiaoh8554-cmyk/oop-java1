@@ -66,8 +66,9 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
             }
         });
 
-        // Detail button action -> opens Time Selection Dialog
+        // Detail and View Feedback button actions
         detailButton.addActionListener(e -> openTimeSelectionDialog());
+        viewFeedbackButton.addActionListener(e -> openDoctorFeedbackDialog());
 
         filterDoctors();
     }
@@ -133,10 +134,119 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
 
             selectedDoctorInfoLabel.setText("Selected: Dr. " + docName + " (" + spec + " | Room: " + room + ") on Date: " + date);
             detailButton.setEnabled(true);
+            viewFeedbackButton.setEnabled(true);
         } else {
             selectedDoctorInfoLabel.setText("Please select a specialty, date, and doctor from the table.");
             detailButton.setEnabled(false);
+            viewFeedbackButton.setEnabled(false);
         }
+    }
+
+    private void openDoctorFeedbackDialog() {
+        int row = doctorsTable.getSelectedRow();
+        if (row < 0) return;
+
+        String docId = doctorsModel.getValueAt(row, 0).toString();
+        String docName = doctorsModel.getValueAt(row, 1).toString();
+        String spec = doctorsModel.getValueAt(row, 2).toString();
+        String room = doctorsModel.getValueAt(row, 3).toString();
+        String qual = doctorsModel.getValueAt(row, 4).toString();
+
+        // Load feedback for this doctor
+        DefaultTableModel fbModel = new DefaultTableModel(
+                new String[]{"Date", "Rating", "Appt / Visit Ref", "Patient Comments & Feedback"}, 0) {
+            public boolean isCellEditable(int r, int c) { return false; }
+        };
+
+        double totalStars = 0;
+        int ratingCount = 0;
+
+        for (String[] r : FileHandler.read(FileHandler.FEEDBACK)) {
+            if (r.length >= 8 && r[2].equalsIgnoreCase(docId)) {
+                String date = r[3];
+                String rating = r[5];
+                String visitRef = r[6];
+                String msg = r[7];
+                fbModel.addRow(new Object[]{date, rating, visitRef, msg});
+
+                int stars = parseStars(rating);
+                if (stars > 0) {
+                    totalStars += stars;
+                    ratingCount++;
+                }
+            } else if (r.length >= 6 && r[2].equalsIgnoreCase(docId)) {
+                String date = r[3];
+                String msg = r[5];
+                fbModel.addRow(new Object[]{date, "N/A", "General Visit", msg});
+            }
+        }
+
+        JDialog dialog = new JDialog(this, "Doctor Feedback & Patient Reviews - Dr. " + docName, true);
+        dialog.setSize(800, 520);
+        dialog.setLocationRelativeTo(this);
+
+        JPanel content = new JPanel(new BorderLayout(12, 12));
+        content.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        // Header Info
+        JPanel header = new JPanel(new GridLayout(2, 1, 4, 4));
+        header.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(200, 220, 245), 1),
+                BorderFactory.createEmptyBorder(10, 12, 10, 12)
+        ));
+        header.setBackground(new Color(245, 248, 255));
+
+        JLabel titleLabel = new JLabel("Dr. " + docName + " (" + docId + ")  |  Specialty: " + spec + "  |  Room: " + room);
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+        titleLabel.setForeground(new Color(25, 60, 130));
+
+        String avgRatingStr = ratingCount > 0
+                ? String.format("Overall Rating: \u2605 %.1f / 5.0  (%d patient reviews)  |  Qualification: %s", (totalStars / ratingCount), ratingCount, qual)
+                : "Overall Rating: No patient ratings yet  |  Qualification: " + qual;
+        JLabel ratingLabel = new JLabel(avgRatingStr);
+        ratingLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+
+        header.add(titleLabel);
+        header.add(ratingLabel);
+        content.add(header, BorderLayout.NORTH);
+
+        // Feedback table
+        JTable fbTable = new JTable(fbModel);
+        fbTable.setRowHeight(24);
+        fbTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        fbTable.getColumnModel().getColumn(1).setPreferredWidth(140);
+        fbTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        fbTable.getColumnModel().getColumn(3).setPreferredWidth(380);
+
+        if (fbModel.getRowCount() == 0) {
+            JPanel emptyPanel = new JPanel(new BorderLayout());
+            JLabel emptyLabel = new JLabel("No feedback has been submitted for Dr. " + docName + " yet.", SwingConstants.CENTER);
+            emptyLabel.setFont(new Font("SansSerif", Font.ITALIC, 14));
+            emptyLabel.setForeground(Color.GRAY);
+            emptyPanel.add(emptyLabel, BorderLayout.CENTER);
+            content.add(emptyPanel, BorderLayout.CENTER);
+        } else {
+            content.add(new JScrollPane(fbTable), BorderLayout.CENTER);
+        }
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton closeBtn = new JButton("Close");
+        closeBtn.addActionListener(e -> dialog.dispose());
+        btnPanel.add(closeBtn);
+        content.add(btnPanel, BorderLayout.SOUTH);
+
+        dialog.setContentPane(content);
+        dialog.setVisible(true);
+    }
+
+    private int parseStars(String ratingStr) {
+        if (ratingStr == null) return 0;
+        if (ratingStr.startsWith("5")) return 5;
+        if (ratingStr.startsWith("4")) return 4;
+        if (ratingStr.startsWith("3")) return 3;
+        if (ratingStr.startsWith("2")) return 2;
+        if (ratingStr.startsWith("1")) return 1;
+        return 0;
     }
 
     private boolean isSlotPassed(LocalDate selectedDate, String timeSlot) {

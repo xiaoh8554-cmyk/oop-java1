@@ -1,2 +1,3 @@
-D001|Cardiology|MBBS, MD|CR-105|M002
-D002|General|MBBS|Room 101|None
+D001|Cardiology|MBBS, MD|CR-105|M001
+D002|General Medicine|MBBS|Room 101|M001
+D003|Dermatology|MBBS, MD, FAAD|Room 102|M001

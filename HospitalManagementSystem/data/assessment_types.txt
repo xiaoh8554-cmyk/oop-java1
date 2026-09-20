@@ -1,2 +1,4 @@
 AT001|General Check-up|Routine vital signs and consultation|50.00
 AT002|Blood Test|Basic laboratory blood screening|80.00
+AT003|Cardiology Diagnostic|ECG rhythm and cardiovascular analysis|120.00
+AT004|Dermatology Exam|Skin patch and allergy examination|90.00
