@@ -115,13 +115,17 @@ Total Requirements: 16
       * doctors/Doctor.java
 
 3.2 Log patient vital signs and write consultation notes
-    Status: [HALF IMPLEMENTED]
+    Status: [DONE]
     Details:
-    - Done: Assessment and lab results entry.
-    - To Do: Add dedicated vital signs fields (BP, Heart Rate, SpO2, Temp) and structured consultation notes.
+    - Dedicated vital signs input fields (Blood Pressure, Heart Rate, SpO2, Temperature).
+    - Structured consultation notes & diagnostic observations entry.
+    - Automatic invoice generation in data/billing.txt.
+    - Table history display with click-to-preview capability.
     - Related Files:
       * doctors/ui/AssessmentResultUI.java
+      * doctors/ux/AssessmentResultUX.java
       * data/assessments.txt
+
 
 3.3 Issue digital medication prescriptions to patient’s record
     Status: [DONE]
