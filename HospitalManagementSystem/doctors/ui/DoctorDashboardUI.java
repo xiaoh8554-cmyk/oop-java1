@@ -12,6 +12,7 @@ public class DoctorDashboardUI extends DoctorDashboardUX {
         assessmentButton.addActionListener(e -> new AssessmentResultUI().setVisible(true));
         feedbackButton.addActionListener(e -> new ClinicalFeedbackUI().setVisible(true));
         prescriptionButton.addActionListener(e -> new PrescriptionUI().setVisible(true));
+        requestButton.addActionListener(e -> new DiagnosticRequestUI().setVisible(true));
         profileButton.addActionListener(e -> new ProfileUI(this::refreshWelcome).setVisible(true));
         logoutButton.addActionListener(e -> Navigation.logout(this));
     }
@@ -22,3 +23,4 @@ public class DoctorDashboardUI extends DoctorDashboardUX {
         }
     }
 }
+

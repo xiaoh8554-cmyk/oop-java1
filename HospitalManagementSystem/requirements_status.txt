@@ -136,14 +136,23 @@ Total Requirements: 16
       * doctors/ux/PrescriptionUX.java
       * data/prescriptions.txt
 
-3.4 Issue requests to admin for lab test, X-rays or specialized imaging
-    Status: [NOT IMPLEMENTED]
+3.4 Issue requests to admin / manager for lab test, X-rays or specialized imaging
+    Status: [DONE]
     Details:
-    - To Do: Add diagnostic requisition UI for doctors to order lab tests, X-rays, and imaging.
+    - Diagnostic requisition UI for doctors to order lab tests, X-rays, and specialized imaging.
+    - Patient selection dropdown integration.
+    - Medical Manager requisition approval & decision UI (Accept / Reject with live status tracking).
+    - Status persistence in data/requests.txt.
     - Related Files:
+      * doctors/ui/DiagnosticRequestUI.java
+      * doctors/ux/DiagnosticRequestUX.java
+      * medical_manager/ui/ManagerRequestApprovalUI.java
+      * medical_manager/ux/ManagerRequestApprovalUX.java
       * doctors/ui/DoctorDashboardUI.java
+      * medical_manager/ui/ManagerDashboardUI.java
       * common/FileHandler.java
       * data/requests.txt
+
 
 ================================================================================
 4. PATIENTS (100% COMPLETE)
