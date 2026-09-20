@@ -1,6 +1,7 @@
 package patients.ux;
 
 import common.ui.DatePicker;
+import common.ui.ReadOnlyTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,10 +13,8 @@ public class AppointmentBookingUX extends JFrame {
     protected final JComboBox<String> specialtyFilterBox = new JComboBox<>();
     protected final DatePicker bookingDatePicker = new DatePicker(LocalDate.now());
 
-    protected final DefaultTableModel doctorsModel = new DefaultTableModel(
-            new String[]{"Doctor ID", "Doctor Name", "Specialty", "Consultation Room", "Qualification"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
+    protected final DefaultTableModel doctorsModel = new ReadOnlyTableModel(
+            new String[]{"Doctor ID", "Doctor Name", "Specialty", "Consultation Room", "Qualification"}, 0);
     protected final JTable doctorsTable = new JTable(doctorsModel);
 
     protected final JLabel selectedDoctorInfoLabel = new JLabel("Please select a specialty, date, and doctor from the table.");
@@ -33,6 +32,7 @@ public class AppointmentBookingUX extends JFrame {
         setSize(1100, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backButton.addActionListener(e -> dispose());
 
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));

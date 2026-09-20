@@ -1,14 +1,14 @@
 package patients.ux;
 
+import common.ui.ReadOnlyTableModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class MedicalRecordUX extends JFrame {
-    protected final DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Assessment ID", "Patient", "Doctor", "Type", "Date", "Grade", "Result / Notes", "Lab Result", "Bill RM", "Status"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
+    protected final DefaultTableModel model = new ReadOnlyTableModel(
+            new String[]{"Assessment ID", "Patient", "Doctor", "Type", "Date", "Grade", "Result / Notes", "Lab Result", "Bill RM", "Status"}, 0);
     protected final JTable table = new JTable(model);
     protected final JLabel selectedRecordLabel = new JLabel("Select a medical record to view clinical details.");
     protected final JButton backButton = new JButton("\u2190 Back to Dashboard");
@@ -20,6 +20,7 @@ public class MedicalRecordUX extends JFrame {
         setSize(1180, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backButton.addActionListener(e -> dispose());
 
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));

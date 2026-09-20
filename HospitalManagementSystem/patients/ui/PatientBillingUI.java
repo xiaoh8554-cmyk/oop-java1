@@ -152,108 +152,33 @@ public class PatientBillingUI extends PatientBillingUX {
             }
         }
 
-        JDialog dialog = new JDialog(this, "Invoice & Medical Service Details - " + billId, true);
-        dialog.setSize(680, 540);
-        dialog.setLocationRelativeTo(this);
-
-        JPanel content = new JPanel(new BorderLayout(15, 15));
-        content.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        // Header
-        JPanel header = new JPanel(new GridLayout(2, 1, 4, 4));
-        header.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(180, 210, 245), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-        ));
-        header.setBackground(new Color(245, 248, 255));
-
-        JLabel title = new JLabel("APU MEDICAL CENTRE - PATIENT INVOICE DETAIL");
-        title.setFont(new Font("SansSerif", Font.BOLD, 14));
-        title.setForeground(new Color(20, 60, 140));
-
         String statusTag = "PAID".equalsIgnoreCase(status) ? "[PAID / SETTLED]" : "[UNPAID / OUTSTANDING]";
-        JLabel meta = new JLabel("Invoice No: " + billId + "   |   Date: " + date + "   |   Status: " + statusTag);
-        meta.setFont(new Font("SansSerif", Font.BOLD, 12));
-        meta.setForeground("PAID".equalsIgnoreCase(status) ? new Color(34, 139, 34) : new Color(200, 40, 40));
+        Color statusColor = "PAID".equalsIgnoreCase(status) ? new Color(34, 139, 34) : new Color(200, 40, 40);
 
-        header.add(title);
-        header.add(meta);
-        content.add(header, BorderLayout.NORTH);
+        common.ui.DetailDialogBuilder builder = new common.ui.DetailDialogBuilder(this, "Invoice & Medical Service Details - " + billId)
+                .setSize(680, 540)
+                .setHeader("APU MEDICAL CENTRE - PATIENT INVOICE DETAIL",
+                        "Invoice No: " + billId + "   |   Date: " + date + "   |   Status: " + statusTag,
+                        statusColor)
+                .setBorderTitle("Service Breakdown & Clinical Reference")
+                .addField("Patient:", patientName + " (" + patientId + ")")
+                .addField("Attending Doctor:", "Dr. " + docName + " (" + docId + ") - " + specialty)
+                .addField("Assessment Ref:", assessmentId + " (" + typeName + " - " + typeDesc + ")")
+                .addField("Diagnostic Grade:", grade)
+                .addTextAreaField("Clinical Findings:", clinicalResult, 3)
+                .addTextAreaField("Lab Test Results:", labResult, 3)
+                .addHighlightField("Total Amount:", "RM " + amount, new Color(20, 60, 140));
 
-        // Body
-        JPanel body = new JPanel(new GridBagLayout());
-        body.setBorder(BorderFactory.createTitledBorder("Service Breakdown & Clinical Reference"));
-        GridBagConstraints g = new GridBagConstraints();
-        g.insets = new java.awt.Insets(6, 10, 6, 10);
-        g.anchor = GridBagConstraints.WEST;
-        g.fill = GridBagConstraints.HORIZONTAL;
-
-        int y = 0;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Patient:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(patientName + " (" + patientId + ")"), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Attending Doctor:"), g);
-        g.gridx = 1;
-        body.add(new JLabel("Dr. " + docName + " (" + docId + ") - " + specialty), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Assessment Ref:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(assessmentId + " (" + typeName + " - " + typeDesc + ")"), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Diagnostic Grade:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(grade), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Clinical Findings:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(clinicalResult), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Lab Test Results:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(labResult), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Total Amount:"), g);
-        g.gridx = 1;
-        JLabel amtLabel = new JLabel("RM " + amount);
-        amtLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-        amtLabel.setForeground(new Color(20, 60, 140));
-        body.add(amtLabel, g);
-
-        content.add(body, BorderLayout.CENTER);
-
-        // Footer Actions
-        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         if (!"PAID".equalsIgnoreCase(status)) {
             JButton dialogPayBtn = new JButton("Pay This Bill Now (RM " + amount + ")");
             dialogPayBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
             dialogPayBtn.addActionListener(e -> {
-                dialog.dispose();
+                builder.dispose();
                 pay();
             });
-            south.add(dialogPayBtn);
+            builder.addActionButton(dialogPayBtn);
         }
 
-        JButton closeBtn = new JButton("Close");
-        closeBtn.addActionListener(e -> dialog.dispose());
-        south.add(closeBtn);
-
-        content.add(south, BorderLayout.SOUTH);
-
-        dialog.setContentPane(content);
-        dialog.setVisible(true);
+        builder.show();
     }
 }

@@ -78,83 +78,16 @@ public class PatientPrescriptionFeedbackUI extends PatientPrescriptionFeedbackUX
             }
         }
 
-        JDialog dialog = new JDialog(this, "Digital Prescription Details - " + rxId, true);
-        dialog.setSize(650, 480);
-        dialog.setLocationRelativeTo(this);
-
-        JPanel content = new JPanel(new BorderLayout(15, 15));
-        content.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        // Header Panel
-        JPanel header = new JPanel(new GridLayout(2, 1, 4, 4));
-        header.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(180, 210, 245), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-        ));
-        header.setBackground(new Color(245, 248, 255));
-
-        JLabel title = new JLabel("APU MEDICAL CENTRE - OFFICIAL DIGITAL PRESCRIPTION");
-        title.setFont(new Font("SansSerif", Font.BOLD, 14));
-        title.setForeground(new Color(20, 60, 140));
-
-        JLabel meta = new JLabel("Prescription ID: " + rxId + "   |   Date Issued: " + date);
-        meta.setFont(new Font("SansSerif", Font.PLAIN, 12));
-
-        header.add(title);
-        header.add(meta);
-        content.add(header, BorderLayout.NORTH);
-
-        // Body Info
-        JPanel body = new JPanel(new GridBagLayout());
-        body.setBorder(BorderFactory.createTitledBorder("Prescription & Dosage Information"));
-        GridBagConstraints g = new GridBagConstraints();
-        g.insets = new java.awt.Insets(6, 10, 6, 10);
-        g.anchor = GridBagConstraints.WEST;
-        g.fill = GridBagConstraints.HORIZONTAL;
-
-        int y = 0;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Patient Name:"), g);
-        g.gridx = 1;
-        body.add(new JLabel(patientName + " (" + patientId + ")"), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Prescribing Doctor:"), g);
-        g.gridx = 1;
-        body.add(new JLabel("Dr. " + docName + " (" + docId + ") - " + specialty), g);
-
-        y++;
-        g.gridx = 0; g.gridy = y;
-        body.add(new JLabel("Prescribed Medicine:"), g);
-        g.gridx = 1;
-        JLabel medLabel = new JLabel(medicine);
-        medLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
-        medLabel.setForeground(new Color(30, 90, 180));
-        body.add(medLabel, g);
-
-        y++;
-        g.gridx = 0; g.gridy = y; g.anchor = GridBagConstraints.NORTHWEST;
-        body.add(new JLabel("Intake Instructions:"), g);
-        g.gridx = 1;
-        JTextArea instrArea = new JTextArea(instructions, 4, 30);
-        instrArea.setLineWrap(true);
-        instrArea.setWrapStyleWord(true);
-        instrArea.setEditable(false);
-        instrArea.setBackground(new java.awt.Color(250, 250, 250));
-        instrArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        body.add(new JScrollPane(instrArea), g);
-
-        content.add(body, BorderLayout.CENTER);
-
-        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton closeBtn = new JButton("Close");
-        closeBtn.addActionListener(e -> dialog.dispose());
-        south.add(closeBtn);
-        content.add(south, BorderLayout.SOUTH);
-
-        dialog.setContentPane(content);
-        dialog.setVisible(true);
+        new common.ui.DetailDialogBuilder(this, "Digital Prescription Details - " + rxId)
+                .setSize(650, 480)
+                .setHeader("APU MEDICAL CENTRE - OFFICIAL DIGITAL PRESCRIPTION",
+                        "Prescription ID: " + rxId + "   |   Date Issued: " + date)
+                .setBorderTitle("Prescription & Dosage Information")
+                .addField("Patient Name:", patientName + " (" + patientId + ")")
+                .addField("Prescribing Doctor:", "Dr. " + docName + " (" + docId + ") - " + specialty)
+                .addHighlightField("Prescribed Medicine:", medicine, new Color(30, 90, 180))
+                .addTextAreaField("Intake Instructions:", instructions, 4)
+                .show();
     }
 
     private void refresh() {

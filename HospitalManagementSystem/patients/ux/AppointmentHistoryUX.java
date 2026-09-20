@@ -1,6 +1,7 @@
 package patients.ux;
 
 import common.ui.DatePicker;
+import common.ui.ReadOnlyTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,10 +9,8 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class AppointmentHistoryUX extends JFrame {
-    protected final DefaultTableModel historyModel = new DefaultTableModel(
-            new String[]{"Appt ID", "Doctor ID", "Doctor Name", "Specialty", "Date", "Time Slot", "Room", "Status", "Reason / Symptoms"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
+    protected final DefaultTableModel historyModel = new ReadOnlyTableModel(
+            new String[]{"Appt ID", "Doctor ID", "Doctor Name", "Specialty", "Date", "Time Slot", "Room", "Status", "Reason / Symptoms"}, 0);
     protected final JTable historyTable = new JTable(historyModel);
     // Filter Controls
     protected final JTextField searchField = new JTextField(12);
@@ -35,6 +34,7 @@ public class AppointmentHistoryUX extends JFrame {
         setSize(1160, 680);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backButton.addActionListener(e -> dispose());
 
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));

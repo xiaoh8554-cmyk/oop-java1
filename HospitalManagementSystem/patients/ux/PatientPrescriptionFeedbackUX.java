@@ -1,18 +1,16 @@
 package patients.ux;
 
+import common.ui.ReadOnlyTableModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class PatientPrescriptionFeedbackUX extends JFrame {
-    protected final DefaultTableModel prescriptionModel = new DefaultTableModel(
-            new String[]{"Prescription ID", "Patient", "Doctor", "Date", "Medicine", "Instructions"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
-    protected final DefaultTableModel feedbackModel = new DefaultTableModel(
-            new String[]{"Feedback ID", "Patient", "Doctor", "Date", "Rating", "Visit Ref", "Message"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
+    protected final DefaultTableModel prescriptionModel = new ReadOnlyTableModel(
+            new String[]{"Prescription ID", "Patient", "Doctor", "Date", "Medicine", "Instructions"}, 0);
+    protected final DefaultTableModel feedbackModel = new ReadOnlyTableModel(
+            new String[]{"Feedback ID", "Patient", "Doctor", "Date", "Rating", "Visit Ref", "Message"}, 0);
 
     protected final JTable prescriptionTable = new JTable(prescriptionModel);
     protected final JTable feedbackTable = new JTable(feedbackModel);
@@ -42,6 +40,8 @@ public class PatientPrescriptionFeedbackUX extends JFrame {
         setSize(1020, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backButton.addActionListener(e -> dispose());
+        backButton1.addActionListener(e -> dispose());
 
         doctorField.setEditable(false);
         doctorField.setBackground(new Color(245, 245, 245));

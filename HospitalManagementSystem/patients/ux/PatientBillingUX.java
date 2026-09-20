@@ -1,14 +1,14 @@
 package patients.ux;
 
+import common.ui.ReadOnlyTableModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class PatientBillingUX extends JFrame {
-    protected final DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Bill ID", "Amount (RM)", "Status", "Date"}, 0) {
-        public boolean isCellEditable(int r, int c) { return false; }
-    };
+    protected final DefaultTableModel model = new ReadOnlyTableModel(
+            new String[]{"Bill ID", "Amount (RM)", "Status", "Date"}, 0);
     protected final JTable table = new JTable(model);
     protected final JLabel totalLabel = new JLabel("Outstanding: RM 0.00");
     protected final JLabel selectedBillLabel = new JLabel("Select a bill to view details or make a payment.");
@@ -22,6 +22,7 @@ public class PatientBillingUX extends JFrame {
         setSize(920, 560);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backButton.addActionListener(e -> dispose());
 
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
