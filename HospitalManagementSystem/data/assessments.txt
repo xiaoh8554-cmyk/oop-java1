@@ -1,2 +1,3 @@
-AS001|P001|D001|AT001|2026-09-10|MILD_ATTENTION|Patient presents with mild palpitations and blood pressure of 135/85 mmHg.|ECG shows normal sinus rhythm.|50.00|COMPLETED
-AS002|P001|D002|AT002|2026-09-05|HEALTHY|Patient is in good overall health.|Blood Glucose: 4.8 mmol/L, Total Cholesterol: 4.2 mmol/L (Normal).|80.00|COMPLETED
+AS001|P001|D001|AT003|2026-09-10|MILD_ATTENTION|Patient presents with mild palpitations and blood pressure of 135/85 mmHg.|ECG shows normal sinus rhythm with occasional PAC. Advised low sodium diet.|120.00|COMPLETED
+AS002|P001|D002|AT002|2026-09-05|HEALTHY|Patient is in good overall health during routine check.|Blood Glucose: 4.8 mmol/L, Total Cholesterol: 4.2 mmol/L (Normal).|80.00|COMPLETED
+AS003|P001|D003|AT004|2026-09-15|MILD_ATTENTION|Eczema flare-up noted on forearm.|Skin allergy patch test positive for mild contact allergen.|90.00|COMPLETED
