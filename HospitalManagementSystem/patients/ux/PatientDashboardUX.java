@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class PatientDashboardUX extends JFrame {
     protected final JLabel welcomeLabel = new JLabel("Patient Dashboard", SwingConstants.CENTER);
-    protected final JButton appointmentsButton = new JButton("Book Doctor Consultation");
     protected final JButton historyButton = new JButton("My Appointment History & Reschedule");
     protected final JButton recordsButton = new JButton("My Medical Records");
     protected final JButton billingButton = new JButton("My Billing");
@@ -24,7 +23,6 @@ public class PatientDashboardUX extends JFrame {
         root.add(welcomeLabel, BorderLayout.NORTH);
 
         JPanel menu = new JPanel(new GridLayout(3, 2, 12, 12));
-        menu.add(appointmentsButton);
         menu.add(historyButton);
         menu.add(recordsButton);
         menu.add(billingButton);

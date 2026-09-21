@@ -6,3 +6,4 @@ DOCTOR|D002|lee@gmail.com|doctor123|Lee|+60120000005
 DOCTOR|D003|tan@gmail.com|doctor123|Tan Wei Ming|+60120000006
 MEDICAL_MANAGER|M001|manager@gmail.com|manager123|Medical Manager|+60120000002
 ADMINISTRATIVE_STAFF|A001|admin@gmail.com|admin123|Default Admin|+60120000001
+PATIENT|P003|hihi@gmail.com|test123|HIHI|+60123131

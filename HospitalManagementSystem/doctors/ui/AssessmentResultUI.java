@@ -6,9 +6,203 @@ import javax.swing.*;
 import java.util.*;
 
 public class AssessmentResultUI extends AssessmentResultUX {
-    private final Map<String,String[]> typeMap=new LinkedHashMap<>();
-    public AssessmentResultUI(){super(); backButton.addActionListener(e -> dispose());loadTypes();refresh();saveButton.addActionListener(e->save());refreshButton.addActionListener(e->{loadTypes();refresh();});}
-    private void loadTypes(){typeBox.removeAllItems();typeMap.clear();for(String[]r:FileHandler.read(FileHandler.ASSESSMENT_TYPES))if(r.length>=4){String display=r[0]+" - "+r[1];typeMap.put(display,r);typeBox.addItem(display);}}
-    private void refresh(){model.setRowCount(0);String doctorId=Session.getCurrentUser().getUserId();for(String[]r:FileHandler.read(FileHandler.ASSESSMENTS))if(r.length>=10&&r[2].equals(doctorId))model.addRow(r);}
-    private void save(){String patient=patientField.getText().trim();String result=resultArea.getText().trim(),lab=labArea.getText().trim();if(!AuthService.userIdExists(patient,"PATIENT")){JOptionPane.showMessageDialog(this,"Patient ID does not exist.");return;}String selected=(String)typeBox.getSelectedItem();if(selected==null){JOptionPane.showMessageDialog(this,"Create an assessment type first.");return;}if(result.isEmpty()){JOptionPane.showMessageDialog(this,"Assessment result is required.");return;}String[]type=typeMap.get(selected);String assessmentId=FileHandler.nextId(FileHandler.ASSESSMENTS,"AS",4);String doctor=Session.getCurrentUser().getUserId();String fee=type[3];FileHandler.append(FileHandler.ASSESSMENTS,new String[]{assessmentId,patient,doctor,type[0],DataUtil.today(),"PENDING_REVIEW",result,lab,fee,"COMPLETED"});String billId=FileHandler.nextId(FileHandler.BILLING,"B",4);FileHandler.append(FileHandler.BILLING,new String[]{billId,patient,assessmentId,fee,"UNPAID",DataUtil.today()});patientField.setText("");resultArea.setText("");labArea.setText("");refresh();JOptionPane.showMessageDialog(this,"Assessment saved and bill "+billId+" generated automatically.");}
+    private final Map<String, String[]> typeMap = new LinkedHashMap<>();
+
+    public AssessmentResultUI() {
+        super();
+        initListeners();
+        loadPatients();
+        loadTypes();
+        refresh();
+    }
+
+    private void initListeners() {
+        backButton.addActionListener(e -> dispose());
+        saveButton.addActionListener(e -> save());
+        clearButton.addActionListener(e -> clearForm());
+        refreshButton.addActionListener(e -> {
+            loadPatients();
+            loadTypes();
+            refresh();
+        });
+
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && table.getSelectedRow() >= 0) {
+                populateFormFromTable(table.getSelectedRow());
+            }
+        });
+    }
+
+    private void loadPatients() {
+        patientBox.removeAllItems();
+        for (String[] r : FileHandler.read(FileHandler.USERS)) {
+            if (r.length >= 5 && "PATIENT".equalsIgnoreCase(r[0])) {
+                String patientId = r[1];
+                String fullName = r[4];
+                patientBox.addItem(patientId + " - " + fullName);
+            }
+        }
+    }
+
+    private String getSelectedPatientId() {
+        String selected = (String) patientBox.getSelectedItem();
+        if (selected == null || selected.trim().isEmpty()) return null;
+        int dashIndex = selected.indexOf(" - ");
+        if (dashIndex != -1) {
+            return selected.substring(0, dashIndex).trim();
+        }
+        return selected.trim();
+    }
+
+    private void setSelectedPatientId(String patientId) {
+        if (patientId == null) return;
+        for (int i = 0; i < patientBox.getItemCount(); i++) {
+            String item = patientBox.getItemAt(i);
+            if (item.startsWith(patientId + " - ") || item.equalsIgnoreCase(patientId)) {
+                patientBox.setSelectedIndex(i);
+                return;
+            }
+        }
+    }
+
+    private void loadTypes() {
+        typeBox.removeAllItems();
+        typeMap.clear();
+        for (String[] r : FileHandler.read(FileHandler.ASSESSMENT_TYPES)) {
+            if (r.length >= 4) {
+                String display = r[0] + " - " + r[1] + " (RM " + r[3] + ")";
+                typeMap.put(display, r);
+                typeBox.addItem(display);
+            }
+        }
+    }
+
+    private void refresh() {
+        model.setRowCount(0);
+        String doctorId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "D001";
+        for (String[] r : FileHandler.read(FileHandler.ASSESSMENTS)) {
+            if (r.length >= 10 && r[2].equalsIgnoreCase(doctorId)) {
+                model.addRow(r);
+            }
+        }
+    }
+
+    private void populateFormFromTable(int row) {
+        if (row < 0 || row >= model.getRowCount()) return;
+        setSelectedPatientId(model.getValueAt(row, 1).toString());
+        String typeId = model.getValueAt(row, 3).toString();
+        for (int i = 0; i < typeBox.getItemCount(); i++) {
+            if (typeBox.getItemAt(i).startsWith(typeId)) {
+                typeBox.setSelectedIndex(i);
+                break;
+            }
+        }
+        String notesAndVitals = model.getValueAt(row, 6).toString();
+        notesArea.setText(notesAndVitals);
+        labArea.setText(model.getValueAt(row, 7).toString());
+    }
+
+    private void clearForm() {
+        if (patientBox.getItemCount() > 0) patientBox.setSelectedIndex(0);
+        bpField.setText("");
+        heartRateField.setText("");
+        spo2Field.setText("");
+        tempField.setText("");
+        notesArea.setText("");
+        labArea.setText("");
+        table.clearSelection();
+    }
+
+    private void save() {
+        String patient = getSelectedPatientId();
+        String bp = bpField.getText().trim();
+        String hr = heartRateField.getText().trim();
+        String spo2 = spo2Field.getText().trim();
+        String temp = tempField.getText().trim();
+        String notes = notesArea.getText().trim();
+        String lab = labArea.getText().trim();
+
+        if (patient == null || patient.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a registered patient from the dropdown.", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!AuthService.userIdExists(patient, "PATIENT")) {
+            JOptionPane.showMessageDialog(this, "Patient ID '" + patient + "' does not exist in the system.", "Patient Not Found", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String selected = (String) typeBox.getSelectedItem();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Please select an Assessment / Check-up Type.", "Missing Type", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (bp.isEmpty() && hr.isEmpty() && spo2.isEmpty() && temp.isEmpty() && notes.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please record either patient vital signs or consultation notes.", "Input Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Build structured consultation notes containing vital signs
+        StringBuilder structuredNotes = new StringBuilder();
+        List<String> vitalsList = new ArrayList<>();
+        if (!bp.isEmpty()) vitalsList.add("BP: " + (bp.toLowerCase().contains("mmhg") ? bp : bp + " mmHg"));
+        if (!hr.isEmpty()) vitalsList.add("HR: " + (hr.toLowerCase().contains("bpm") ? hr : hr + " bpm"));
+        if (!spo2.isEmpty()) vitalsList.add("SpO2: " + (spo2.contains("%") ? spo2 : spo2 + "%"));
+        if (!temp.isEmpty()) vitalsList.add("Temp: " + (temp.contains("°C") || temp.toLowerCase().contains("c") ? temp : temp + "°C"));
+
+        if (!vitalsList.isEmpty()) {
+            structuredNotes.append("[Vitals: ").append(String.join(" | ", vitalsList)).append("] ");
+        }
+        if (!notes.isEmpty()) {
+            structuredNotes.append(notes);
+        }
+
+        String clinicalNotes = structuredNotes.toString().trim();
+        String diagnosisLab = lab.isEmpty() ? "Standard observations recorded. No abnormal lab findings." : lab;
+
+        String[] type = typeMap.get(selected);
+        String typeId = type[0];
+        String fee = type[3];
+        String doctorId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "D001";
+        String assessmentId = FileHandler.nextId(FileHandler.ASSESSMENTS, "AS", 4);
+
+        // Append to assessments.txt:
+        // ASSESSMENT_ID|PATIENT_ID|DOCTOR_ID|ASSESSMENT_TYPE_ID|DATE|HEALTH_GRADE|CLINICAL_NOTES|DIAGNOSIS_FINDINGS|PRICE|STATUS
+        FileHandler.append(FileHandler.ASSESSMENTS, new String[]{
+                assessmentId,
+                patient,
+                doctorId,
+                typeId,
+                DataUtil.today(),
+                "PENDING_REVIEW",
+                clinicalNotes,
+                diagnosisLab,
+                fee,
+                "COMPLETED"
+        });
+
+        // Automatically generate an unpaid billing invoice for the patient
+        String billId = FileHandler.nextId(FileHandler.BILLING, "B", 4);
+        FileHandler.append(FileHandler.BILLING, new String[]{
+                billId,
+                patient,
+                assessmentId,
+                fee,
+                "UNPAID",
+                DataUtil.today()
+        });
+
+        clearForm();
+        refresh();
+
+        JOptionPane.showMessageDialog(this,
+                "Clinical Assessment & Vital Signs successfully saved!\n" +
+                "• Assessment ID: " + assessmentId + "\n" +
+                "• Generated Invoice: " + billId + " (RM " + fee + " - UNPAID)",
+                "Assessment Recorded",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 }
+
+

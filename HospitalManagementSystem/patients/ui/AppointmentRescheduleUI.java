@@ -220,15 +220,18 @@ public class AppointmentRescheduleUI {
                 reason = originalReason.isEmpty() ? "General Medical Consultation" : originalReason;
             }
 
-            String patientId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "P001";
-
-            // 1. Cancel the OLD appointment in appointments.txt
+            // 1. Cancel the OLD appointment in appointments.txt and extract its patient ID
+            String patientId = null;
             List<String[]> allAppts = new ArrayList<>(FileHandler.read(FileHandler.APPOINTMENTS));
             for (String[] r : allAppts) {
                 if (r.length >= 10 && r[0].equals(oldApptId)) {
                     r[8] = "CANCELLED";
+                    patientId = r[1];
                     break;
                 }
+            }
+            if (patientId == null || patientId.trim().isEmpty()) {
+                patientId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "P001";
             }
             FileHandler.writeAll(FileHandler.APPOINTMENTS, allAppts);
 

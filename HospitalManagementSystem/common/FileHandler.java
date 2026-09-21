@@ -82,6 +82,10 @@ public class FileHandler {
             append(INSURANCE, new String[]{"INS003","Prudential Assurance","PruValue Med","85","1-300-88-9012"});
             append(INSURANCE, new String[]{"INS004","Allianz General","Care Complete","75","1-300-88-3456"});
         }
+        if (Files.size(dataDir.resolve(REQUESTS)) == 0) {
+            append(REQUESTS, new String[]{"REQ001","D001","P001","LAB_TEST","Comprehensive Blood Panel (Full Blood Count & Lipid Profile)","PENDING","2026-09-20"});
+            append(REQUESTS, new String[]{"REQ002","D001","P002","X_RAY","Chest X-Ray (PA View) for persistent cough","APPROVED","2026-09-18"});
+        }
     }
 
     public static synchronized List<String[]> read(String fileName) {
