@@ -1,8 +1,8 @@
 PATIENT|P001|patient@gmail.com|patient123|Demo Patient|+60120000004
 PATIENT|P002|patient2@gmail.com|patient123|Sarah Lee|+60122222222
+PATIENT|P003|lrs@gmail.com|lrs123|Jared Lim|+601334222789
 DOCTOR|D001|doctor@gmail.com|doctor123|Aisha|+60120000003
 DOCTOR|D002|lee@gmail.com|doctor123|Lee|+60120000005
 DOCTOR|D003|tan@gmail.com|doctor123|Tan Wei Ming|+60120000006
 MEDICAL_MANAGER|M001|manager@gmail.com|manager123|Medical Manager|+60120000002
 ADMINISTRATIVE_STAFF|A001|admin@gmail.com|admin123|Default Admin|+60120000001
-MEDICAL_MANAGER|P003|lrs@gmail.com|lrs123|Jared Lim|+601334222789
