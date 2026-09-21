@@ -26,7 +26,8 @@ public class AppointmentHistoryUX extends JFrame {
     protected final JButton cancelButton = new JButton("Cancel Appointment");
     protected final JButton feedbackButton = new JButton("Feedback on Appointment \u2192");
     protected final JButton refreshHistoryButton = new JButton("Refresh History");
-    protected final JButton bookNewButton = new JButton("+ Book New Consultation");
+    protected final JButton bookNewButton = new JButton("📅 Book Doctor Consultation \u2192");
+    protected final JButton bottomBookButton = new JButton("📅 Book Doctor Consultation \u2192");
     protected final JButton backButton = new JButton("\u2190 Back to Dashboard");
 
     public AppointmentHistoryUX() {
@@ -42,8 +43,14 @@ public class AppointmentHistoryUX extends JFrame {
         // Top Panel: Navigation + Filters
         JPanel topPanel = new JPanel(new BorderLayout(8, 8));
 
-        JPanel navBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        navBar.add(backButton);
+        JPanel navBar = new JPanel(new BorderLayout());
+        navBar.add(backButton, BorderLayout.WEST);
+
+        bookNewButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+        bookNewButton.setBackground(new Color(230, 245, 255));
+        bookNewButton.setForeground(new Color(15, 65, 160));
+        navBar.add(bookNewButton, BorderLayout.EAST);
+
         topPanel.add(navBar, BorderLayout.NORTH);
 
         JPanel filterBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
@@ -84,7 +91,11 @@ public class AppointmentHistoryUX extends JFrame {
         historyButtons.add(cancelButton);
         historyButtons.add(feedbackButton);
         historyButtons.add(refreshHistoryButton);
-        historyButtons.add(bookNewButton);
+
+        bottomBookButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+        bottomBookButton.setBackground(new Color(230, 245, 255));
+        bottomBookButton.setForeground(new Color(15, 65, 160));
+        historyButtons.add(bottomBookButton);
 
         historySouth.add(rescheduleInputs, BorderLayout.CENTER);
         historySouth.add(historyButtons, BorderLayout.SOUTH);

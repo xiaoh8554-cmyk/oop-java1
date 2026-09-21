@@ -9,7 +9,6 @@ public class PatientDashboardUI extends PatientDashboardUX {
     public PatientDashboardUI() {
         super();
         refreshWelcome();
-        appointmentsButton.addActionListener(e -> new AppointmentBookingUI().setVisible(true));
         historyButton.addActionListener(e -> new AppointmentHistoryUI().setVisible(true));
         recordsButton.addActionListener(e -> new MedicalRecordUI().setVisible(true));
         billingButton.addActionListener(e -> new PatientBillingUI().setVisible(true));

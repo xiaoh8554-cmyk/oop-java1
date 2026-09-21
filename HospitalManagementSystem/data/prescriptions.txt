@@ -1,3 +1,4 @@
 RX001|P001|D001|2026-09-10|Amlodipine 5mg|Take 1 tablet daily every morning after breakfast.
 RX002|P001|D002|2026-09-05|Paracetamol 500mg|Take 2 tablets every 6 hours if experiencing mild fever or pain.
 RX003|P001|D003|2026-09-15|Hydrocortisone Cream 1%|Apply thinly to affected skin areas twice daily for 7 days.
+RX0004|P001|D001|2026-09-21|dasda|asdsad
