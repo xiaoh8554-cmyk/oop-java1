@@ -1,0 +1,2 @@
+REQ001|D001|P001|LAB_TEST|Comprehensive Blood Panel (Full Blood Count & Lipid Profile)|APPROVED|2026-09-20
+REQ002|D001|P002|X_RAY|Chest X-Ray (PA View) for persistent cough|REJECTED|2026-09-18

@@ -115,13 +115,17 @@ Total Requirements: 16
       * doctors/Doctor.java
 
 3.2 Log patient vital signs and write consultation notes
-    Status: [HALF IMPLEMENTED]
+    Status: [DONE]
     Details:
-    - Done: Assessment and lab results entry.
-    - To Do: Add dedicated vital signs fields (BP, Heart Rate, SpO2, Temp) and structured consultation notes.
+    - Dedicated vital signs input fields (Blood Pressure, Heart Rate, SpO2, Temperature).
+    - Structured consultation notes & diagnostic observations entry.
+    - Automatic invoice generation in data/billing.txt.
+    - Table history display with click-to-preview capability.
     - Related Files:
       * doctors/ui/AssessmentResultUI.java
+      * doctors/ux/AssessmentResultUX.java
       * data/assessments.txt
+
 
 3.3 Issue digital medication prescriptions to patient’s record
     Status: [DONE]
@@ -132,14 +136,44 @@ Total Requirements: 16
       * doctors/ux/PrescriptionUX.java
       * data/prescriptions.txt
 
-3.4 Issue requests to admin for lab test, X-rays or specialized imaging
-    Status: [NOT IMPLEMENTED]
+3.4 Issue requests to admin / manager for lab test, X-rays or specialized imaging
+    Status: [DONE]
     Details:
-    - To Do: Add diagnostic requisition UI for doctors to order lab tests, X-rays, and imaging.
+    - Diagnostic requisition UI for doctors to order lab tests, X-rays, and specialized imaging.
+    - Patient selection dropdown integration.
+    - Medical Manager requisition approval & decision UI (Accept / Reject with live status tracking).
+    - Status persistence in data/requests.txt.
     - Related Files:
+      * doctors/ui/DiagnosticRequestUI.java
+      * doctors/ux/DiagnosticRequestUX.java
+      * medical_manager/ui/ManagerRequestApprovalUI.java
+      * medical_manager/ux/ManagerRequestApprovalUX.java
       * doctors/ui/DoctorDashboardUI.java
+      * medical_manager/ui/ManagerDashboardUI.java
       * common/FileHandler.java
       * data/requests.txt
+
+3.5 View patient appointments with urgent priority queue, cancellation filtering & patient history/reschedule linking
+    Status: [DONE]
+    Details:
+    - Dedicated Doctor Appointments queue viewer for doctors to view appointments booked by patients.
+    - Urgent cases (URGENT) are prioritized with highest priority at the top of the queue with distinct visual alert styling.
+    - Cancelled appointments (CANCELLED) are completely excluded from the function.
+    - Linked with patient's My Appointment History and Reschedule function:
+      * Doctors can view the full appointment history for the selected patient (AppointmentHistoryUI).
+      * Doctors can reschedule appointments directly for the patient (AppointmentRescheduleUI) with automatic patient ID preservation.
+      * Bidirectional data sync: rescheduling updates the previous record to CANCELLED (hidden from doctor view) and generates a new RESCHEDULED record.
+    - Clinical actions: Doctors can mark appointments as COMPLETED, view comprehensive patient clinical details, and jump directly to consultation notes or prescriptions.
+    - Real-time search, status filtering, and doctor scope selection.
+    - Related Files:
+      * doctors/ui/DoctorAppointmentsUI.java
+      * doctors/ux/DoctorAppointmentsUX.java
+      * doctors/ui/DoctorDashboardUI.java
+      * doctors/ux/DoctorDashboardUX.java
+      * patients/ui/AppointmentHistoryUI.java
+      * patients/ui/AppointmentRescheduleUI.java
+      * data/appointments.txt
+
 
 ================================================================================
 4. PATIENTS (100% COMPLETE)
@@ -156,14 +190,18 @@ Total Requirements: 16
 4.2 Browse available slots of doctors’ consultations and book/reschedule/cancel booking
     Status: [DONE]
     Details:
+    - Integrated consultation booking directly within "My Appointment History & Rescheduling" interface.
     - Browse available consultation slots with specialty filtering (Cardiology, General Medicine, etc.).
-    - Book an appointment with reasons/symptoms.
-    - Reschedule appointments to a new date and time slot.
+    - Book an appointment with reasons/symptoms or urgent emergency queue priority.
+    - Reschedule appointments to a new date and time slot with automatic status tracking.
     - Cancel appointments with status tracking.
-    - Persistence in data/appointments.txt and synchronization with data/rosters.txt.
+    - Persistence in data/appointments.txt and synchronization with doctor appointments queue.
     - Related Files:
+      * patients/ui/AppointmentHistoryUI.java
+      * patients/ux/AppointmentHistoryUX.java
       * patients/ui/AppointmentBookingUI.java
       * patients/ux/AppointmentBookingUX.java
+      * patients/ui/AppointmentRescheduleUI.java
       * common/FileHandler.java
       * data/appointments.txt
       * data/rosters.txt

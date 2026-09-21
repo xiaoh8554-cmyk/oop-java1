@@ -12,15 +12,26 @@ import java.util.List;
 public class AppointmentHistoryUI extends AppointmentHistoryUX {
     private final List<String[]> allPatientAppointments = new ArrayList<>();
     private final java.util.Set<String> specialties = new java.util.TreeSet<>();
+    private String targetPatientId = null;
 
     public AppointmentHistoryUI() {
+        this(null);
+    }
+
+    public AppointmentHistoryUI(String targetPatientId) {
         super();
+        this.targetPatientId = targetPatientId;
+        if (targetPatientId != null && !targetPatientId.trim().isEmpty()) {
+            setTitle("Appointment History & Rescheduling - Patient ID: " + targetPatientId.trim());
+        }
 
         backButton.addActionListener(e -> dispose());
-        bookNewButton.addActionListener(e -> {
+        Runnable openBooking = () -> {
             new AppointmentBookingUI().setVisible(true);
             dispose();
-        });
+        };
+        bookNewButton.addActionListener(e -> openBooking.run());
+        bottomBookButton.addActionListener(e -> openBooking.run());
 
         refreshHistoryButton.addActionListener(e -> refreshHistory());
         rescheduleButton.addActionListener(e -> rescheduleAppointment());
@@ -61,7 +72,9 @@ public class AppointmentHistoryUI extends AppointmentHistoryUX {
         specialties.clear();
         specialties.add("All Specialties");
 
-        String patientId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "P001";
+        String patientId = (targetPatientId != null && !targetPatientId.trim().isEmpty())
+                ? targetPatientId.trim()
+                : (Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "P001");
 
         for (String[] r : FileHandler.read(FileHandler.APPOINTMENTS)) {
             if (r.length >= 10 && r[1].equals(patientId)) {

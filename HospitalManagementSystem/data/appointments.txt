@@ -8,3 +8,4 @@
 202609270001|P001|D002|Lee|General Medicine|2026-09-27|16:00 - 16:30|Room 101|RESCHEDULED|Blood Sugar Review Consultation
 202609210001|P001|D003|Tan Wei Ming|Dermatology|2026-09-21|17:00 - 17:30|Room 102|BOOKED|General Medical Consultation
 202609210002|P001|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|Room 101|URGENT|[EMERGENCY] Urgent consultation required
+202609210003|P003|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|Room 101|URGENT|[EMERGENCY] Urgent consultation required
