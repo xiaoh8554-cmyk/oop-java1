@@ -1,9 +1,9 @@
 package medical_manager.ui;
 
 import common.FileHandler;
-import medical_manager.ux.MedicalGradingUX;
-import javax.swing.*;
 import java.util.*;
+import javax.swing.*;
+import medical_manager.ux.MedicalGradingUX;
 
 public class MedicalGradingUI extends MedicalGradingUX {
     public MedicalGradingUI(){super(); backButton.addActionListener(e -> dispose());refresh();refreshButton.addActionListener(e->refresh());updateButton.addActionListener(e->updateGrade());}
