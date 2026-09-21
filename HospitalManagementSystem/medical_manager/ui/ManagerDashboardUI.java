@@ -13,6 +13,7 @@ public class ManagerDashboardUI extends ManagerDashboardUX {
         gradingButton.addActionListener(e -> new MedicalGradingUI().setVisible(true));
         reportsButton.addActionListener(e -> new ReportsUI().setVisible(true));
         profileButton.addActionListener(e -> new ProfileUI(this::refreshWelcome).setVisible(true));
+        shiftrosterButton.addActionListener(e -> new ShiftRosterUI().setVisible(true));
         logoutButton.addActionListener(e -> Navigation.logout(this));
     }
 

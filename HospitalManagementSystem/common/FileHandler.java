@@ -22,6 +22,10 @@ public class FileHandler {
     public static final String REQUESTS = "requests.txt";
 
     public static Path getDataDir() {
+        Path projectData = Paths.get("oop-java1", "HospitalManagementSystem", "data");
+        if (Files.exists(projectData)) {
+            return projectData;
+        }
         Path sub = Paths.get("HospitalManagementSystem", "data");
         if (Files.exists(sub)) {
             return sub;
