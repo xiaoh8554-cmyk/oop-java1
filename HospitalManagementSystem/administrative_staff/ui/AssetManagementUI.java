@@ -46,30 +46,7 @@ public class AssetManagementUI extends AssetManagementUX {
     }
 
     private void addAsset() {
-        String name = nameField.getText().trim();
-        String type = (String) typeBox.getSelectedItem();
-        String loc = locationField.getText().trim();
-        String cap = capacityField.getText().trim();
-
-        if (name.isEmpty() || loc.isEmpty() || cap.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please complete all fields for the asset.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int capacity = DataUtil.toInt(cap, -1);
-        if (capacity < 1) {
-            JOptionPane.showMessageDialog(this, "Capacity must be a positive number.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String id = FileHandler.nextId(FileHandler.ASSETS, "AST", 3);
-        FileHandler.append(FileHandler.ASSETS, new String[]{id, name, type, loc, String.valueOf(capacity), "AVAILABLE", "None"});
-
-        nameField.setText("");
-        locationField.setText("");
-        capacityField.setText("");
-        refresh();
-        JOptionPane.showMessageDialog(this, "Hospital Asset created successfully with ID: " + id);
+        new AddAssetDialog(this, this::refresh).setVisible(true);
     }
 
     private void allocateAsset() {

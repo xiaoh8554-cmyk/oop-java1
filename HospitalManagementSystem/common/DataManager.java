@@ -19,7 +19,6 @@ public class DataManager {
     public static final String PATIENTS_FILE = "patients.txt";
     public static final String DOCTORS_FILE = "doctors.txt";
     public static final String MANAGERS_FILE = "managers.txt";
-    public static final String ADMINS_FILE = "admins.txt";
 
     private final List<User> users = new CopyOnWriteArrayList<>();
 
@@ -47,7 +46,7 @@ public class DataManager {
         try {
             Path dataDir = getDataDir();
             Files.createDirectories(dataDir);
-            String[] files = {USERS_FILE, PATIENTS_FILE, DOCTORS_FILE, MANAGERS_FILE, ADMINS_FILE};
+            String[] files = {USERS_FILE, PATIENTS_FILE, DOCTORS_FILE, MANAGERS_FILE};
             for (String file : files) {
                 Path p = dataDir.resolve(file);
                 if (!Files.exists(p)) {
@@ -64,9 +63,9 @@ public class DataManager {
         try {
             Path usersPath = getDataDir().resolve(USERS_FILE);
             if (Files.size(usersPath) == 0) {
-                AdministrativeStaff admin = new AdministrativeStaff("A001", "Defaultadmin@gmail.com", "admin123", "Default Admin", "+60120000001", "SUPER_ADMIN");
-                MedicalManager manager = new MedicalManager("M001", "manager@gmail.com", "manager123", "Medical Manager", "+60120000002", "Operations", "OF-302");
-                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "CR-105", "M001");
+                AdministrativeStaff admin = new AdministrativeStaff("A001", "Defaultadmin@gmail.com", "admin123", "Default Admin", "+60120000001");
+                MedicalManager manager = new MedicalManager("M001", "manager@gmail.com", "manager123", "Medical Manager", "+60120000002", "OF-302");
+                Doctor doctor = new Doctor("D001", "doctor@gmail.com", "doctor123", "Aisha", "+60120000003", "Cardiology", "MBBS, MD", "M001");
                 Patient patient = new Patient("P001", "patient@gmail.com", "patient123", "Demo Patient", "+60120000004", "1995-06-15", "Male", "O+", "+60198888888", "parents", "No known allergies");
 
                 users.addAll(Arrays.asList(admin, manager, doctor, patient));
@@ -102,43 +101,40 @@ public class DataManager {
             }
         }
 
-        // 3. Read and join Doctors (ID|specialty|qualification|roomNumber|assignedManagerId)
+        // 3. Read and join Doctors (ID|specialty|qualification|assignedManagerId)
         for (String[] row : readRows(DOCTORS_FILE)) {
-            if (row.length >= 4 && parentMap.containsKey(row[0])) {
-                String[] p = parentMap.get(row[0]);
-                String mgr = (row.length >= 5 && !row[4].trim().isEmpty()) ? row[4].trim() : "None";
-                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], row[1], row[2], row[3], mgr));
-                parentMap.remove(row[0]);
-            }
-        }
-
-        // 4. Read and join Managers (ID|department|officeNumber)
-        for (String[] row : readRows(MANAGERS_FILE)) {
             if (row.length >= 3 && parentMap.containsKey(row[0])) {
                 String[] p = parentMap.get(row[0]);
-                users.add(new MedicalManager(p[1], p[2], p[3], p[4], p[5], row[1], row[2]));
+                String mgr = "None";
+                if (row.length >= 5) {
+                    mgr = !row[4].trim().isEmpty() ? row[4].trim() : "None";
+                } else if (row.length == 4) {
+                    mgr = !row[3].trim().isEmpty() ? row[3].trim() : "None";
+                }
+                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], row[1], row[2], mgr));
                 parentMap.remove(row[0]);
             }
         }
 
-        // 5. Read and join Admins (ID|accessLevel)
-        for (String[] row : readRows(ADMINS_FILE)) {
+        // 4. Read and join Managers (ID|officeNumber)
+        for (String[] row : readRows(MANAGERS_FILE)) {
             if (row.length >= 2 && parentMap.containsKey(row[0])) {
                 String[] p = parentMap.get(row[0]);
-                users.add(new AdministrativeStaff(p[1], p[2], p[3], p[4], p[5], row[1]));
+                String office = (row.length >= 3) ? row[2] : row[1];
+                users.add(new MedicalManager(p[1], p[2], p[3], p[4], p[5], office));
                 parentMap.remove(row[0]);
             }
         }
 
-        // Fallback for any unmapped parent records
+        // 5. Load Administrative Staff and any unmapped parent records from parentMap
         for (String[] p : parentMap.values()) {
             String roleStr = p[0];
             if ("ADMINISTRATIVE_STAFF".equalsIgnoreCase(roleStr)) {
-                users.add(new AdministrativeStaff(p[1], p[2], p[3], p[4], p[5], "ADMIN"));
+                users.add(new AdministrativeStaff(p[1], p[2], p[3], p[4], p[5]));
             } else if ("MEDICAL_MANAGER".equalsIgnoreCase(roleStr)) {
-                users.add(new MedicalManager(p[1], p[2], p[3], p[4], p[5], "General", "Main"));
+                users.add(new MedicalManager(p[1], p[2], p[3], p[4], p[5], "Main Office"));
             } else if ("DOCTOR".equalsIgnoreCase(roleStr)) {
-                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], "General", "MBBS", "101"));
+                users.add(new Doctor(p[1], p[2], p[3], p[4], p[5], "General", "MBBS", "None"));
             } else {
                 users.add(new Patient(p[1], p[2], p[3], p[4], p[5], "2000-01-01", "Other", "O+", "-", "parents", "None"));
             }
@@ -150,7 +146,6 @@ public class DataManager {
         List<String> patientLines = new ArrayList<>();
         List<String> doctorLines = new ArrayList<>();
         List<String> managerLines = new ArrayList<>();
-        List<String> adminLines = new ArrayList<>();
 
         for (User u : users) {
             baseLines.add(u.toBaseFileString());
@@ -160,8 +155,6 @@ public class DataManager {
                 doctorLines.add(u.toChildFileString());
             } else if (u instanceof MedicalManager) {
                 managerLines.add(u.toChildFileString());
-            } else if (u instanceof AdministrativeStaff) {
-                adminLines.add(u.toChildFileString());
             }
         }
 
@@ -169,7 +162,6 @@ public class DataManager {
         writeLines(PATIENTS_FILE, patientLines);
         writeLines(DOCTORS_FILE, doctorLines);
         writeLines(MANAGERS_FILE, managerLines);
-        writeLines(ADMINS_FILE, adminLines);
     }
 
     public synchronized void addUser(User user) {
@@ -246,6 +238,74 @@ public class DataManager {
 
     public List<User> getAllUsers() {
         return Collections.unmodifiableList(users);
+    }
+
+    public synchronized List<String> getDepartmentIdsForDoctor(String doctorId) {
+        List<String> list = new ArrayList<>();
+        if (doctorId == null) return list;
+        for (String[] r : FileHandler.read(FileHandler.DOCTOR_DEPARTMENTS)) {
+            if (r.length >= 2 && r[0].equalsIgnoreCase(doctorId.trim())) {
+                list.add(r[1].trim());
+            }
+        }
+        return list;
+    }
+
+    public synchronized List<String> getDepartmentNamesForDoctor(String doctorId) {
+        List<String> depNames = new ArrayList<>();
+        List<String> depIds = getDepartmentIdsForDoctor(doctorId);
+        Map<String, String> depMap = new HashMap<>();
+        for (String[] d : FileHandler.read(FileHandler.DEPARTMENTS)) {
+            if (d.length >= 2) {
+                depMap.put(d[0], d[1]);
+            }
+        }
+        for (String id : depIds) {
+            if (depMap.containsKey(id)) {
+                depNames.add(depMap.get(id));
+            } else {
+                depNames.add(id);
+            }
+        }
+        return depNames;
+    }
+
+    public synchronized List<String> getDoctorIdsForDepartment(String departmentId) {
+        List<String> list = new ArrayList<>();
+        if (departmentId == null) return list;
+        for (String[] r : FileHandler.read(FileHandler.DOCTOR_DEPARTMENTS)) {
+            if (r.length >= 2 && r[1].equalsIgnoreCase(departmentId.trim())) {
+                list.add(r[0].trim());
+            }
+        }
+        return list;
+    }
+
+    public synchronized void assignDoctorToDepartment(String doctorId, String departmentId) {
+        if (doctorId == null || departmentId == null) return;
+        List<String> existing = getDepartmentIdsForDoctor(doctorId);
+        if (!existing.contains(departmentId)) {
+            FileHandler.append(FileHandler.DOCTOR_DEPARTMENTS, new String[]{doctorId.trim(), departmentId.trim()});
+        }
+    }
+
+    public synchronized void removeDoctorFromDepartment(String doctorId, String departmentId) {
+        if (doctorId == null || departmentId == null) return;
+        List<String[]> all = new ArrayList<>(FileHandler.read(FileHandler.DOCTOR_DEPARTMENTS));
+        all.removeIf(r -> r.length >= 2 && r[0].equalsIgnoreCase(doctorId.trim()) && r[1].equalsIgnoreCase(departmentId.trim()));
+        FileHandler.writeAll(FileHandler.DOCTOR_DEPARTMENTS, all);
+    }
+
+    public synchronized String getDoctorRoomNumber(String doctorId) {
+        if (doctorId == null || doctorId.trim().isEmpty()) return "Not Allocated";
+        List<String[]> assets = FileHandler.read(FileHandler.ASSETS);
+        for (String[] r : assets) {
+            // ASSETS format: Asset ID, Asset Name, Type, Location, Capacity, Status, Allocated To
+            if (r.length >= 7 && "ALLOCATED".equalsIgnoreCase(r[5]) && doctorId.trim().equalsIgnoreCase(r[6].trim())) {
+                return r[1]; // Asset Name (e.g. CR-105, Room 101)
+            }
+        }
+        return "Not Allocated";
     }
 
     private List<String[]> readRows(String filename) {

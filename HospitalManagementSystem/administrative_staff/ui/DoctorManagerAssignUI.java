@@ -37,7 +37,7 @@ public class DoctorManagerAssignUI extends DoctorManagerAssignUX {
         for (User u : DataManager.getInstance().getAllUsers()) {
             if (u.getRole() == UserRole.MEDICAL_MANAGER && u instanceof MedicalManager) {
                 MedicalManager mm = (MedicalManager) u;
-                String display = mm.getId() + " - " + mm.getFullName() + " (" + mm.getDepartment() + ")";
+                String display = mm.getId() + " - " + mm.getFullName() + " (Office: " + mm.getOfficeNumber() + ")";
                 managerIdMap.put(display, mm.getId());
                 managerBox.addItem(display);
             }
@@ -71,12 +71,12 @@ public class DoctorManagerAssignUI extends DoctorManagerAssignUX {
                 Doctor d = (Doctor) u;
                 String mgrId = d.getAssignedManagerId();
                 String mgrName = "-";
-                String mgrDept = "-";
+                String mgrOffice = "-";
 
                 if (mgrId != null && !mgrId.equalsIgnoreCase("None") && managerMap.containsKey(mgrId)) {
                     MedicalManager mm = managerMap.get(mgrId);
                     mgrName = mm.getFullName();
-                    mgrDept = mm.getDepartment();
+                    mgrOffice = mm.getOfficeNumber();
                 }
 
                 model.addRow(new Object[]{
@@ -85,7 +85,7 @@ public class DoctorManagerAssignUI extends DoctorManagerAssignUX {
                         d.getSpecialty(),
                         (mgrId == null || mgrId.trim().isEmpty() ? "None" : mgrId),
                         mgrName,
-                        mgrDept
+                        mgrOffice
                 });
             }
         }

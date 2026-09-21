@@ -83,6 +83,12 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         specialties.clear();
         specialties.add("All Specialties");
 
+        for (String[] dep : FileHandler.read(FileHandler.DEPARTMENTS)) {
+            if (dep.length >= 2 && !dep[1].trim().isEmpty()) {
+                specialties.add(dep[1].trim());
+            }
+        }
+
         for (User u : DataManager.getInstance().getAllUsers()) {
             if (u.getRole() == UserRole.DOCTOR && u instanceof Doctor) {
                 Doctor d = (Doctor) u;
@@ -110,11 +116,30 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         for (User u : DataManager.getInstance().getAllUsers()) {
             if (u.getRole() == UserRole.DOCTOR && u instanceof Doctor) {
                 Doctor d = (Doctor) u;
-                if (selectedSpec.equals("All Specialties") || d.getSpecialty().equalsIgnoreCase(selectedSpec)) {
+                java.util.List<String> docDepts = DataManager.getInstance().getDepartmentNamesForDoctor(d.getId());
+                if (docDepts.isEmpty() && d.getSpecialty() != null && !d.getSpecialty().trim().isEmpty()) {
+                    docDepts.add(d.getSpecialty().trim());
+                }
+
+                boolean matches = selectedSpec.equals("All Specialties");
+                if (!matches) {
+                    for (String deptName : docDepts) {
+                        if (deptName.equalsIgnoreCase(selectedSpec)) {
+                            matches = true;
+                            break;
+                        }
+                    }
+                    if (!matches && d.getSpecialty() != null && d.getSpecialty().equalsIgnoreCase(selectedSpec)) {
+                        matches = true;
+                    }
+                }
+
+                if (matches) {
+                    String displayDept = !docDepts.isEmpty() ? String.join(", ", docDepts) : d.getSpecialty();
                     doctorsModel.addRow(new Object[]{
                             d.getId(),
                             d.getFullName(),
-                            d.getSpecialty(),
+                            displayDept,
                             d.getRoomNumber(),
                             d.getQualification()
                     });
@@ -399,7 +424,26 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         g.insets = new Insets(4, 4, 4, 4);
         g.fill = GridBagConstraints.HORIZONTAL;
 
+        java.util.List<String> docDepts = DataManager.getInstance().getDepartmentNamesForDoctor(doctorId);
+        if (docDepts.isEmpty() && specialty != null && !specialty.trim().isEmpty()) {
+            for (String s : specialty.split(",")) {
+                if (!s.trim().isEmpty()) docDepts.add(s.trim());
+            }
+        }
+        if (docDepts.isEmpty()) docDepts.add("General Practice");
+
+        JComboBox<String> deptChoiceBox = new JComboBox<>(docDepts.toArray(new String[0]));
+        String activeFilter = (String) specialtyFilterBox.getSelectedItem();
+        if (activeFilter != null && docDepts.contains(activeFilter)) {
+            deptChoiceBox.setSelectedItem(activeFilter);
+        }
+
         g.gridx = 0; g.gridy = 0;
+        formPanel.add(new JLabel("Consultation Department:"), g);
+        g.gridx = 1; g.weightx = 1.0;
+        formPanel.add(deptChoiceBox, g);
+
+        g.gridx = 0; g.gridy = 1;
         formPanel.add(new JLabel("Reason / Symptoms:"), g);
         g.gridx = 1; g.weightx = 1.0;
         JTextField reasonInput = new JTextField();
@@ -484,17 +528,21 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
 
             String patientId = Session.getCurrentUser() != null ? Session.getCurrentUser().getUserId() : "P001";
             String apptId = FileHandler.nextAppointmentId(selectedDate);
+            String chosenDept = (String) deptChoiceBox.getSelectedItem();
+            if (chosenDept == null || chosenDept.trim().isEmpty()) {
+                chosenDept = specialty;
+            }
 
             // Save to appointments.txt
             FileHandler.append(FileHandler.APPOINTMENTS, new String[]{
-                    apptId, patientId, doctorId, doctorName, specialty, selectedDate, selectedSlot, room, status, reason
+                    apptId, patientId, doctorId, doctorName, chosenDept, selectedDate, selectedSlot, room, status, reason
             });
 
             dialog.dispose();
 
             String msg = "Appointment booked successfully!\n\n" +
                     "Appointment ID: " + apptId + "\n" +
-                    "Doctor: Dr. " + doctorName + " (" + specialty + ")\n" +
+                    "Doctor: Dr. " + doctorName + " (" + chosenDept + ")\n" +
                     "Consultation Room: " + room + "\n" +
                     "Date: " + selectedDate + "\n" +
                     "Time: " + selectedSlot + "\n" +

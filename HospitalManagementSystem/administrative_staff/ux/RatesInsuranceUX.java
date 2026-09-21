@@ -13,11 +13,8 @@ public class RatesInsuranceUX extends JFrame {
         public boolean isCellEditable(int r, int c) { return false; }
     };
     protected final JTable ratesTable = new JTable(ratesModel);
-    protected final JTextField specialtyField = new JTextField();
-    protected final JTextField baseFeeField = new JTextField();
-    protected final JTextField emergencyFeeField = new JTextField();
     protected final JButton addRateButton = new JButton("Add Rate");
-    protected final JButton updateRateButton = new JButton("Update Selected Rate");
+    protected final JButton editRateButton = new JButton("Edit Selected Rate");
     protected final JButton deleteRateButton = new JButton("Delete Rate");
     protected final JButton refreshRatesButton = new JButton("Refresh Rates");
 
@@ -27,13 +24,9 @@ public class RatesInsuranceUX extends JFrame {
         public boolean isCellEditable(int r, int c) { return false; }
     };
     protected final JTable insuranceTable = new JTable(insuranceModel);
-    protected final JTextField providerNameField = new JTextField();
-    protected final JTextField policyTypeField = new JTextField();
-    protected final JTextField coverageField = new JTextField();
-    protected final JTextField hotlineField = new JTextField();
     protected final JButton addInsuranceButton = new JButton("Add Insurance Provider");
-    protected final JButton updateInsuranceButton = new JButton("Update Selected Insurance");
-    protected final JButton deleteInsuranceButton = new JButton("Delete Insurance");
+    protected final JButton editInsuranceButton = new JButton("Edit Selected Provider");
+    protected final JButton deleteInsuranceButton = new JButton("Delete Provider");
     protected final JButton refreshInsuranceButton = new JButton("Refresh Insurance");
 
     // Common
@@ -48,55 +41,27 @@ public class RatesInsuranceUX extends JFrame {
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Setup Tab 1
+        // Setup Tab 1: Rates
         JPanel ratesPanel = new JPanel(new BorderLayout(10, 10));
         ratesPanel.add(new JScrollPane(ratesTable), BorderLayout.CENTER);
 
-        JPanel ratesSouth = new JPanel(new BorderLayout(8, 8));
-        JPanel ratesForm = new JPanel(new GridLayout(2, 3, 8, 6));
-        ratesForm.setBorder(BorderFactory.createTitledBorder("Add / Edit Consultation Rate"));
-        ratesForm.add(new JLabel("Specialty / Department:"));
-        ratesForm.add(new JLabel("Base Consultation Fee (RM):"));
-        ratesForm.add(new JLabel("Emergency Fee (RM):"));
-        ratesForm.add(specialtyField);
-        ratesForm.add(baseFeeField);
-        ratesForm.add(emergencyFeeField);
-
-        JPanel ratesButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 5));
+        JPanel ratesButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
         ratesButtons.add(addRateButton);
-        ratesButtons.add(updateRateButton);
+        ratesButtons.add(editRateButton);
         ratesButtons.add(deleteRateButton);
         ratesButtons.add(refreshRatesButton);
+        ratesPanel.add(ratesButtons, BorderLayout.SOUTH);
 
-        ratesSouth.add(ratesForm, BorderLayout.NORTH);
-        ratesSouth.add(ratesButtons, BorderLayout.SOUTH);
-        ratesPanel.add(ratesSouth, BorderLayout.SOUTH);
-
-        // Setup Tab 2
+        // Setup Tab 2: Insurance
         JPanel insurancePanel = new JPanel(new BorderLayout(10, 10));
         insurancePanel.add(new JScrollPane(insuranceTable), BorderLayout.CENTER);
 
-        JPanel insuranceSouth = new JPanel(new BorderLayout(8, 8));
-        JPanel insuranceForm = new JPanel(new GridLayout(2, 4, 8, 6));
-        insuranceForm.setBorder(BorderFactory.createTitledBorder("Add / Edit Accepted Insurance Provider"));
-        insuranceForm.add(new JLabel("Provider Name:"));
-        insuranceForm.add(new JLabel("Policy / Plan Type:"));
-        insuranceForm.add(new JLabel("Coverage (%):"));
-        insuranceForm.add(new JLabel("Contact Hotline:"));
-        insuranceForm.add(providerNameField);
-        insuranceForm.add(policyTypeField);
-        insuranceForm.add(coverageField);
-        insuranceForm.add(hotlineField);
-
-        JPanel insuranceButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 5));
+        JPanel insuranceButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
         insuranceButtons.add(addInsuranceButton);
-        insuranceButtons.add(updateInsuranceButton);
+        insuranceButtons.add(editInsuranceButton);
         insuranceButtons.add(deleteInsuranceButton);
         insuranceButtons.add(refreshInsuranceButton);
-
-        insuranceSouth.add(insuranceForm, BorderLayout.NORTH);
-        insuranceSouth.add(insuranceButtons, BorderLayout.SOUTH);
-        insurancePanel.add(insuranceSouth, BorderLayout.SOUTH);
+        insurancePanel.add(insuranceButtons, BorderLayout.SOUTH);
 
         tabbedPane.addTab("Base Consultation Rates", ratesPanel);
         tabbedPane.addTab("Accepted Insurance Networks", insurancePanel);

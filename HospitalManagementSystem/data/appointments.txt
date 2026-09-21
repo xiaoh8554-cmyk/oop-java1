@@ -6,3 +6,5 @@
 202609010001|P001|D002|Lee|General Medicine|2026-09-01|09:00 - 09:30|Room 101|CANCELLED|Cough and Cold Consultation
 202609200001|P002|D001|Aisha|Cardiology|2026-09-20|14:00 - 14:30|CR-105|BOOKED|Blood Pressure Checkup
 202609270001|P001|D002|Lee|General Medicine|2026-09-27|16:00 - 16:30|Room 101|RESCHEDULED|Blood Sugar Review Consultation
+202609210001|P001|D003|Tan Wei Ming|Dermatology|2026-09-21|17:00 - 17:30|Room 102|BOOKED|General Medical Consultation
+202609210002|P001|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|Room 101|URGENT|[EMERGENCY] Urgent consultation required

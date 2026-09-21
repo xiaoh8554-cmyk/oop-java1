@@ -20,6 +20,7 @@ public class FileHandler {
     public static final String RATES = "rates.txt";
     public static final String ROSTERS = "rosters.txt";
     public static final String REQUESTS = "requests.txt";
+    public static final String DOCTOR_DEPARTMENTS = "doctor_departments.txt";
 
     public static Path getDataDir() {
         Path sub = Paths.get("HospitalManagementSystem", "data");
@@ -33,7 +34,7 @@ public class FileHandler {
         try {
             Path dataDir = getDataDir();
             Files.createDirectories(dataDir);
-            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS};
+            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS, DOCTOR_DEPARTMENTS};
             for (String name : names) {
                 Path p = dataDir.resolve(name);
                 if (!Files.exists(p)) Files.createFile(p);
@@ -77,6 +78,11 @@ public class FileHandler {
             append(INSURANCE, new String[]{"INS002","AIA Health Shield","Platinum Care Plus","90","1-300-88-5678"});
             append(INSURANCE, new String[]{"INS003","Prudential Assurance","PruValue Med","85","1-300-88-9012"});
             append(INSURANCE, new String[]{"INS004","Allianz General","Care Complete","75","1-300-88-3456"});
+        }
+        if (Files.size(dataDir.resolve(DOCTOR_DEPARTMENTS)) == 0) {
+            append(DOCTOR_DEPARTMENTS, new String[]{"D001", "DEP001"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D002", "DEP002"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D003", "DEP003"});
         }
     }
 

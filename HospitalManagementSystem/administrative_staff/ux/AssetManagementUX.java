@@ -11,19 +11,11 @@ public class AssetManagementUX extends JFrame {
     };
     protected final JTable table = new JTable(model);
 
-    // Form fields for adding asset
-    protected final JTextField nameField = new JTextField();
-    protected final JComboBox<String> typeBox = new JComboBox<>(new String[]{
-            "CONSULTATION_ROOM", "INPATIENT_WARD", "LAB", "IMAGING_ROOM"
-    });
-    protected final JTextField locationField = new JTextField();
-    protected final JTextField capacityField = new JTextField();
-
     // Allocation fields
     protected final JTextField allocateToField = new JTextField(12);
 
     // Action buttons
-    protected final JButton addButton = new JButton("Add Asset");
+    protected final JButton addButton = new JButton("Create Asset");
     protected final JButton allocateButton = new JButton("Allocate to User/Dept");
     protected final JButton releaseButton = new JButton("Release / Make Available");
     protected final JButton maintenanceButton = new JButton("Set Maintenance");
@@ -46,21 +38,8 @@ public class AssetManagementUX extends JFrame {
 
         root.add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // South panel with create asset form, allocation panel, and action buttons
+        // South panel with allocation panel and action buttons
         JPanel south = new JPanel(new BorderLayout(10, 10));
-
-        // Create form
-        JPanel createForm = new JPanel(new GridLayout(2, 4, 8, 6));
-        createForm.setBorder(BorderFactory.createTitledBorder("Create New Hospital Asset"));
-        createForm.add(new JLabel("Asset Name (e.g. Room 101, Lab B):"));
-        createForm.add(new JLabel("Asset Type:"));
-        createForm.add(new JLabel("Location / Block:"));
-        createForm.add(new JLabel("Capacity / Beds:"));
-
-        createForm.add(nameField);
-        createForm.add(typeBox);
-        createForm.add(locationField);
-        createForm.add(capacityField);
 
         // Allocation panel
         JPanel allocPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
@@ -78,11 +57,7 @@ public class AssetManagementUX extends JFrame {
         buttonBar.add(deleteButton);
         buttonBar.add(refreshButton);
 
-        JPanel centerSouth = new JPanel(new BorderLayout(5, 5));
-        centerSouth.add(createForm, BorderLayout.NORTH);
-        centerSouth.add(allocPanel, BorderLayout.SOUTH);
-
-        south.add(centerSouth, BorderLayout.CENTER);
+        south.add(allocPanel, BorderLayout.NORTH);
         south.add(buttonBar, BorderLayout.SOUTH);
 
         root.add(south, BorderLayout.SOUTH);

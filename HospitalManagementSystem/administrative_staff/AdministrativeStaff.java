@@ -4,20 +4,19 @@ import common.model.User;
 import common.model.UserRole;
 
 public class AdministrativeStaff extends User {
-    private String accessLevel;
+
+    public AdministrativeStaff(String id, String email, String password, String fullName, String phoneNumber) {
+        super(id, email, password, fullName, phoneNumber, UserRole.ADMINISTRATIVE_STAFF);
+    }
 
     public AdministrativeStaff(String id, String email, String password, String fullName, String phoneNumber,
                                String accessLevel) {
-        super(id, email, password, fullName, phoneNumber, UserRole.ADMINISTRATIVE_STAFF);
-        this.accessLevel = accessLevel;
+        this(id, email, password, fullName, phoneNumber);
     }
 
-    // ID|accessLevel
+    // ID
     @Override
     public String toChildFileString() {
-        return String.join("|", sanitize(getId()), sanitize(accessLevel));
+        return sanitize(getId());
     }
-
-    public String getAccessLevel() { return accessLevel; }
-    public void setAccessLevel(String accessLevel) { this.accessLevel = accessLevel; }
 }

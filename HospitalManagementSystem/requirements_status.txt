@@ -188,3 +188,240 @@ Total Requirements: 16
       * patients/ux/PatientPrescriptionFeedbackUX.java
       * data/feedback.txt
 ================================================================================
+5. DATA STORAGE & FILE SCHEMAS (DATA FORMAT SPECIFICATION)
+================================================================================
+All persistent data files are stored in the data directory using Pipe-Delimited text format (delimiter: '|').
+
+5.1 users.txt (Base User Authentication & Account Registry)
+    Format:
+    ROLE|ID|EMAIL|PASSWORD|FULL_NAME|PHONE
+    Fields:
+    - ROLE: User role (ADMINISTRATIVE_STAFF, MEDICAL_MANAGER, DOCTOR, PATIENT)
+    - ID: Unique user identifier (e.g., A001, M001, D001, P001)
+    - EMAIL: User email address for system login
+    - PASSWORD: Account password
+    - FULL_NAME: User full legal name
+    - PHONE: Contact telephone number
+    Example:
+    PATIENT|P001|patient@gmail.com|patient123|Demo Patient|+60120000004
+
+5.2 admins.txt (Administrative Staff Role Attributes)
+    Format:
+    ID|ACCESS_LEVEL
+    Fields:
+    - ID: User ID referencing users.txt
+    - ACCESS_LEVEL: Administrative privilege tier (SUPER_ADMIN, ADMIN)
+    Example:
+    A001|SUPER_ADMIN
+
+5.3 managers.txt (Medical Manager Role Attributes)
+    Format:
+    ID|DEPARTMENT|OFFICE_NUMBER
+    Fields:
+    - ID: User ID referencing users.txt
+    - DEPARTMENT: Managed hospital department
+    - OFFICE_NUMBER: Office room/location
+    Example:
+    M001|Operations|OF-302
+
+5.4 doctors.txt (Doctor Role Attributes)
+    Format:
+    ID|SPECIALTY|QUALIFICATION|ROOM_NUMBER|ASSIGNED_MANAGER_ID
+    Fields:
+    - ID: User ID referencing users.txt
+    - SPECIALTY: Medical specialization (e.g., Cardiology, General Medicine, Dermatology)
+    - QUALIFICATION: Medical degree and qualifications (e.g., MBBS, MD)
+    - ROOM_NUMBER: Assigned consultation room (e.g., CR-105, Room 101)
+    - ASSIGNED_MANAGER_ID: Supervising Medical Manager ID (e.g., M001, None)
+    Example:
+    D001|Cardiology|MBBS, MD|CR-105|M001
+
+5.5 patients.txt (Patient Role Attributes & Health Profile)
+    Format:
+    ID|DATE_OF_BIRTH|GENDER|BLOOD_GROUP|EMERGENCY_CONTACT|EMERGENCY_RELATIONSHIP|MEDICAL_HISTORY_SUMMARY
+    Fields:
+    - ID: User ID referencing users.txt
+    - DATE_OF_BIRTH: Date of birth (YYYY-MM-DD)
+    - GENDER: Patient gender (Male, Female, Other)
+    - BLOOD_GROUP: Blood group (A+, A-, B+, B-, AB+, AB-, O+, O-)
+    - EMERGENCY_CONTACT: Next-of-kin / emergency telephone number
+    - EMERGENCY_RELATIONSHIP: Relationship (parents, spouse, sibling, child, guardian, friend)
+    - MEDICAL_HISTORY_SUMMARY: Chronic conditions, allergies, and surgical history notes
+    Example:
+    P001|1995-06-15|Male|O+|+60198888888|parents|Asthma, mild hypertension, allergic to penicillin
+
+5.6 appointments.txt (Consultation Appointments)
+    Format:
+    APPOINTMENT_ID|PATIENT_ID|DOCTOR_ID|DOCTOR_NAME|SPECIALTY|DATE|TIME_SLOT|ROOM|STATUS|REASON
+    Fields:
+    - APPOINTMENT_ID: Date-prefixed sequence identifier (e.g., YYYYMMDD0001)
+    - PATIENT_ID: Booking patient ID (P001)
+    - DOCTOR_ID: Assigned doctor ID (D001)
+    - DOCTOR_NAME: Assigned doctor name
+    - SPECIALTY: Clinical department/specialty
+    - DATE: Consultation date (YYYY-MM-DD)
+    - TIME_SLOT: Scheduled consultation time window (e.g., 10:00 - 10:30)
+    - ROOM: Consultation room location
+    - STATUS: Appointment lifecycle status (BOOKED, CANCELLED, RESCHEDULED, COMPLETED, URGENT)
+    - REASON: Patient-submitted symptom description or consultation reason
+    Example:
+    202609100001|P001|D001|Aisha|Cardiology|2026-09-10|10:00 - 10:30|CR-105|COMPLETED|Initial Heart Palpitation Consultation
+
+5.7 rosters.txt (Doctor Operational Shift Rosters)
+    Format:
+    ROSTER_ID|DOCTOR_ID|DOCTOR_NAME|SPECIALTY|DATE|TIME_SLOT|ROOM|STATUS
+    Fields:
+    - ROSTER_ID: Roster entry identifier (e.g., ROS001)
+    - DOCTOR_ID: Doctor ID (D001)
+    - DOCTOR_NAME: Doctor name
+    - SPECIALTY: Medical department
+    - DATE: Duty date (YYYY-MM-DD)
+    - TIME_SLOT: Working shift / slot window (e.g., 09:00 - 10:00)
+    - ROOM: Consultation room
+    - STATUS: Duty availability status (AVAILABLE, BOOKED, OFF_DUTY, LEAVE)
+    Example:
+    ROS001|D001|Aisha|Cardiology|2026-09-20|09:00 - 10:00|CR-105|AVAILABLE
+
+5.8 assessment_types.txt (Diagnostic & Examination Catalog)
+    Format:
+    ASSESSMENT_TYPE_ID|NAME|DESCRIPTION|BASE_PRICE
+    Fields:
+    - ASSESSMENT_TYPE_ID: Examination type code (e.g., AT001)
+    - NAME: Assessment title (e.g., General Check-up, Blood Test)
+    - DESCRIPTION: Scope of clinical assessment
+    - BASE_PRICE: Standard baseline fee in MYR
+    Example:
+    AT001|General Check-up|Routine vital signs and consultation|50.00
+
+5.9 assessments.txt (Patient Clinical Assessments & Diagnostic Records)
+    Format:
+    ASSESSMENT_ID|PATIENT_ID|DOCTOR_ID|ASSESSMENT_TYPE_ID|DATE|HEALTH_GRADE|CLINICAL_NOTES|DIAGNOSIS_FINDINGS|PRICE|STATUS
+    Fields:
+    - ASSESSMENT_ID: Clinical record identifier (e.g., AS001)
+    - PATIENT_ID: Patient ID (P001)
+    - DOCTOR_ID: Attending doctor ID (D001)
+    - ASSESSMENT_TYPE_ID: Reference to assessment_types.txt (e.g., AT003)
+    - DATE: Assessment date (YYYY-MM-DD)
+    - HEALTH_GRADE: Patient condition status (HEALTHY, MILD_ATTENTION, CRITICAL, FOLLOW_UP_REQUIRED)
+    - CLINICAL_NOTES: Doctor observations and vital signs notes
+    - DIAGNOSIS_FINDINGS: Diagnostic results and medical recommendations
+    - PRICE: Total billed charge in MYR
+    - STATUS: Assessment status (COMPLETED, PENDING)
+    Example:
+    AS001|P001|D001|AT003|2026-09-10|MILD_ATTENTION|Patient presents with mild palpitations and blood pressure of 135/85 mmHg.|ECG shows normal sinus rhythm with occasional PAC. Advised low sodium diet.|120.00|COMPLETED
+
+5.10 prescriptions.txt (Digital Medication Prescriptions)
+    Format:
+    PRESCRIPTION_ID|PATIENT_ID|DOCTOR_ID|DATE|MEDICATION_NAME|DOSAGE_INSTRUCTIONS
+    Fields:
+    - PRESCRIPTION_ID: Prescription script ID (e.g., RX001)
+    - PATIENT_ID: Patient ID (P001)
+    - DOCTOR_ID: Prescribing doctor ID (D001)
+    - DATE: Prescribed date (YYYY-MM-DD)
+    - MEDICATION_NAME: Drug name, form, and strength (e.g., Amlodipine 5mg)
+    - DOSAGE_INSTRUCTIONS: Directions for use, frequency, and duration
+    Example:
+    RX001|P001|D001|2026-09-10|Amlodipine 5mg|Take 1 tablet daily every morning after breakfast.
+
+5.11 billing.txt (Invoicing and Payment Records)
+    Format:
+    BILLING_ID|PATIENT_ID|ASSESSMENT_ID|AMOUNT|STATUS|DATE
+    Fields:
+    - BILLING_ID: Invoice transaction identifier (e.g., B0001)
+    - PATIENT_ID: Billed patient ID (P001)
+    - ASSESSMENT_ID: Linked assessment record ID (AS001)
+    - AMOUNT: Invoiced amount in MYR
+    - STATUS: Payment status (PAID, UNPAID, REFUNDED)
+    - DATE: Billing generation / settlement date (YYYY-MM-DD)
+    Example:
+    B0001|P001|AS001|120.00|PAID|2026-09-10
+
+5.12 feedback.txt (Patient Reviews and Doctor Ratings)
+    Format:
+    FEEDBACK_ID|PATIENT_ID|DOCTOR_ID|DATE|FEEDBACK_TYPE|RATING|VISIT_REFERENCE|COMMENTS
+    Fields:
+    - FEEDBACK_ID: Feedback entry identifier (e.g., F001)
+    - PATIENT_ID: Submitting patient ID (P001)
+    - DOCTOR_ID: Target doctor ID (D001)
+    - DATE: Submission date (YYYY-MM-DD)
+    - FEEDBACK_TYPE: Category tag (PATIENT_FEEDBACK)
+    - RATING: Star rating rating string (e.g., 5 Stars - Excellent, 4 Stars - Good)
+    - VISIT_REFERENCE: Appointment or assessment reference ID (e.g., 202609100001)
+    - COMMENTS: Patient feedback comment text
+    Example:
+    F001|P001|D001|2026-09-11|PATIENT_FEEDBACK|5 Stars - Excellent|202609100001|Dr. Aisha was very thorough, attentive, and clearly explained the ECG results.
+
+5.13 assets.txt (Physical Hospital Assets & Room Facilities)
+    Format:
+    ASSET_ID|ASSET_NAME|ASSET_TYPE|LOCATION|CAPACITY|STATUS|ALLOCATED_TO
+    Fields:
+    - ASSET_ID: Facility/equipment ID (e.g., AST001)
+    - ASSET_NAME: Room / asset label (e.g., CR-105, Central Pathology Lab)
+    - ASSET_TYPE: Facility category (CONSULTATION_ROOM, INPATIENT_WARD, LAB, IMAGING_ROOM)
+    - LOCATION: Physical building block and floor location
+    - CAPACITY: Maximum occupancy / bed capacity number
+    - STATUS: Facility state (AVAILABLE, ALLOCATED, MAINTENANCE)
+    - ALLOCATED_TO: Assigned doctor ID, department, or None
+    Example:
+    AST001|CR-105|CONSULTATION_ROOM|Level 1, Block A|1|ALLOCATED|D001
+
+5.14 rates.txt (Base Consultation Rate Configuration)
+    Format:
+    RATE_ID|SPECIALTY|BASE_CONSULTATION_FEE|EMERGENCY_CONSULTATION_FEE
+    Fields:
+    - RATE_ID: Rate configuration ID (e.g., R001)
+    - SPECIALTY: Department specialty (Cardiology, General Medicine, Dermatology, etc.)
+    - BASE_CONSULTATION_FEE: Standard scheduled appointment fee in MYR
+    - EMERGENCY_CONSULTATION_FEE: Emergency / walk-in consultation surcharge in MYR
+    Example:
+    R001|Cardiology|120.00|180.00
+
+5.15 insurance.txt (Accepted Insurance Network Policies)
+    Format:
+    INSURANCE_ID|PROVIDER_NAME|PLAN_NAME|COVERAGE_PERCENTAGE|HOTLINE_NUMBER
+    Fields:
+    - INSURANCE_ID: Insurance plan identifier (e.g., INS001)
+    - PROVIDER_NAME: Insurance carrier name (e.g., Great Eastern Medical)
+    - PLAN_NAME: Policy package name (e.g., Comprehensive Gold)
+    - COVERAGE_PERCENTAGE: Coverage percentage integer 0-100 (e.g., 80)
+    - HOTLINE_NUMBER: Claims and verification contact hotline
+    Example:
+    INS001|Great Eastern Medical|Comprehensive Gold|80|1-300-88-1234
+
+5.16 departments.txt (Specialized Clinical Departments)
+    Format:
+    DEPARTMENT_ID|DEPARTMENT_NAME|DESCRIPTION|HEAD_OF_DEPARTMENT
+    Fields:
+    - DEPARTMENT_ID: Department code (e.g., DEP001)
+    - DEPARTMENT_NAME: Department title (e.g., Cardiology, General Medicine)
+    - DESCRIPTION: Scope of medical and clinical operations
+    - HEAD_OF_DEPARTMENT: Designated head doctor / physician
+    Example:
+    DEP001|Cardiology|Cardiovascular Care & Diagnostics|Dr. Aisha
+
+5.17 wards.txt (Wards & Clinic Zones Configuration)
+    Format:
+    WARD_ID|WARD_NAME|WARD_TYPE|LOCATION|TOTAL_BEDS
+    Fields:
+    - WARD_ID: Ward identifier (e.g., W001)
+    - WARD_NAME: Ward / clinic area title (e.g., General Clinic)
+    - WARD_TYPE: Category classification (CLINIC, INPATIENT, ICU, MATERNITY)
+    - LOCATION: Hospital building wing/floor
+    - TOTAL_BEDS: Total available bed capacity
+    Example:
+    W001|General Clinic|CLINIC|Ground Floor|30
+
+5.18 requests.txt (Diagnostic Requisition Orders - Lab & Imaging)
+    Format:
+    REQUEST_ID|DOCTOR_ID|PATIENT_ID|REQUEST_TYPE|DESCRIPTION|STATUS|DATE
+    Fields:
+    - REQUEST_ID: Requisition identifier (e.g., REQ001)
+    - DOCTOR_ID: Ordering doctor ID (e.g., D001)
+    - PATIENT_ID: Patient ID (e.g., P001)
+    - REQUEST_TYPE: Diagnostic modality (LAB_TEST, X_RAY, MRI_SCAN, CT_SCAN, ULTRASOUND)
+    - DESCRIPTION: Test indication and clinical order details
+    - STATUS: Fulfillment status (PENDING, IN_PROGRESS, COMPLETED, CANCELLED)
+    - DATE: Order issuance date (YYYY-MM-DD)
+    Example:
+    REQ001|D001|P001|LAB_TEST|Comprehensive Metabolic Panel|PENDING|2026-09-20
+================================================================================
