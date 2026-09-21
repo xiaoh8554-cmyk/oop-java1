@@ -22,7 +22,7 @@ public class ManagerDashboardUX extends JFrame {
         root.setBorder(BorderFactory.createEmptyBorder(25, 35, 25, 35));
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         root.add(welcomeLabel, BorderLayout.NORTH);
-        JPanel menu = new JPanel(new GridLayout(2, 3, 12, 12));
+        JPanel menu = new JPanel(new GridLayout(3, 2, 12, 12));
         menu.add(assessmentTypeButton); menu.add(gradingButton); menu.add(reportsButton); menu.add(departmentButton); menu.add(shiftrosterButton); menu.add(profileButton);
         root.add(menu, BorderLayout.CENTER);
         root.add(logoutButton, BorderLayout.SOUTH);
