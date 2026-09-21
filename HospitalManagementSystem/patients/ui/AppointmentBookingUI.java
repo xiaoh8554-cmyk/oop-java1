@@ -35,6 +35,7 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
 
         backButton.addActionListener(e -> {
             if (clockTimer != null) clockTimer.stop();
+            new AppointmentHistoryUI().setVisible(true);
             dispose();
         });
 

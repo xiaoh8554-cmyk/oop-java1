@@ -1,10 +1,12 @@
 package doctors.ux;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class DoctorDashboardUX extends JFrame {
+
     protected final JLabel welcomeLabel = new JLabel("Doctor Dashboard", SwingConstants.CENTER);
+    protected final JButton appointmentsButton = new JButton("Patient Appointments");
     protected final JButton assessmentButton = new JButton("Assessment & Lab Results");
     protected final JButton feedbackButton = new JButton("Clinical Feedback");
     protected final JButton prescriptionButton = new JButton("Prescriptions");
@@ -22,12 +24,14 @@ public class DoctorDashboardUX extends JFrame {
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         root.add(welcomeLabel, BorderLayout.NORTH);
         JPanel menu = new JPanel(new GridLayout(3, 2, 12, 12));
-        menu.add(assessmentButton); menu.add(feedbackButton);
-        menu.add(prescriptionButton); menu.add(requestButton);
+        menu.add(appointmentsButton);
+        menu.add(assessmentButton);
+        menu.add(prescriptionButton);
+        menu.add(requestButton);
+        menu.add(feedbackButton);
         menu.add(profileButton);
         root.add(menu, BorderLayout.CENTER);
         root.add(logoutButton, BorderLayout.SOUTH);
         setContentPane(root);
     }
 }
-

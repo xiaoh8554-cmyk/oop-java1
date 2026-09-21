@@ -6,9 +6,11 @@ import common.ui.ProfileUI;
 import doctors.ux.DoctorDashboardUX;
 
 public class DoctorDashboardUI extends DoctorDashboardUX {
+
     public DoctorDashboardUI() {
         super();
         refreshWelcome();
+        appointmentsButton.addActionListener(e -> new DoctorAppointmentsUI().setVisible(true));
         assessmentButton.addActionListener(e -> new AssessmentResultUI().setVisible(true));
         feedbackButton.addActionListener(e -> new ClinicalFeedbackUI().setVisible(true));
         prescriptionButton.addActionListener(e -> new PrescriptionUI().setVisible(true));
@@ -23,4 +25,3 @@ public class DoctorDashboardUI extends DoctorDashboardUX {
         }
     }
 }
-
