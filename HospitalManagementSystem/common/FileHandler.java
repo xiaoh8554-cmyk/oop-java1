@@ -83,6 +83,11 @@ public class FileHandler {
             append(REQUESTS, new String[]{"REQ001","D001","P001","LAB_TEST","Comprehensive Blood Panel (Full Blood Count & Lipid Profile)","PENDING","2026-09-20"});
             append(REQUESTS, new String[]{"REQ002","D001","P002","X_RAY","Chest X-Ray (PA View) for persistent cough","APPROVED","2026-09-18"});
         }
+        if (Files.size(dataDir.resolve(DOCTOR_DEPARTMENTS)) == 0) {
+            append(DOCTOR_DEPARTMENTS, new String[]{"D001", "DEP001"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D002", "DEP002"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D003", "DEP003"});
+        }
     }
 
     public static synchronized List<String[]> read(String fileName) {
