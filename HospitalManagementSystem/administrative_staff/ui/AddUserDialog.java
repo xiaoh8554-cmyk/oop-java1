@@ -52,7 +52,7 @@ public class AddUserDialog extends JDialog {
     private final Map<String, String> managerIdMap = new HashMap<>();
 
     // Medical Manager Fields
-    private final JTextField officeField = new JTextField(18);
+    private final JComboBox<String> officeBox = new JComboBox<>();
 
     private final JPanel dynamicRolePanel = new JPanel(new GridBagLayout());
     private final JButton createButton = new JButton("Create User");
@@ -83,6 +83,7 @@ public class AddUserDialog extends JDialog {
 
         initUI();
         loadManagers();
+        loadOffices();
         updateRoleFields();
 
         roleBox.addActionListener(e -> updateRoleFields());
@@ -159,6 +160,27 @@ public class AddUserDialog extends JDialog {
         }
     }
 
+    private void loadOffices() {
+        officeBox.removeAllItems();
+        java.util.List<String[]> assets = common.FileHandler.read(common.FileHandler.ASSETS);
+        for (String[] a : assets) {
+            if (a.length >= 4 && ("OFFICE".equalsIgnoreCase(a[2]) || a[3].contains("Level 6"))) {
+                String roomName = a[1].trim();
+                if (roomName.startsWith("Office ")) {
+                    roomName = roomName.substring(7).trim();
+                }
+                officeBox.addItem(roomName);
+            }
+        }
+        if (officeBox.getItemCount() == 0) {
+            officeBox.addItem("A06-01");
+            officeBox.addItem("A06-02");
+            officeBox.addItem("A06-03");
+            officeBox.addItem("A06-04");
+            officeBox.addItem("A06-05");
+        }
+    }
+
     private void updateRoleFields() {
         dynamicRolePanel.removeAll();
         dynamicRolePanel.setBorder(BorderFactory.createTitledBorder("Role Specific Details"));
@@ -195,7 +217,7 @@ public class AddUserDialog extends JDialog {
             roomNote.setForeground(new Color(20, 60, 140));
             addFormRow(dynamicRolePanel, g, r++, "Consultation Room:", roomNote);
         } else if ("MEDICAL_MANAGER".equals(selectedRole)) {
-            addFormRow(dynamicRolePanel, g, r++, "Office Number:", officeField);
+            addFormRow(dynamicRolePanel, g, r++, "Office Number (Level 6):", officeBox);
         } else if ("ADMINISTRATIVE_STAFF".equals(selectedRole)) {
             JLabel adminInfo = new JLabel("Administrative staff members have full administrative privileges.");
             adminInfo.setForeground(new Color(20, 60, 140));
@@ -278,11 +300,9 @@ public class AddUserDialog extends JDialog {
             String id = DataManager.getInstance().generateNextId("D", 3);
             newUser = new Doctor(id, email, password, fullName, phone, specialty, qualification, assignedManagerId);
         } else if ("MEDICAL_MANAGER".equals(role)) {
-            String office = officeField.getText().trim();
-
-            if (office.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Office Number is required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            String office = (String) officeBox.getSelectedItem();
+            if (office == null || office.trim().isEmpty()) {
+                office = "A06-01";
             }
 
             String id = DataManager.getInstance().generateNextId("M", 3);

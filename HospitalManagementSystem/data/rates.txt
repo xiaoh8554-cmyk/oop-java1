@@ -1,5 +1,21 @@
-R001|Cardiology|120.00|180.00
-R002|General Medicine|50.00|80.00
-R003|Dermatology|90.00|140.00
-R004|Pediatrics|70.00|100.00
-R005|Orthopedics|110.00|160.00
+R001|General Consultation (Outpatient)|50.00|80.00
+R002|Cardiology Consultation|120.00|180.00
+R003|Dermatology Consultation|90.00|140.00
+R004|Pediatrics Consultation|70.00|100.00
+R005|Orthopedics Consultation|110.00|160.00
+R006|ENT Consultation|95.00|145.00
+R007|Neurology Consultation|130.00|190.00
+R008|Nephrology Consultation|125.00|185.00
+R009|General Surgery Consultation|140.00|200.00
+R010|Psychiatry Consultation|110.00|160.00
+R011|Level 2 Single Inpatient Room (Daily Rate)|250.00|350.00
+R012|Level 2 Intensive Care Unit (ICU) (Daily Rate)|600.00|900.00
+R013|Level 3 Digital X-Ray Diagnostic|80.00|120.00
+R014|Level 3 Ultrasound Imaging|150.00|220.00
+R015|Level 3 ECG / ESG Diagnostic|100.00|150.00
+R016|Level 3 MRI Imaging Scan|850.00|1200.00
+R017|Level 3 CT Scan Imaging|550.00|800.00
+R018|Level 4 Single Inpatient Ward (Daily Rate)|200.00|280.00
+R019|Level 4 2-Bedded Inpatient Ward (Daily Rate)|120.00|180.00
+R020|Level 5 4-Bedded General Ward (Daily Rate)|60.00|90.00
+R021|test (AT003)|50.00|75.00

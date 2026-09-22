@@ -110,6 +110,10 @@ public class AssessmentResultUI extends AssessmentResultUX {
         tempField.setText("");
         notesArea.setText("");
         labArea.setText("");
+        admissionBox.setSelectedIndex(0);
+        wardTypeBox.setSelectedIndex(0);
+        urgencyBox.setSelectedIndex(0);
+        admissionReasonField.setText("");
         table.clearSelection();
     }
 
@@ -182,16 +186,32 @@ public class AssessmentResultUI extends AssessmentResultUX {
                 "COMPLETED"
         });
 
-        // Automatically generate an unpaid billing invoice for the patient
-        String billId = FileHandler.nextId(FileHandler.BILLING, "B", 4);
-        FileHandler.append(FileHandler.BILLING, new String[]{
-                billId,
-                patient,
-                assessmentId,
-                fee,
-                "UNPAID",
-                DataUtil.today()
-        });
+        // Clinical assessment is saved into assessments.txt. Billing will be handled/consolidated by Admin.
+
+        // Check if inpatient admission is required by the doctor
+        String admissionMsg = "";
+        if (admissionBox.getSelectedIndex() == 1) {
+            String wardType = (String) wardTypeBox.getSelectedItem();
+            String urgency = (String) urgencyBox.getSelectedItem();
+            String reason = admissionReasonField.getText().trim();
+            if (reason.isEmpty()) {
+                reason = "Doctor requested inpatient admission: " + diagnosisLab;
+            }
+            String admId = FileHandler.nextId(FileHandler.ADMISSIONS, "ADM", 3);
+            FileHandler.append(FileHandler.ADMISSIONS, new String[]{
+                    admId,
+                    patient,
+                    doctorId,
+                    wardType,
+                    reason,
+                    urgency,
+                    "None",
+                    "PENDING",
+                    DataUtil.today(),
+                    "None"
+            });
+            admissionMsg = "\n• Inpatient Admission Request submitted to Admin (ID: " + admId + " | " + wardType + " | " + urgency + ")";
+        }
 
         clearForm();
         refresh();
@@ -199,7 +219,8 @@ public class AssessmentResultUI extends AssessmentResultUX {
         JOptionPane.showMessageDialog(this,
                 "Clinical Assessment & Vital Signs successfully saved!\n" +
                 "• Assessment ID: " + assessmentId + "\n" +
-                "• Generated Invoice: " + billId + " (RM " + fee + " - UNPAID)",
+                "• Assessment Fee: RM " + fee + " (Submitted to Admin for Billing)" +
+                admissionMsg,
                 "Assessment Recorded",
                 JOptionPane.INFORMATION_MESSAGE);
     }

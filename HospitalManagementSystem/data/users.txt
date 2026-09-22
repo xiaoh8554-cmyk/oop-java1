@@ -1,9 +1,18 @@
-PATIENT|P001|patient@gmail.com|patient123|Demo Patient|+60120000004
+PATIENT|P001|4|4|Demo Patient|+60120000004
 PATIENT|P002|patient2@gmail.com|patient123|Sarah Lee|+60122222222
 PATIENT|P003|lrs@gmail.com|lrs123|Jared Lim|+601334222789
-DOCTOR|D001|doctor@gmail.com|doctor123|Aisha|+60120000003
-DOCTOR|D002|lee@gmail.com|doctor123|Lee|+60120000005
-DOCTOR|D003|tan@gmail.com|doctor123|Tan Wei Ming|+60120000006
-MEDICAL_MANAGER|M001|manager@gmail.com|manager123|Medical Manager|+60120000002
+PATIENT|P004|hihi@gmail.com|test123|Hihi Tan|+60123131000
+DOCTOR|D001|3|3|Dr. Aisha|+60120000003
+DOCTOR|D002|lee@gmail.com|doctor123|Dr. Lee|+60120000005
+DOCTOR|D003|tan@gmail.com|doctor123|Dr. Tan Wei Ming|+60120000006
+DOCTOR|D004|siti@gmail.com|doctor123|Dr. Siti Nurhaliza|+60120000007
+DOCTOR|D005|rajesh@gmail.com|doctor123|Dr. Rajesh Kumar|+60120000008
+DOCTOR|D006|wong@gmail.com|doctor123|Dr. Wong Kah Meng|+60120000009
+DOCTOR|D007|farhan@gmail.com|doctor123|Dr. Farhan Azman|+60120000010
+DOCTOR|D008|melissa@gmail.com|doctor123|Dr. Melissa Chen|+60120000011
+DOCTOR|D009|david@gmail.com|doctor123|Dr. David Fernandez|+60120000012
+DOCTOR|D010|nurul@gmail.com|doctor123|Dr. Nurul Izzah|+60120000013
+MEDICAL_MANAGER|M001|2|2|Medical Manager|+60120000002
+MEDICAL_MANAGER|M002|12@gmail.com|123456|swk|+60111
 ADMINISTRATIVE_STAFF|A001|admin@gmail.com|admin123|Default Admin|+60120000001
-PATIENT|P003|hihi@gmail.com|test123|HIHI|+60123131
+

@@ -1,0 +1,9 @@
+ADM001|P001|D001|ICU|Severe arrhythmia observation|EMERGENCY|None|PENDING|2026-09-22|None
+ADM002|P002|D002|INPATIENT_WARD|Post-procedure general observation|ROUTINE|AST011|ADMITTED|2026-09-21|None
+ADM003|P002|D001|SINGLE_ROOM|Doctor requested inpatient admission: f|ROUTINE|AST013|DISCHARGED|2026-09-22|2026-09-22
+ADM004|P004|D001|INPATIENT_WARD|Doctor requested inpatient admission: dddddddddddddd|ROUTINE|AST013|ADMITTED|2026-09-22|None
+ADM005|P002|D001|INPATIENT_WARD|Doctor requested inpatient admission: gggg|ROUTINE|None|PENDING|2026-09-22|None
+ADM006|P003|D001|INPATIENT_WARD|Doctor requested inpatient admission: jjj|ROUTINE|None|PENDING|2026-09-22|None
+ADM007|P004|D001|INPATIENT_WARD|Doctor requested inpatient admission: dddddddddddddd|ROUTINE|None|PENDING|2026-09-22|None
+ADM008|P004|D001|INPATIENT_WARD|Doctor requested inpatient admission: dddddddddddddd|ROUTINE|None|PENDING|2026-09-22|None
+ADM009|P001|D001|INPATIENT_WARD|Doctor requested inpatient admission: test ward|ROUTINE|AST026|DISCHARGED|2026-09-23|2026-09-23

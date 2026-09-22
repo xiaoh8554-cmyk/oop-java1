@@ -1,3 +1,6 @@
 P001|1995-06-15|Male|O+|+60198888888|parents|Asthma, mild hypertension, allergic to penicillin
 P002|2000-03-22|Female|A+|+601111111111|guardian|No known allergies
 P003|2000-01-21|Male|A+|+60123456999|parents|none
+P004|2000-01-01|Other|O+|-|parents|None
+P005|2006-09-23|Male|O+|+603333|parents|33333
+P006|2006-09-23|Male|O+|+60333|parents|None

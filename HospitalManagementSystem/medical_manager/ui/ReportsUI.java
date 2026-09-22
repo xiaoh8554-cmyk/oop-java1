@@ -23,9 +23,33 @@ public class ReportsUI extends ReportsUX {
         List<String[]> bills = FileHandler.read(FileHandler.BILLING);
         List<String[]> rx = FileHandler.read(FileHandler.PRESCRIPTIONS);
         List<String[]> fb = FileHandler.read(FileHandler.FEEDBACK);
+        List<String[]> assets = FileHandler.read(FileHandler.ASSETS);
+        List<String[]> admissions = FileHandler.read(FileHandler.ADMISSIONS);
 
         long patients = users.stream().filter(u -> u.getRole() == UserRole.PATIENT).count();
         long doctors = users.stream().filter(u -> u.getRole() == UserRole.DOCTOR).count();
+
+        // Inpatient bed occupancy calculation
+        int totalInpatientBeds = 0;
+        int occupiedBeds = 0;
+        for (String[] a : assets) {
+            if (a.length >= 6 && ("INPATIENT_WARD".equalsIgnoreCase(a[2]) || "ICU".equalsIgnoreCase(a[2]))) {
+                int cap = DataUtil.toInt(a[4], 1);
+                totalInpatientBeds += cap;
+                if ("ALLOCATED".equalsIgnoreCase(a[5])) {
+                    occupiedBeds += 1;
+                }
+            }
+        }
+
+        long admittedCount = 0;
+        long pendingCount = 0;
+        for (String[] adm : admissions) {
+            if (adm.length >= 8) {
+                if ("ADMITTED".equalsIgnoreCase(adm[7])) admittedCount++;
+                else if ("PENDING".equalsIgnoreCase(adm[7])) pendingCount++;
+            }
+        }
 
         double total = 0, paid = 0, unpaid = 0;
         for (String[] r : bills) {
@@ -56,6 +80,13 @@ public class ReportsUI extends ReportsUX {
         sb.append("Wards / Clinics: ").append(wards.size()).append("\n");
         sb.append("Departments / Specialties: ").append(deps.size()).append("\n");
         sb.append("Assessment Types: ").append(types.size()).append("\n\n");
+        sb.append("INPATIENT ADMISSIONS & BED OCCUPANCY\n");
+        sb.append("Active Admitted Inpatients: ").append(admittedCount).append("\n");
+        sb.append("Pending Admission Requests: ").append(pendingCount).append("\n");
+        sb.append("Total Hospital Inpatient Beds: ").append(totalInpatientBeds).append("\n");
+        sb.append("Occupied Rooms / Beds: ").append(occupiedBeds).append("\n");
+        double occ = totalInpatientBeds > 0 ? ((double) occupiedBeds / totalInpatientBeds) * 100 : 0;
+        sb.append(String.format("Bed Occupancy Rate: %.1f%%\n\n", occ));
         sb.append("CLINICAL ACTIVITY\n");
         sb.append("Assessments recorded: ").append(assessments.size()).append("\n");
         sb.append("Prescriptions issued: ").append(rx.size()).append("\n");

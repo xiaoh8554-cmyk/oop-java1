@@ -31,7 +31,6 @@ public class AppointmentHistoryUI extends AppointmentHistoryUX {
             dispose();
         };
         bookNewButton.addActionListener(e -> openBooking.run());
-        bottomBookButton.addActionListener(e -> openBooking.run());
 
         refreshHistoryButton.addActionListener(e -> refreshHistory());
         rescheduleButton.addActionListener(e -> rescheduleAppointment());
@@ -60,6 +59,14 @@ public class AppointmentHistoryUI extends AppointmentHistoryUX {
     private void leaveFeedback() {
         int row = historyTable.getSelectedRow();
         if (row >= 0) {
+            String status = historyModel.getValueAt(row, 7).toString();
+            if (!"COMPLETED".equalsIgnoreCase(status)) {
+                JOptionPane.showMessageDialog(this,
+                        "Feedback can only be submitted for consultations that are COMPLETED (Selected status: " + status + ").",
+                        "Completed Status Required",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             String apptId = historyModel.getValueAt(row, 0).toString();
             new PatientPrescriptionFeedbackUI(apptId).setVisible(true);
         } else {

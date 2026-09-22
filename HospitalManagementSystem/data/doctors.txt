@@ -1,3 +1,10 @@
 D001|Cardiology|MBBS, MD|M001
-D002|General Medicine|MBBS|M002
+D002|General Medicine|MBBS|M001
 D003|Dermatology|MBBS, MD, FAAD|M001
+D004|Pediatrics|MBBS, MMed (Pediatrics)|M001
+D005|Orthopedics|MBBS, MS Ortho|M001
+D006|ENT|MBBS, MS ORL|M001
+D007|Neurology|MBBS, MD Neurology|M001
+D008|Nephrology|MBBS, MRCP Nephro|M001
+D009|General Surgery|MBBS, FRCS|M001
+D010|Psychiatry|MBBS, MMed Psychiatry|M002

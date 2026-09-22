@@ -1,0 +1,6 @@
+Level 1|10
+Level 2|5
+Level 3|5
+Level 4|5
+Level 5|10
+Level 6|5

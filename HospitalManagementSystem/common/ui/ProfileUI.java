@@ -21,6 +21,7 @@ public class ProfileUI extends ProfileUX {
     private final Runnable onProfileUpdated;
     private char defaultEchoChar;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    private final JComboBox<String> managerOfficeBox = new JComboBox<>();
 
     public ProfileUI() {
         this(null, null);
@@ -156,9 +157,28 @@ public class ProfileUI extends ProfileUX {
             addFormRow(extraPanel, g, r++, extra3Label.getText(), extra3Field);
         } else if (user instanceof MedicalManager) {
             MedicalManager m = (MedicalManager) user;
-            extra1Label.setText("Office Number:");
-            extra1Field.setText(m.getOfficeNumber());
-            addFormRow(extraPanel, g, r++, extra1Label.getText(), extra1Field);
+            managerOfficeBox.removeAllItems();
+            java.util.List<String[]> assets = common.FileHandler.read(common.FileHandler.ASSETS);
+            for (String[] a : assets) {
+                if (a.length >= 4 && ("OFFICE".equalsIgnoreCase(a[2]) || a[3].contains("Level 6"))) {
+                    String roomName = a[1].trim();
+                    if (roomName.startsWith("Office ")) {
+                        roomName = roomName.substring(7).trim();
+                    }
+                    managerOfficeBox.addItem(roomName);
+                }
+            }
+            if (managerOfficeBox.getItemCount() == 0) {
+                managerOfficeBox.addItem("A06-01");
+                managerOfficeBox.addItem("A06-02");
+                managerOfficeBox.addItem("A06-03");
+                managerOfficeBox.addItem("A06-04");
+                managerOfficeBox.addItem("A06-05");
+            }
+            if (m.getOfficeNumber() != null) {
+                managerOfficeBox.setSelectedItem(m.getOfficeNumber());
+            }
+            addFormRow(extraPanel, g, r++, "Office Number (Level 6):", managerOfficeBox);
         } else if (user instanceof AdministrativeStaff) {
             // Administrative staff has no extra role-specific fields
             extraPanel.removeAll();
@@ -279,11 +299,9 @@ public class ProfileUI extends ProfileUX {
             d.setSpecialty(specialty);
             d.setQualification(qualification);
         } else if (currentUser instanceof MedicalManager) {
-            String office = extra1Field.getText().trim();
-
-            if (office.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Office Number is required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            String office = (String) managerOfficeBox.getSelectedItem();
+            if (office == null || office.trim().isEmpty()) {
+                office = "A06-01";
             }
 
             String[] checks = {newEmail, newFullName, newPhone, newPassword, office};

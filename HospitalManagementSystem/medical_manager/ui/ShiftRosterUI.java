@@ -22,8 +22,12 @@ public class ShiftRosterUI extends JFrame {
     private DatePicker filterDatePicker;
     private JCheckBox filterDateEnabled;
     private String selectedRosterId = "";
+    private final String currentManagerId;
 
     public ShiftRosterUI() {
+        currentManagerId = (common.Session.getCurrentUser() != null && common.Session.getCurrentUser().getRole() != null && "MEDICAL_MANAGER".equalsIgnoreCase(common.Session.getCurrentUser().getRole().name()))
+                ? common.Session.getCurrentUser().getUserId() : "";
+
         setTitle("Doctor Shift Roster");
         setSize(900, 500);
         setLocationRelativeTo(null);
@@ -44,7 +48,7 @@ public class ShiftRosterUI extends JFrame {
         JPanel panelForm = new JPanel(new GridLayout(6, 2, 8, 8));
         panelForm.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         Vector<String> departments = ShiftRosterUX.loadDataFromFile("departments.txt", new String[]{"Cardiology", "Pediatrics", "Emergency"});
-        Vector<String> doctors = ShiftRosterUX.loadDoctorOptions(new String[]{"D001 - Aisha", "D002 - Lee", "D003 - Tan Wei Ming"});
+        Vector<String> doctors = ShiftRosterUX.loadDoctorOptions(new String[]{"D001 - Aisha", "D002 - Lee", "D003 - Tan Wei Ming"}, currentManagerId);
         Vector<String> locations = ShiftRosterUX.loadDataFromFile("assets.txt", new String[]{"R101", "R102", "R103"});
 
         filterDepartment = new JComboBox<>();
@@ -151,7 +155,7 @@ public class ShiftRosterUI extends JFrame {
         String doctor = filterDoctor.getSelectedIndex() == 0
                 ? "" : ShiftRosterUX.doctorIdFromOption(filterDoctor.getSelectedItem().toString());
         String date = filterDateEnabled.isSelected() ? filterDatePicker.getDateString() : "";
-        List<Vector<String>> rows = ShiftRosterUX.loadRosterTableData(doctor, department, date);
+        List<Vector<String>> rows = ShiftRosterUX.loadRosterTableData(doctor, department, date, currentManagerId);
         for (Vector<String> row : rows) {
             tableModel.addRow(row);
         }
@@ -162,7 +166,7 @@ public class ShiftRosterUI extends JFrame {
         int selectedRow = rosterTable.getSelectedRow();
         String[] record = selectedRow < 0 ? null
             : ShiftRosterUX.getRosterRecordAtFilter(selectedRow,
-                currentDoctorFilter(), currentDepartmentFilter(), currentDateFilter());
+                currentDoctorFilter(), currentDepartmentFilter(), currentDateFilter(), currentManagerId);
         if (record == null) {
             return;
         }

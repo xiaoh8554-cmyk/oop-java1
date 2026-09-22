@@ -1,3 +1,10 @@
 DEP001|Cardiology|Cardiovascular Care & Diagnostics|Dr. Aisha
 DEP002|General Medicine|Primary Care & Outpatient|Dr. Lee
 DEP003|Dermatology|Skin and Allergy Specialist Care|Dr. Tan Wei Ming
+DEP004|Pediatrics|Infant & Child Health Care|Dr. Siti Nurhaliza
+DEP005|Orthopedics|Bone & Joint Specialist Care|Dr. Rajesh Kumar
+DEP006|ENT|Ear, Nose & Throat Clinic|Dr. Wong Kah Meng
+DEP007|Neurology|Neurological & Brain Disorders|Dr. Farhan Azman
+DEP008|Nephrology|Kidney & Renal Health Care|Dr. Melissa Chen
+DEP009|General Surgery|Surgical Operations & Procedures|Dr. David Fernandez
+DEP010|Psychiatry|Mental Health & Counseling|Dr. Nurul Izzah

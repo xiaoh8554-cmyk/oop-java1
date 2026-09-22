@@ -72,8 +72,10 @@ public class DepartmentUI extends JFrame {
 		specializationField = new JTextField();
 		form.add(specializationField);
 		form.add(new JLabel("Doctor Name:"));
+		String currentManagerId = (common.Session.getCurrentUser() != null && common.Session.getCurrentUser().getRole() != null && "MEDICAL_MANAGER".equalsIgnoreCase(common.Session.getCurrentUser().getRole().name()))
+				? common.Session.getCurrentUser().getUserId() : "";
 		doctorField = new JComboBox<>(ShiftRosterUX.loadDoctorOptions(
-				new String[]{"D001 - Aisha", "D002 - Lee", "D003 - Tan Wei Ming"}));
+				new String[]{"D001 - Aisha", "D002 - Lee", "D003 - Tan Wei Ming"}, currentManagerId));
 		form.add(doctorField);
 
 		JPanel content = new JPanel(new BorderLayout(10, 10));

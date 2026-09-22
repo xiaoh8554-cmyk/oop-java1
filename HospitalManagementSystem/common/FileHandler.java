@@ -21,6 +21,8 @@ public class FileHandler {
     public static final String ROSTERS = "rosters.txt";
     public static final String REQUESTS = "requests.txt";
     public static final String DOCTOR_DEPARTMENTS = "doctor_departments.txt";
+    public static final String ADMISSIONS = "admissions.txt";
+    public static final String FLOOR_CAPACITIES = "floor_capacities.txt";
 
     public static Path getDataDir() {
         Path projectData = Paths.get("oop-java1", "HospitalManagementSystem", "data");
@@ -38,7 +40,7 @@ public class FileHandler {
         try {
             Path dataDir = getDataDir();
             Files.createDirectories(dataDir);
-            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS, DOCTOR_DEPARTMENTS};
+            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS, DOCTOR_DEPARTMENTS, ADMISSIONS, FLOOR_CAPACITIES};
             for (String name : names) {
                 Path p = dataDir.resolve(name);
                 if (!Files.exists(p)) Files.createFile(p);

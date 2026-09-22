@@ -24,6 +24,18 @@ public class AssessmentResultUX extends JFrame {
     protected final JTextArea notesArea = new JTextArea(3, 20);
     protected final JTextArea labArea = new JTextArea(3, 20);
 
+    // Admission Decision Controls
+    protected final JComboBox<String> admissionBox = new JComboBox<>(new String[]{
+            "No Admission (Outpatient)", "Admission Required (Inpatient)"
+    });
+    protected final JComboBox<String> wardTypeBox = new JComboBox<>(new String[]{
+            "INPATIENT_WARD", "ICU", "SINGLE_ROOM"
+    });
+    protected final JComboBox<String> urgencyBox = new JComboBox<>(new String[]{
+            "ROUTINE", "URGENT", "EMERGENCY"
+    });
+    protected final JTextField admissionReasonField = new JTextField(18);
+
     protected final JButton backButton = new JButton("← Back to Dashboard");
     protected final JButton saveButton = new JButton("Save Vitals & Consultation");
     protected final JButton clearButton = new JButton("Clear Form");
@@ -112,6 +124,20 @@ public class AssessmentResultUX extends JFrame {
         labArea.setLineWrap(true);
         labArea.setWrapStyleWord(true);
         formGrid.add(new JScrollPane(labArea), g);
+
+        // Row 4: Admission Decision
+        g.gridx = 0; g.gridy = 4; g.gridwidth = 6;
+        JPanel admissionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 2));
+        admissionPanel.setBorder(BorderFactory.createTitledBorder("Inpatient Admission Decision"));
+        admissionPanel.add(new JLabel("Decision:"));
+        admissionPanel.add(admissionBox);
+        admissionPanel.add(new JLabel("Ward Type:"));
+        admissionPanel.add(wardTypeBox);
+        admissionPanel.add(new JLabel("Urgency:"));
+        admissionPanel.add(urgencyBox);
+        admissionPanel.add(new JLabel("Reason:"));
+        admissionPanel.add(admissionReasonField);
+        formGrid.add(admissionPanel, g);
 
         formContainer.add(formGrid, BorderLayout.CENTER);
 

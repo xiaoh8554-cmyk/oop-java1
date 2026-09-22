@@ -12,7 +12,6 @@ public class AdminDashboardUI extends AdminDashboardUX {
         usersButton.addActionListener(e -> new UserManagementUI().setVisible(true));
         doctorManagerButton.addActionListener(e -> new DoctorManagerAssignUI().setVisible(true));
         assetsButton.addActionListener(e -> new AssetManagementUI().setVisible(true));
-        wardsButton.addActionListener(e -> new WardClinicUI().setVisible(true));
         ratesInsuranceButton.addActionListener(e -> new RatesInsuranceUI().setVisible(true));
         billingButton.addActionListener(e -> new BillingUI().setVisible(true));
         profileButton.addActionListener(e -> new ProfileUI(this::refreshWelcome).setVisible(true));
