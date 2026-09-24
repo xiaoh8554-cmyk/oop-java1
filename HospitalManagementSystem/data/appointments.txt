@@ -1,11 +1,15 @@
-202609100001|P001|D001|Aisha|Cardiology|2026-09-10|10:00 - 10:30|CR-105|COMPLETED|Initial Heart Palpitation Consultation
-202609050001|P001|D002|Lee|General Medicine|2026-09-05|10:00 - 10:30|Room 101|COMPLETED|Routine Annual Health Screening
-202609150001|P001|D003|Tan Wei Ming|Dermatology|2026-09-15|14:00 - 14:30|Room 102|COMPLETED|Eczema and Skin Allergy Follow-up
-202609250001|P001|D001|Aisha|Cardiology|2026-09-25|10:00 - 10:30|CR-105|BOOKED|Follow-up ECG and Consultation
-202609260001|P001|D002|Lee|General Medicine|2026-09-26|11:00 - 11:30|Room 101|CANCELLED|Blood Sugar Review Consultation
-202609010001|P001|D002|Lee|General Medicine|2026-09-01|09:00 - 09:30|Room 101|CANCELLED|Cough and Cold Consultation
-202609200001|P002|D001|Aisha|Cardiology|2026-09-20|14:00 - 14:30|CR-105|BOOKED|Blood Pressure Checkup
-202609270001|P001|D002|Lee|General Medicine|2026-09-27|16:00 - 16:30|Room 101|RESCHEDULED|Blood Sugar Review Consultation
-202609210001|P001|D001|Aisha|Cardiology|2026-09-21|URGENT (Immediate Queue)|CR-105|URGENT|[EMERGENCY] Urgent consultation required
-202609210002|P001|D002|Lee|General Medicine|2026-09-21|17:00 - 17:30|Room 101|COMPLETED|test
-202609210003|P003|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|Room 101|URGENT|[EMERGENCY] Urgent consultation required
+202609100001|P001|D001|Aisha|Cardiology|2026-09-10|10:00 - 10:30|A01-01|COMPLETED|Initial Heart Palpitation Consultation
+202609050001|P001|D002|Lee|General Medicine|2026-09-05|10:00 - 10:30|A01-02|COMPLETED|Routine Annual Health Screening
+202609150001|P001|D003|Tan Wei Ming|Dermatology|2026-09-15|14:00 - 14:30|A01-03|COMPLETED|Eczema and Skin Allergy Follow-up
+202609250001|P001|D001|Aisha|Cardiology|2026-09-25|10:00 - 10:30|A01-01|BOOKED|Follow-up ECG and Consultation
+202609260001|P001|D002|Lee|General Medicine|2026-09-26|11:00 - 11:30|A01-02|CANCELLED|Blood Sugar Review Consultation
+202609010001|P001|D002|Lee|General Medicine|2026-09-01|09:00 - 09:30|A01-02|CANCELLED|Cough and Cold Consultation
+202609200001|P002|D001|Aisha|Cardiology|2026-09-20|14:00 - 14:30|A01-01|BOOKED|Blood Pressure Checkup
+202609270001|P001|D002|Lee|General Medicine|2026-09-27|16:00 - 16:30|A01-02|RESCHEDULED|Blood Sugar Review Consultation
+202609210001|P001|D003|Tan Wei Ming|Dermatology|2026-09-21|17:00 - 17:30|A01-03|BOOKED|General Medical Consultation
+202609210002|P001|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|A01-02|URGENT|[EMERGENCY] Urgent consultation required
+202609210003|P003|D002|Lee|General Medicine|2026-09-21|URGENT (Immediate Queue)|A01-02|URGENT|[EMERGENCY] Urgent consultation required
+202609220001|P001|D001|Dr. Aisha|Cardiology|2026-09-22|17:00 - 17:30|Consultation Room A01-01|BOOKED|123
+202609220002|P001|D004|Dr. Siti Nurhaliza|Pediatrics|2026-09-22|URGENT (Immediate Queue)|Consultation Room A01-04|URGENT|[EMERGENCY] Urgent consultation required
+202609230001|P001|D001|Dr. Aisha|Cardiology|2026-09-23|10:00 - 10:30|Consultation Room A01-01|COMPLETED|General Medical Consultation
+202609230002|P001|D001|Dr. Aisha|Cardiology|2026-09-23|10:00 - 10:30|Consultation Room A01-01|BOOKED|General Medical Consultation

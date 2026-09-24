@@ -20,6 +20,9 @@ public class FileHandler {
     public static final String RATES = "rates.txt";
     public static final String ROSTERS = "rosters.txt";
     public static final String REQUESTS = "requests.txt";
+    public static final String DOCTOR_DEPARTMENTS = "doctor_departments.txt";
+    public static final String ADMISSIONS = "admissions.txt";
+    public static final String FLOOR_CAPACITIES = "floor_capacities.txt";
 
     public static Path getDataDir() {
         Path projectData = Paths.get("oop-java1", "HospitalManagementSystem", "data");
@@ -37,7 +40,7 @@ public class FileHandler {
         try {
             Path dataDir = getDataDir();
             Files.createDirectories(dataDir);
-            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS};
+            String[] names = {USERS, WARDS, DEPARTMENTS, ASSESSMENT_TYPES, ASSESSMENTS, BILLING, PRESCRIPTIONS, FEEDBACK, APPOINTMENTS, ASSETS, INSURANCE, RATES, ROSTERS, REQUESTS, DOCTOR_DEPARTMENTS, ADMISSIONS, FLOOR_CAPACITIES};
             for (String name : names) {
                 Path p = dataDir.resolve(name);
                 if (!Files.exists(p)) Files.createFile(p);
@@ -85,6 +88,11 @@ public class FileHandler {
         if (Files.size(dataDir.resolve(REQUESTS)) == 0) {
             append(REQUESTS, new String[]{"REQ001","D001","P001","LAB_TEST","Comprehensive Blood Panel (Full Blood Count & Lipid Profile)","PENDING","2026-09-20"});
             append(REQUESTS, new String[]{"REQ002","D001","P002","X_RAY","Chest X-Ray (PA View) for persistent cough","APPROVED","2026-09-18"});
+        }
+        if (Files.size(dataDir.resolve(DOCTOR_DEPARTMENTS)) == 0) {
+            append(DOCTOR_DEPARTMENTS, new String[]{"D001", "DEP001"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D002", "DEP002"});
+            append(DOCTOR_DEPARTMENTS, new String[]{"D003", "DEP003"});
         }
     }
 

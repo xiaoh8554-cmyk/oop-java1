@@ -28,13 +28,35 @@ public class ShiftRosterUX {
         return values;
     }
 
+    public static List<String> getDoctorIdsForManager(String managerId) {
+        List<String> list = new ArrayList<>();
+        if (managerId == null || managerId.trim().isEmpty()) {
+            return list;
+        }
+        for (String[] d : FileHandler.read("doctors.txt")) {
+            if (d.length >= 4 && d[3].equalsIgnoreCase(managerId.trim())) {
+                list.add(d[0].trim());
+            }
+        }
+        return list;
+    }
+
     public static Vector<String> loadDoctorOptions(String[] fallback) {
+        return loadDoctorOptions(fallback, null);
+    }
+
+    public static Vector<String> loadDoctorOptions(String[] fallback, String managerId) {
         Vector<String> options = new Vector<>();
         for (String[] doctor : FileHandler.read("doctors.txt")) {
             if (doctor.length == 0) {
                 continue;
             }
             String doctorId = doctor[0];
+            if (managerId != null && !managerId.trim().isEmpty()) {
+                if (doctor.length < 4 || !doctor[3].equalsIgnoreCase(managerId.trim())) {
+                    continue;
+                }
+            }
             String doctorName = doctorId;
             for (String[] user : FileHandler.read(FileHandler.USERS)) {
                 if (user.length > 4 && "DOCTOR".equals(user[0]) && doctorId.equals(user[1])) {
@@ -72,9 +94,20 @@ public class ShiftRosterUX {
     public static List<Vector<String>> loadRosterTableData(String doctorId,
                                                             String department,
                                                             String date) {
+        return loadRosterTableData(doctorId, department, date, "");
+    }
+
+    public static List<Vector<String>> loadRosterTableData(String doctorId,
+                                                            String department,
+                                                            String date,
+                                                            String managerId) {
+        List<String> allowedDoctors = getDoctorIdsForManager(managerId);
         List<Vector<String>> tableRows = new ArrayList<>();
         for (String[] parts : getRosterRecords()) {
             if (parts.length < 8) {
+                continue;
+            }
+            if (!allowedDoctors.isEmpty() && !allowedDoctors.contains(parts[1])) {
                 continue;
             }
             if (!doctorId.isEmpty() && !doctorId.equals(parts[1])) {
@@ -109,8 +142,17 @@ public class ShiftRosterUX {
 
     public static String[] getRosterRecordAtFilter(int tableRow, String doctorId,
                                                    String department, String date) {
+        return getRosterRecordAtFilter(tableRow, doctorId, department, date, "");
+    }
+
+    public static String[] getRosterRecordAtFilter(int tableRow, String doctorId,
+                                                   String department, String date, String managerId) {
+        List<String> allowedDoctors = getDoctorIdsForManager(managerId);
         List<String[]> filteredRecords = new ArrayList<>();
         for (String[] record : getRosterRecords()) {
+            if (!allowedDoctors.isEmpty() && !allowedDoctors.contains(record[1])) {
+                continue;
+            }
             if ((!doctorId.isEmpty() && !doctorId.equals(record[1]))
                     || (!department.isEmpty() && !department.equals(record[3]))
                     || (!date.isEmpty() && !date.equals(record[4]))) {

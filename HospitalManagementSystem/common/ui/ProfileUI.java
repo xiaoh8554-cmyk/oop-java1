@@ -17,18 +17,35 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class ProfileUI extends ProfileUX {
+    private final User targetUser;
     private final Runnable onProfileUpdated;
     private char defaultEchoChar;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    private final JComboBox<String> managerOfficeBox = new JComboBox<>();
 
     public ProfileUI() {
-        this(null);
+        this(null, null);
     }
 
     public ProfileUI(Runnable onProfileUpdated) {
+        this(null, onProfileUpdated);
+    }
+
+    public ProfileUI(User targetUser) {
+        this(targetUser, null);
+    }
+
+    public ProfileUI(User targetUser, Runnable onProfileUpdated) {
         super();
+        this.targetUser = (targetUser != null) ? targetUser : Session.getCurrentUser();
         this.onProfileUpdated = onProfileUpdated;
         this.defaultEchoChar = passwordField.getEchoChar();
+
+        if (this.targetUser != null && (targetUser != null && (Session.getCurrentUser() == null || !targetUser.getId().equalsIgnoreCase(Session.getCurrentUser().getId())))) {
+            setTitle("User Profile - " + this.targetUser.getId() + " (" + this.targetUser.getFullName() + ")");
+            titleLabel.setText("User Profile: " + this.targetUser.getFullName() + " (" + this.targetUser.getId() + ")");
+            backButton.setText("\u2190 Back / Close");
+        }
 
         loadUserData();
 
@@ -67,9 +84,9 @@ public class ProfileUI extends ProfileUX {
     }
 
     private void loadUserData() {
-        User user = Session.getCurrentUser();
+        User user = this.targetUser;
         if (user == null) {
-            JOptionPane.showMessageDialog(this, "No active session found.");
+            JOptionPane.showMessageDialog(this, "No user data found to display.");
             dispose();
             return;
         }
@@ -126,29 +143,45 @@ public class ProfileUI extends ProfileUX {
             Doctor d = (Doctor) user;
             extra1Label.setText("Specialty:");
             extra1Field.setText(d.getSpecialty());
+            extra1Field.setEditable(true);
             addFormRow(extraPanel, g, r++, extra1Label.getText(), extra1Field);
 
             extra2Label.setText("Qualification:");
             extra2Field.setText(d.getQualification());
+            extra2Field.setEditable(true);
             addFormRow(extraPanel, g, r++, extra2Label.getText(), extra2Field);
 
-            extra3Label.setText("Consultation Room:");
+            extra3Label.setText("Allocated Room (Assets):");
             extra3Field.setText(d.getRoomNumber());
+            extra3Field.setEditable(false);
             addFormRow(extraPanel, g, r++, extra3Label.getText(), extra3Field);
         } else if (user instanceof MedicalManager) {
             MedicalManager m = (MedicalManager) user;
-            extra1Label.setText("Department:");
-            extra1Field.setText(m.getDepartment());
-            addFormRow(extraPanel, g, r++, extra1Label.getText(), extra1Field);
-
-            extra2Label.setText("Office Number:");
-            extra2Field.setText(m.getOfficeNumber());
-            addFormRow(extraPanel, g, r++, extra2Label.getText(), extra2Field);
+            managerOfficeBox.removeAllItems();
+            java.util.List<String[]> assets = common.FileHandler.read(common.FileHandler.ASSETS);
+            for (String[] a : assets) {
+                if (a.length >= 4 && ("OFFICE".equalsIgnoreCase(a[2]) || a[3].contains("Level 6"))) {
+                    String roomName = a[1].trim();
+                    if (roomName.startsWith("Office ")) {
+                        roomName = roomName.substring(7).trim();
+                    }
+                    managerOfficeBox.addItem(roomName);
+                }
+            }
+            if (managerOfficeBox.getItemCount() == 0) {
+                managerOfficeBox.addItem("A06-01");
+                managerOfficeBox.addItem("A06-02");
+                managerOfficeBox.addItem("A06-03");
+                managerOfficeBox.addItem("A06-04");
+                managerOfficeBox.addItem("A06-05");
+            }
+            if (m.getOfficeNumber() != null) {
+                managerOfficeBox.setSelectedItem(m.getOfficeNumber());
+            }
+            addFormRow(extraPanel, g, r++, "Office Number (Level 6):", managerOfficeBox);
         } else if (user instanceof AdministrativeStaff) {
-            AdministrativeStaff a = (AdministrativeStaff) user;
-            extra1Label.setText("Access Level:");
-            extra1Field.setText(a.getAccessLevel());
-            addFormRow(extraPanel, g, r++, extra1Label.getText(), extra1Field);
+            // Administrative staff has no extra role-specific fields
+            extraPanel.removeAll();
         }
 
         extraPanel.revalidate();
@@ -156,9 +189,9 @@ public class ProfileUI extends ProfileUX {
     }
 
     private void saveChanges() {
-        User currentUser = Session.getCurrentUser();
+        User currentUser = this.targetUser;
         if (currentUser == null) {
-            JOptionPane.showMessageDialog(this, "No active session found.");
+            JOptionPane.showMessageDialog(this, "No user found to update.");
             return;
         }
 
@@ -244,14 +277,13 @@ public class ProfileUI extends ProfileUX {
         } else if (currentUser instanceof Doctor) {
             String specialty = extra1Field.getText().trim();
             String qualification = extra2Field.getText().trim();
-            String room = extra3Field.getText().trim();
 
-            if (specialty.isEmpty() || qualification.isEmpty() || room.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All doctor fields (Specialty, Qualification, Consultation Room) are required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            if (specialty.isEmpty() || qualification.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Doctor Specialty and Qualification are required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String[] checks = {newEmail, newFullName, newPhone, newPassword, specialty, qualification, room};
+            String[] checks = {newEmail, newFullName, newPhone, newPassword, specialty, qualification};
             for (String c : checks) {
                 if (c != null && c.contains("|")) {
                     JOptionPane.showMessageDialog(this, "Pipe character '|' is not allowed in any field.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -266,17 +298,13 @@ public class ProfileUI extends ProfileUX {
             d.setPassword(newPassword);
             d.setSpecialty(specialty);
             d.setQualification(qualification);
-            d.setRoomNumber(room);
         } else if (currentUser instanceof MedicalManager) {
-            String department = extra1Field.getText().trim();
-            String office = extra2Field.getText().trim();
-
-            if (department.isEmpty() || office.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All manager fields (Department, Office Number) are required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            String office = (String) managerOfficeBox.getSelectedItem();
+            if (office == null || office.trim().isEmpty()) {
+                office = "A06-01";
             }
 
-            String[] checks = {newEmail, newFullName, newPhone, newPassword, department, office};
+            String[] checks = {newEmail, newFullName, newPhone, newPassword, office};
             for (String c : checks) {
                 if (c != null && c.contains("|")) {
                     JOptionPane.showMessageDialog(this, "Pipe character '|' is not allowed in any field.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -289,17 +317,9 @@ public class ProfileUI extends ProfileUX {
             m.setFullName(newFullName);
             m.setPhoneNumber(newPhone);
             m.setPassword(newPassword);
-            m.setDepartment(department);
             m.setOfficeNumber(office);
         } else if (currentUser instanceof AdministrativeStaff) {
-            String accessLevel = extra1Field.getText().trim();
-
-            if (accessLevel.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Access Level field is required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String[] checks = {newEmail, newFullName, newPhone, newPassword, accessLevel};
+            String[] checks = {newEmail, newFullName, newPhone, newPassword};
             for (String c : checks) {
                 if (c != null && c.contains("|")) {
                     JOptionPane.showMessageDialog(this, "Pipe character '|' is not allowed in any field.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -312,11 +332,12 @@ public class ProfileUI extends ProfileUX {
             a.setFullName(newFullName);
             a.setPhoneNumber(newPhone);
             a.setPassword(newPassword);
-            a.setAccessLevel(accessLevel);
         }
 
         DataManager.getInstance().updateUser(currentUser);
-        Session.setCurrentUser(currentUser);
+        if (Session.getCurrentUser() != null && Session.getCurrentUser().getId().equalsIgnoreCase(currentUser.getId())) {
+            Session.setCurrentUser(currentUser);
+        }
 
         if (onProfileUpdated != null) {
             onProfileUpdated.run();

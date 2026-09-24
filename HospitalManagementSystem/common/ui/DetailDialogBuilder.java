@@ -52,10 +52,15 @@ public class DetailDialogBuilder {
     public DetailDialogBuilder addField(String label, String value) {
         GridBagConstraints g = createConstraints(false);
         g.gridx = 0; g.gridy = currentRow;
-        bodyPanel.add(new JLabel(label), g);
+        g.weightx = 0.25;
+        JLabel lbl = new JLabel(label);
+        lbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        bodyPanel.add(lbl, g);
 
         g.gridx = 1;
-        bodyPanel.add(new JLabel(value != null ? value : "N/A"), g);
+        g.weightx = 0.75;
+        JLabel valLabel = new JLabel("<html><body style='width: 380px;'>" + (value != null ? value : "N/A") + "</body></html>");
+        bodyPanel.add(valLabel, g);
         currentRow++;
         return this;
     }
@@ -63,11 +68,15 @@ public class DetailDialogBuilder {
     public DetailDialogBuilder addHighlightField(String label, String value, Color color) {
         GridBagConstraints g = createConstraints(false);
         g.gridx = 0; g.gridy = currentRow;
-        bodyPanel.add(new JLabel(label), g);
+        g.weightx = 0.25;
+        JLabel lbl = new JLabel(label);
+        lbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        bodyPanel.add(lbl, g);
 
         g.gridx = 1;
+        g.weightx = 0.75;
         JLabel valLabel = new JLabel(value != null ? value : "N/A");
-        valLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
+        valLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         valLabel.setForeground(color != null ? color : new Color(20, 60, 140));
         bodyPanel.add(valLabel, g);
         currentRow++;
@@ -77,16 +86,25 @@ public class DetailDialogBuilder {
     public DetailDialogBuilder addTextAreaField(String label, String text, int rows) {
         GridBagConstraints g = createConstraints(true);
         g.gridx = 0; g.gridy = currentRow;
-        bodyPanel.add(new JLabel(label), g);
+        g.weightx = 0.25;
+        JLabel lbl = new JLabel(label);
+        lbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        bodyPanel.add(lbl, g);
 
         g.gridx = 1;
-        JTextArea area = new JTextArea(text != null ? text : "None", rows, 32);
+        g.weightx = 0.75;
+        g.weighty = 0.6; // Expands downwards to fill vertical room
+        g.fill = GridBagConstraints.BOTH;
+        JTextArea area = new JTextArea(text != null ? text : "None", rows, 28);
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
         area.setEditable(false);
+        area.setFont(new Font("SansSerif", Font.PLAIN, 12));
         area.setBackground(new Color(250, 250, 250));
         area.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        bodyPanel.add(new JScrollPane(area), g);
+        JScrollPane sp = new JScrollPane(area);
+        sp.setPreferredSize(new Dimension(420, Math.max(90, rows * 24)));
+        bodyPanel.add(sp, g);
         currentRow++;
         return this;
     }

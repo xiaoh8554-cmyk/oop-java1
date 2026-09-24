@@ -48,11 +48,28 @@ public class ManagerRequestApprovalUI extends ManagerRequestApprovalUX {
         String selectedFilter = (String) filterBox.getSelectedItem();
         if (selectedFilter == null) selectedFilter = "All Requests";
 
+        String currentManagerId = (Session.getCurrentUser() != null && Session.getCurrentUser().getRole() != null && "MEDICAL_MANAGER".equalsIgnoreCase(Session.getCurrentUser().getRole().name()))
+                ? Session.getCurrentUser().getUserId() : "";
+        List<String> assignedDoctorIds = new ArrayList<>();
+        if (!currentManagerId.isEmpty()) {
+            for (String[] doc : FileHandler.read("doctors.txt")) {
+                if (doc.length >= 4 && doc[3].equalsIgnoreCase(currentManagerId)) {
+                    assignedDoctorIds.add(doc[0].trim());
+                }
+            }
+        }
+
         for (String[] r : FileHandler.read(FileHandler.REQUESTS)) {
             // r: 0:reqId, 1:docId, 2:patientId, 3:type, 4:description, 5:status, 6:date
             if (r.length >= 7) {
                 String reqId = r[0];
                 String docId = r[1];
+
+                // Only show requests from doctors assigned to this manager
+                if (!assignedDoctorIds.isEmpty() && !assignedDoctorIds.contains(docId)) {
+                    continue;
+                }
+
                 String docName = userNames.getOrDefault(docId, docId);
                 String patientId = r[2];
                 String patientName = userNames.getOrDefault(patientId, patientId);

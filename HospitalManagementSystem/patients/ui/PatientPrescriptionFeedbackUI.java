@@ -118,7 +118,8 @@ public class PatientPrescriptionFeedbackUI extends PatientPrescriptionFeedbackUX
         appointmentBox.removeAllItems();
 
         for (String[] r : FileHandler.read(FileHandler.APPOINTMENTS)) {
-            if (r.length >= 10 && r[1].equals(patient)) {
+            // Only allow feedback on COMPLETED appointments
+            if (r.length >= 10 && r[1].equals(patient) && "COMPLETED".equalsIgnoreCase(r[8])) {
                 patientAppointments.add(r);
                 // Display: [ApptID] Date | DoctorName (Specialty) - Status
                 String display = String.format("[%s] %s | Dr. %s (%s) - %s", r[0], r[5], r[3], r[4], r[8]);
@@ -127,8 +128,8 @@ public class PatientPrescriptionFeedbackUI extends PatientPrescriptionFeedbackUX
         }
 
         if (patientAppointments.isEmpty()) {
-            appointmentBox.addItem("-- No Appointment History Found --");
-            doctorField.setText("No appointment history available");
+            appointmentBox.addItem("-- No Completed Consultations Found --");
+            doctorField.setText("No completed consultations available for feedback");
             visitField.setText("N/A");
             submitButton.setEnabled(false);
         } else {

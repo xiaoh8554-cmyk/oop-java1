@@ -22,15 +22,18 @@ public class PatientDashboardUX extends JFrame {
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         root.add(welcomeLabel, BorderLayout.NORTH);
 
-        JPanel menu = new JPanel(new GridLayout(3, 2, 12, 12));
+        JPanel menu = new JPanel(new GridLayout(0, 2, 12, 12));
         menu.add(historyButton);
         menu.add(recordsButton);
         menu.add(billingButton);
         menu.add(prescriptionButton);
-        menu.add(profileButton);
+
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        actions.add(profileButton);
+        actions.add(logoutButton);
 
         root.add(menu, BorderLayout.CENTER);
-        root.add(logoutButton, BorderLayout.SOUTH);
+        root.add(actions, BorderLayout.SOUTH);
         setContentPane(root);
     }
 }

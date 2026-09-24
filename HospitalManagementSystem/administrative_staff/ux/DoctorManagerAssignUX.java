@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class DoctorManagerAssignUX extends JFrame {
     protected final DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Doctor ID", "Doctor Name", "Specialty", "Assigned Manager ID", "Manager Name", "Department"}, 0) {
+            new String[]{"Doctor ID", "Doctor Name", "Specialty", "Assigned Manager ID", "Manager Name", "Office Number"}, 0) {
         public boolean isCellEditable(int r, int c) { return false; }
     };
     protected final JTable table = new JTable(model);

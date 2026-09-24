@@ -27,7 +27,6 @@ public class AppointmentHistoryUX extends JFrame {
     protected final JButton feedbackButton = new JButton("Feedback on Appointment \u2192");
     protected final JButton refreshHistoryButton = new JButton("Refresh History");
     protected final JButton bookNewButton = new JButton("📅 Book Doctor Consultation \u2192");
-    protected final JButton bottomBookButton = new JButton("📅 Book Doctor Consultation \u2192");
     protected final JButton backButton = new JButton("\u2190 Back to Dashboard");
 
     public AppointmentHistoryUX() {
@@ -91,11 +90,6 @@ public class AppointmentHistoryUX extends JFrame {
         historyButtons.add(cancelButton);
         historyButtons.add(feedbackButton);
         historyButtons.add(refreshHistoryButton);
-
-        bottomBookButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-        bottomBookButton.setBackground(new Color(230, 245, 255));
-        bottomBookButton.setForeground(new Color(15, 65, 160));
-        historyButtons.add(bottomBookButton);
 
         historySouth.add(rescheduleInputs, BorderLayout.CENTER);
         historySouth.add(historyButtons, BorderLayout.SOUTH);

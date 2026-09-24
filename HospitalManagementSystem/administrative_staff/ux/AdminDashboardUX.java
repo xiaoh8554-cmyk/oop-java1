@@ -7,9 +7,7 @@ public class AdminDashboardUX extends JFrame {
     protected final JLabel welcomeLabel = new JLabel("Administrative Staff Dashboard", SwingConstants.CENTER);
     protected final JButton usersButton = new JButton("User Management");
     protected final JButton doctorManagerButton = new JButton("Doctor - Manager Assignment");
-    protected final JButton assetsButton = new JButton("Physical Asset Allocation");
-    protected final JButton wardsButton = new JButton("Wards / Clinics");
-    protected final JButton departmentsButton = new JButton("Departments / Specialties");
+    protected final JButton assetsButton = new JButton("Asset & Facility Allocation");
     protected final JButton ratesInsuranceButton = new JButton("Rates & Insurance Networks");
     protected final JButton billingButton = new JButton("Billing Management");
     protected final JButton profileButton = new JButton("My Profile");
@@ -24,13 +22,17 @@ public class AdminDashboardUX extends JFrame {
         root.setBorder(BorderFactory.createEmptyBorder(25, 35, 25, 35));
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
         root.add(welcomeLabel, BorderLayout.NORTH);
-        JPanel menu = new JPanel(new GridLayout(4, 2, 12, 12));
+        JPanel menu = new JPanel(new GridLayout(0, 2, 12, 12));
         menu.add(usersButton); menu.add(doctorManagerButton);
-        menu.add(assetsButton); menu.add(wardsButton);
-        menu.add(departmentsButton); menu.add(ratesInsuranceButton);
-        menu.add(billingButton); menu.add(profileButton);
+        menu.add(assetsButton); menu.add(ratesInsuranceButton);
+        menu.add(billingButton);
+
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        actions.add(profileButton);
+        actions.add(logoutButton);
+
         root.add(menu, BorderLayout.CENTER);
-        root.add(logoutButton, BorderLayout.SOUTH);
+        root.add(actions, BorderLayout.SOUTH);
         setContentPane(root);
     }
 }
