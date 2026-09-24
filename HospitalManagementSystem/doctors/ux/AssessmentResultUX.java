@@ -1,8 +1,8 @@
 package doctors.ux;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class AssessmentResultUX extends JFrame {
     protected final DefaultTableModel model = new DefaultTableModel(

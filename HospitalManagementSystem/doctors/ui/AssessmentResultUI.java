@@ -2,8 +2,8 @@ package doctors.ui;
 
 import common.*;
 import doctors.ux.AssessmentResultUX;
-import javax.swing.*;
 import java.util.*;
+import javax.swing.*;
 
 public class AssessmentResultUI extends AssessmentResultUX {
     private final Map<String, String[]> typeMap = new LinkedHashMap<>();
