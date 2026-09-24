@@ -38,6 +38,8 @@ public class AssessmentResultUX extends JFrame {
 
     protected final JButton backButton = new JButton("← Back to Dashboard");
     protected final JButton saveButton = new JButton("Save Vitals & Consultation");
+    protected final JButton updateButton = new JButton("Update Selected");
+    protected final JButton deleteButton = new JButton("Delete Selected");
     protected final JButton clearButton = new JButton("Clear Form");
     protected final JButton refreshButton = new JButton("Refresh");
 
@@ -147,6 +149,8 @@ public class AssessmentResultUX extends JFrame {
         buttons.add(clearButton);
         buttons.add(refreshButton);
         buttons.add(saveButton);
+        buttons.add(updateButton);
+        buttons.add(deleteButton);
 
         formContainer.add(buttons, BorderLayout.SOUTH);
         root.add(formContainer, BorderLayout.SOUTH);
