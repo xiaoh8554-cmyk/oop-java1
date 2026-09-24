@@ -94,27 +94,27 @@ public class ReportsUI extends ReportsUX {
 
         html.append("<div style='display:block; margin-top:8px; margin-bottom:8px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b; font-weight:700;'>Operational Snapshot</div>");
         html.append("<div style='background:#ffffff; border:1px solid #dde6f4; border-radius:12px; padding:10px 14px; margin-bottom:14px;'>");
-        appendInfoRow(html, "Wards / Clinics", String.valueOf(wards.size()));
-        appendInfoRow(html, "Departments / Specialties", String.valueOf(deps.size()));
-        appendInfoRow(html, "Assessment Types", String.valueOf(types.size()));
-        appendInfoRow(html, "Active Admitted Inpatients", String.valueOf(admittedCount));
-        appendInfoRow(html, "Pending Admission Requests", String.valueOf(pendingCount));
-        appendInfoRow(html, "Inpatient Beds Available", String.valueOf(totalInpatientBeds));
-        appendInfoRow(html, "Occupied Beds", String.valueOf(occupiedBeds));
+        appendInfoRow(html, "Wards / Clinics: ", String.valueOf(wards.size()));
+        appendInfoRow(html, "Departments / Specialties: ", String.valueOf(deps.size()));
+        appendInfoRow(html, "Assessment Types: ", String.valueOf(types.size()));
+        appendInfoRow(html, "Active Admitted Inpatients: ", String.valueOf(admittedCount));
+        appendInfoRow(html, "Pending Admission Requests: ", String.valueOf(pendingCount));
+        appendInfoRow(html, "Inpatient Beds Available: ", String.valueOf(totalInpatientBeds));
+        appendInfoRow(html, "Occupied Beds: ", String.valueOf(occupiedBeds));
         html.append("</div>");
 
         html.append("<div style='display:block; margin-top:8px; margin-bottom:8px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b; font-weight:700;'>Clinical Activity</div>");
         html.append("<div style='background:#ffffff; border:1px solid #dde6f4; border-radius:12px; padding:10px 14px; margin-bottom:14px;'>");
-        appendInfoRow(html, "Assessments recorded", String.valueOf(assessments.size()));
-        appendInfoRow(html, "Prescriptions issued", String.valueOf(rx.size()));
-        appendInfoRow(html, "Feedback records", String.valueOf(fb.size()));
+        appendInfoRow(html, "Assessments recorded: ", String.valueOf(assessments.size()));
+        appendInfoRow(html, "Prescriptions issued: ", String.valueOf(rx.size()));
+        appendInfoRow(html, "Feedback records: ", String.valueOf(fb.size()));
         html.append("</div>");
 
         html.append("<div style='display:block; margin-top:8px; margin-bottom:8px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b; font-weight:700;'>Financial Summary</div>");
         html.append("<div style='background:#ffffff; border:1px solid #dde6f4; border-radius:12px; padding:10px 14px; margin-bottom:14px;'>");
-        appendInfoRow(html, "Total billed", String.format(Locale.US, "RM %.2f", total));
-        appendInfoRow(html, "Paid revenue", String.format(Locale.US, "RM %.2f", paid));
-        appendInfoRow(html, "Outstanding", String.format(Locale.US, "RM %.2f", unpaid));
+        appendInfoRow(html, "Total billed: ", String.format(Locale.US, "RM %.2f", total));
+        appendInfoRow(html, "Paid revenue: ", String.format(Locale.US, "RM %.2f", paid));
+        appendInfoRow(html, "Outstanding: ", String.format(Locale.US, "RM %.2f", unpaid));
         html.append("</div>");
 
         html.append("<div style='display:block; margin-top:8px; margin-bottom:8px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b; font-weight:700;'>Medical Grade Distribution</div>");
