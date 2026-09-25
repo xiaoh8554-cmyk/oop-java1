@@ -6,24 +6,24 @@ import common.Session;
 import common.model.User;
 import common.model.UserRole;
 import doctors.Doctor;
-import patients.ux.AppointmentBookingUX;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import patients.ux.AppointmentBookingUX;
 
 public class AppointmentBookingUI extends AppointmentBookingUX {
+
     private static final String[] HALF_HOUR_SLOTS = {
-            "10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00",
-            "12:00 - 12:30", "12:30 - 13:00", "13:00 - 13:30", "13:30 - 14:00",
-            "14:00 - 14:30", "14:30 - 15:00", "15:00 - 15:30", "15:30 - 16:00",
-            "16:00 - 16:30", "16:30 - 17:00", "17:00 - 17:30", "17:30 - 18:00"
+        "10:00 - 10:30", "10:30 - 11:00", "11:00 - 11:30", "11:30 - 12:00",
+        "12:00 - 12:30", "12:30 - 13:00", "13:00 - 13:30", "13:30 - 14:00",
+        "14:00 - 14:30", "14:30 - 15:00", "15:00 - 15:30", "15:30 - 16:00",
+        "16:00 - 16:30", "16:30 - 17:00", "17:00 - 17:30", "17:30 - 18:00"
     };
 
     private static final int MAX_PATIENTS_PER_SLOT = 2;
@@ -34,13 +34,17 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         super();
 
         backButton.addActionListener(e -> {
-            if (clockTimer != null) clockTimer.stop();
+            if (clockTimer != null) {
+                clockTimer.stop();
+            }
             new AppointmentHistoryUI().setVisible(true);
             dispose();
         });
 
         viewHistoryButton.addActionListener(e -> {
-            if (clockTimer != null) clockTimer.stop();
+            if (clockTimer != null) {
+                clockTimer.stop();
+            }
             new AppointmentHistoryUI().setVisible(true);
             dispose();
         });
@@ -112,7 +116,9 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
     private void filterDoctors() {
         doctorsModel.setRowCount(0);
         String selectedSpec = (String) specialtyFilterBox.getSelectedItem();
-        if (selectedSpec == null) selectedSpec = "All Specialties";
+        if (selectedSpec == null) {
+            selectedSpec = "All Specialties";
+        }
 
         for (User u : DataManager.getInstance().getAllUsers()) {
             if (u.getRole() == UserRole.DOCTOR && u instanceof Doctor) {
@@ -138,11 +144,11 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
                 if (matches) {
                     String displayDept = !docDepts.isEmpty() ? String.join(", ", docDepts) : d.getSpecialty();
                     doctorsModel.addRow(new Object[]{
-                            d.getId(),
-                            d.getFullName(),
-                            displayDept,
-                            d.getRoomNumber(),
-                            d.getQualification()
+                        d.getId(),
+                        d.getFullName(),
+                        displayDept,
+                        d.getRoomNumber(),
+                        d.getQualification()
                     });
                 }
             }
@@ -170,7 +176,9 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
 
     private void openDoctorFeedbackDialog() {
         int row = doctorsTable.getSelectedRow();
-        if (row < 0) return;
+        if (row < 0) {
+            return;
+        }
 
         String docId = doctorsModel.getValueAt(row, 0).toString();
         String docName = doctorsModel.getValueAt(row, 1).toString();
@@ -181,7 +189,9 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         // Load feedback for this doctor
         DefaultTableModel fbModel = new DefaultTableModel(
                 new String[]{"Date", "Rating", "Appt / Visit Ref", "Patient Comments & Feedback"}, 0) {
-            public boolean isCellEditable(int r, int c) { return false; }
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
 
         double totalStars = 0;
@@ -266,12 +276,24 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
     }
 
     private int parseStars(String ratingStr) {
-        if (ratingStr == null) return 0;
-        if (ratingStr.startsWith("5")) return 5;
-        if (ratingStr.startsWith("4")) return 4;
-        if (ratingStr.startsWith("3")) return 3;
-        if (ratingStr.startsWith("2")) return 2;
-        if (ratingStr.startsWith("1")) return 1;
+        if (ratingStr == null) {
+            return 0;
+        }
+        if (ratingStr.startsWith("5")) {
+            return 5;
+        }
+        if (ratingStr.startsWith("4")) {
+            return 4;
+        }
+        if (ratingStr.startsWith("3")) {
+            return 3;
+        }
+        if (ratingStr.startsWith("2")) {
+            return 2;
+        }
+        if (ratingStr.startsWith("1")) {
+            return 1;
+        }
         return 0;
     }
 
@@ -345,7 +367,9 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         // Center: Time Slots Table
         DefaultTableModel slotModel = new DefaultTableModel(
                 new String[]{"No.", "Time Slot (Half Hour)", "Remaining Patient Capacity", "Status"}, 0) {
-            public boolean isCellEditable(int r, int c) { return false; }
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         JTable slotTable = new JTable(slotModel);
         slotTable.setRowHeight(24);
@@ -428,10 +452,14 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
         java.util.List<String> docDepts = DataManager.getInstance().getDepartmentNamesForDoctor(doctorId);
         if (docDepts.isEmpty() && specialty != null && !specialty.trim().isEmpty()) {
             for (String s : specialty.split(",")) {
-                if (!s.trim().isEmpty()) docDepts.add(s.trim());
+                if (!s.trim().isEmpty()) {
+                    docDepts.add(s.trim());
+                }
             }
         }
-        if (docDepts.isEmpty()) docDepts.add("General Practice");
+        if (docDepts.isEmpty()) {
+            docDepts.add("General Practice");
+        }
 
         JComboBox<String> deptChoiceBox = new JComboBox<>(docDepts.toArray(new String[0]));
         String activeFilter = (String) specialtyFilterBox.getSelectedItem();
@@ -439,14 +467,18 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
             deptChoiceBox.setSelectedItem(activeFilter);
         }
 
-        g.gridx = 0; g.gridy = 0;
+        g.gridx = 0;
+        g.gridy = 0;
         formPanel.add(new JLabel("Consultation Department:"), g);
-        g.gridx = 1; g.weightx = 1.0;
+        g.gridx = 1;
+        g.weightx = 1.0;
         formPanel.add(deptChoiceBox, g);
 
-        g.gridx = 0; g.gridy = 1;
+        g.gridx = 0;
+        g.gridy = 1;
         formPanel.add(new JLabel("Reason / Symptoms:"), g);
-        g.gridx = 1; g.weightx = 1.0;
+        g.gridx = 1;
+        g.weightx = 1.0;
         JTextField reasonInput = new JTextField();
         formPanel.add(reasonInput, g);
 
@@ -536,22 +568,24 @@ public class AppointmentBookingUI extends AppointmentBookingUX {
 
             // Save to appointments.txt
             FileHandler.append(FileHandler.APPOINTMENTS, new String[]{
-                    apptId, patientId, doctorId, doctorName, chosenDept, selectedDate, selectedSlot, room, status, reason
+                apptId, patientId, doctorId, doctorName, chosenDept, selectedDate, selectedSlot, room, status, reason
             });
 
             dialog.dispose();
 
-            String msg = "Appointment booked successfully!\n\n" +
-                    "Appointment ID: " + apptId + "\n" +
-                    "Doctor: Dr. " + doctorName + " (" + chosenDept + ")\n" +
-                    "Consultation Room: " + room + "\n" +
-                    "Date: " + selectedDate + "\n" +
-                    "Time: " + selectedSlot + "\n" +
-                    "Status: " + status;
+            String msg = "Appointment booked successfully!\n\n"
+                    + "Appointment ID: " + apptId + "\n"
+                    + "Doctor: Dr. " + doctorName + " (" + chosenDept + ")\n"
+                    + "Consultation Room: " + room + "\n"
+                    + "Date: " + selectedDate + "\n"
+                    + "Time: " + selectedSlot + "\n"
+                    + "Status: " + status;
             JOptionPane.showMessageDialog(this, msg, "Booking Confirmed", JOptionPane.INFORMATION_MESSAGE);
 
             // Open appointment history
-            if (clockTimer != null) clockTimer.stop();
+            if (clockTimer != null) {
+                clockTimer.stop();
+            }
             new AppointmentHistoryUI().setVisible(true);
             dispose();
         });
