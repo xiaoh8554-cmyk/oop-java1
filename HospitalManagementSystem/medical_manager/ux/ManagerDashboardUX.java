@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class ManagerDashboardUX extends JFrame {
+
     protected final JLabel welcomeLabel = new JLabel("Medical Manager Dashboard", SwingConstants.CENTER);
     protected final JButton assessmentTypeButton = new JButton("Assessment / Check-up Types");
     protected final JButton gradingButton = new JButton("Medical Grading");
@@ -41,4 +42,3 @@ public class ManagerDashboardUX extends JFrame {
         setContentPane(root);
     }
 }
-

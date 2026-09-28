@@ -6,6 +6,7 @@ import common.ui.ProfileUI;
 import patients.ux.PatientDashboardUX;
 
 public class PatientDashboardUI extends PatientDashboardUX {
+
     public PatientDashboardUI() {
         super();
         refreshWelcome();

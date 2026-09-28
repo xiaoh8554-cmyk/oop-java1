@@ -6,6 +6,7 @@ import common.ui.ProfileUI;
 import medical_manager.ux.ManagerDashboardUX;
 
 public class ManagerDashboardUI extends ManagerDashboardUX {
+
     public ManagerDashboardUI() {
         super();
         refreshWelcome();
@@ -25,4 +26,3 @@ public class ManagerDashboardUI extends ManagerDashboardUX {
         }
     }
 }
-

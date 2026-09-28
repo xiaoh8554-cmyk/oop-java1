@@ -1,9 +1,10 @@
 package patients.ux;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class PatientDashboardUX extends JFrame {
+
     protected final JLabel welcomeLabel = new JLabel("Patient Dashboard", SwingConstants.CENTER);
     protected final JButton historyButton = new JButton("My Appointment History & Reschedule");
     protected final JButton recordsButton = new JButton("My Medical Records");
